@@ -9,7 +9,26 @@
         android:id="@+id/nav_home"
         android:name="com.example.fishknowconnect.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_boatFragment"
+            app:destination="@id/boatFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_fishFragment"
+            app:destination="@id/fishFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_weatherFragment"
+            app:destination="@id/weatherFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_waterFragment"
+            app:destination="@id/waterFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_othersFragment"
+            app:destination="@id/othersFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_approvePostRequestFragment"
+            app:destination="@id/approvePostRequestFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_profile"
@@ -22,4 +41,28 @@
         android:name="com.example.fishknowconnect.ui.setting.SettingFragment"
         android:label="@string/menu_setting"
         tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/boatFragment"
+        android:name="com.example.fishknowconnect.ui.fish.BoatFragment"
+        android:label="Boat" />
+    <fragment
+        android:id="@+id/fishFragment"
+        android:name="com.example.fishknowconnect.ui.fish.FishFragment"
+        android:label="Fish" />
+    <fragment
+        android:id="@+id/weatherFragment"
+        android:name="com.example.fishknowconnect.ui.fish.WeatherFragment"
+        android:label="Weather" />
+    <fragment
+        android:id="@+id/waterFragment"
+        android:name="com.example.fishknowconnect.ui.fish.WaterFragment"
+        android:label="Water" />
+    <fragment
+        android:id="@+id/othersFragment"
+        android:name="com.example.fishknowconnect.ui.fish.OthersFragment"
+        android:label="@string/textview_others" />
+    <fragment
+        android:id="@+id/approvePostRequestFragment"
+        android:name="com.example.fishknowconnect.ui.fish.ApprovePostRequestFragment"
+        android:label="ApprovePostRequest" />
 </navigation>
