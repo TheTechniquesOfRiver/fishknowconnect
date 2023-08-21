@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.fishknowconnect.databinding.FragmentFishBinding
+import com.example.fishknowconnect.databinding.FragmentWaterBinding
 
-class FishFragment : Fragment() {
+class WaterFragment : Fragment() {
 
-    private var _binding: FragmentFishBinding? = null
+    private var _binding: FragmentWaterBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -20,11 +20,11 @@ class FishFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val fishViewModel = ViewModelProvider(this).get(FishViewModel::class.java)
-        _binding = FragmentFishBinding.inflate(inflater, container, false)
+        val waterViewModel = ViewModelProvider(this).get(WaterViewModel::class.java)
+        _binding = FragmentWaterBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val textView: TextView = binding.textViewFish
-        fishViewModel.text.observe(viewLifecycleOwner) {
+        val textView: TextView = binding.textViewWater
+        waterViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root

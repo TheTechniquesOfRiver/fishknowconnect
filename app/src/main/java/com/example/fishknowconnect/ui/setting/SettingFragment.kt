@@ -23,10 +23,8 @@ class SettingFragment : Fragment() {
     ): View {
         val settingViewModel =
             ViewModelProvider(this).get(SettingViewModel::class.java)
-
         _binding = FragmentSettingBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
         val textView: TextView = binding.textSlideshow
         settingViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
