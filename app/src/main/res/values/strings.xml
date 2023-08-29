@@ -21,5 +21,6 @@
     <string name="textview_others">Others</string>
     <string name="textview_approve_post_request">7 Approve Post Request</string>
     <string name="welcome">Welcome to Fish Know Connect\n</string>
+    <string name="title_activity_register">Register</string>
 
 </resources>
