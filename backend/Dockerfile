@@ -1,10 +1,6 @@
-FROM --platform=linux/amd64 python:3.8-slim-buster as build
-
-WORKDIR /fishknowconnect
-
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
-
-COPY . .
-EXPOSE 5000
-CMD [ "python", "-m" , "flask", "run", "--host=0.0.0.0"]
+FROM python:3.9.10-alpine3.14
+RUN pip install --upgrade pip
+COPY . /.
+RUN pip install -r requirements.txt
+ENV FLASK_APP=app
+CMD ["python","app.py"]
