@@ -12,16 +12,16 @@ def register():
 
     existing_user = mydb.users.find_one({'username': username})
     if existing_user:
-        return jsonify({'error': 'Username already exists.'}), 409
+        return jsonify({'message': 'Username already exist'}), 409
     hashed_password = generate_password_hash(password)
 
     try:
         # Create a new user object
         mydb.users.insert_one({"username": username, "password": hashed_password})
-        return jsonify({'message': 'Registration successful'}), 201
+        return jsonify({'message': 'Successfully registered'}), 200
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 400
+        return jsonify({'message': str(e)}), 400
 
 
 @auth_module.route('/login', methods=['POST'])
@@ -33,8 +33,8 @@ def login():
  # Retrieve the user from the database
     user = mydb.users.find_one({'username': username})
     if not user or not check_password_hash(user['password'], password):
-        return jsonify({'error': 'Invalid username or password.'}), 401
+        return jsonify({'message': 'Invalid username or password.'}), 401
     if user and check_password_hash(user['password'], password):
-        return jsonify({'message': 'Login successful'})
+        return jsonify({'message': 'Successfully Login'}), 200
 
-    return jsonify({'error': 'Invalid username or password'}), 401
+    return jsonify({'message': 'Invalid username or password'}), 401
