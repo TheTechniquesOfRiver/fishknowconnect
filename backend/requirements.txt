@@ -3,3 +3,4 @@ Flask==2.3.2
 Werkzeug==2.3.7
 pymongo==4.4.1
 certifi==2023.7.22
+boto3==1.28.36
