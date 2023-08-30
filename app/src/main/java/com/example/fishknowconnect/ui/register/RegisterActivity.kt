@@ -74,6 +74,7 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
         }) {
             Text(text = "Register")
         }
+
     }
 }
 
