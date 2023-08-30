@@ -65,4 +65,9 @@
         android:id="@+id/approvePostRequestFragment"
         android:name="com.example.fishknowconnect.ui.fish.ApprovePostRequestFragment"
         android:label="ApprovePostRequest" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.fishknowconnect.ui.login.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
 </navigation>
