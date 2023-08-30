@@ -4,9 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.fishknowconnect.LocaleHelper
+import com.example.fishknowconnect.MainActivity
+import com.example.fishknowconnect.R
 import com.example.fishknowconnect.databinding.FragmentSettingBinding
 
 class SettingFragment : Fragment() {
@@ -29,6 +34,15 @@ class SettingFragment : Fragment() {
         settingViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+
+        // Initialize the button by finding it by its ID
+        val myButton = root.findViewById<RadioButton>(R.id.radio_bangla)
+
+        // Add an OnClickListener to the button
+        myButton.setOnClickListener {
+            LocaleHelper.setLocale(context,"bn")
+        }
+
         return root
     }
 

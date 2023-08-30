@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TestBangla</string>
+    <string name="title_activity_navigation_drawer">TestBangla</string>
+    <string name="navigation_drawer_open">Open TestBangla drawer</string>
+    <string name="navigation_drawer_close">Close TestBangla drawer</string>
+    <string name="nav_header_title">TestBangla</string>
+    <string name="nav_header_subtitle">TestBangla</string>
+    <string name="nav_header_desc">TestBangla header</string>
+    <string name="action_settings">TestBangla</string>
+
+    <string name="menu_home">TestBanglaHome</string>
+    <string name="menu_profile">TestBangla</string>
+    <string name="menu_setting">TestBangla</string>
+    //login
+    <string name="button_login">Login</string>
+    //home
+    <string name="textview_fish">Fish</string>
+    <string name="textview_weather">Weather</string>
+    <string name="textview_water">Water</string>
+    <string name="textview_boat">Boat</string>
+    <string name="textview_others">Others</string>
+    <string name="textview_approve_post_request">7 Approve Post Request</string>
+    <string name="welcome">Welcome to Fish Know Connect\n</string>
+</resources>
