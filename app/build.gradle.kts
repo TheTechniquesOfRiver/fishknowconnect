@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.fishknowconnect"
-        minSdk = 24
+        minSdk = 23
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -52,11 +52,14 @@ android {
 }
 
 dependencies {
+    val nav_version = "2.7.1"
 
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui-graphics")
+    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     //compose
     val composeBom = platform("androidx.compose:compose-bom:2023.08.00")
     implementation(composeBom)
@@ -97,6 +100,9 @@ dependencies {
     //logging
     implementation("com.squareup.okhttp3:logging-interceptor:3.9.0")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation ("androidx.preference:preference:1.2.1")
+    //compose navigation
+    implementation("androidx.navigation:navigation-compose:$nav_version")
 
 
 }
