@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,13 +19,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.os.LocaleListCompat
+import com.example.fishknowconnect.R
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.login.LoginActivity
 import com.example.fishknowconnect.ui.register.ui.theme.FishKnowConnectTheme
 
 class RegisterActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val viewModel: RegisterViewModel by viewModels()
         super.onCreate(savedInstanceState)
@@ -58,21 +63,21 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
     Column(modifier = Modifier.padding(all = 8.dp)) {
         OutlinedTextField(value = viewModel.username,
             onValueChange = { username -> viewModel.updateUsername(username) },
-            label = { Text(text = "username") })
+            label = { Text(text = stringResource(R.string.text_username)) })
         OutlinedTextField(value = viewModel.password,
             onValueChange = { password -> viewModel.updatePassword(password) },
-            label = { Text(text = "password") })
+            label = { Text(text =  stringResource(R.string.text_password)) })
         OutlinedTextField(value = viewModel.phone,
             onValueChange = { phone -> viewModel.updatePhone(phone) },
-            label = { Text(text = "phone") })
+            label = { Text(text =  stringResource(R.string.text_phone)) })
         OutlinedTextField(value = viewModel.id,
             onValueChange = { id -> viewModel.updateId(id) },
-            label = { Text(text = "id") })
+            label = { Text(text =  stringResource(R.string.text_id)) })
         Button(onClick = {
             //perform registration
             viewModel.performRegistration()
         }) {
-            Text(text = "Register")
+            Text(text = stringResource(R.string.title_activity_register))
         }
 
     }
@@ -101,6 +106,20 @@ fun OpenLoginScreen() {
 @Preview(showBackground = true)
 @Composable
 fun RegisterPreview() {
+    FishKnowConnectTheme {
+        Surface {
+            val registerViewModel = RegisterViewModel()
+            RegisterScreen(registerViewModel)
+        }
+    }
+}
+
+/**
+ * shows preview
+ */
+@Preview(showBackground = true, locale = "bn")
+@Composable
+fun RegisterBangalaPreview() {
     FishKnowConnectTheme {
         Surface {
             val registerViewModel = RegisterViewModel()
