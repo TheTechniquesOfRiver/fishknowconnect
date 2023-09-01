@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -60,7 +62,7 @@ class RegisterActivity : ComponentActivity() {
  */
 @Composable
 fun RegisterScreen(viewModel: RegisterViewModel) {
-    Column(modifier = Modifier.padding(all = 8.dp)) {
+    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(all = 8.dp), ) {
         OutlinedTextField(value = viewModel.username,
             onValueChange = { username -> viewModel.updateUsername(username) },
             label = { Text(text = stringResource(R.string.text_username)) })
