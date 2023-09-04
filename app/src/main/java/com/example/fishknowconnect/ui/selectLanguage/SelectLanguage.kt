@@ -1,6 +1,7 @@
 package com.example.fishknowconnect.ui.selectLanguage
 
 import LocaleHelper
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,8 +44,6 @@ class SelectLanguage : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    Log.d("Locale", ""+ Locale.getDefault())
-
                     SelectLanguageOption()
                 }
             }
@@ -54,10 +54,14 @@ class SelectLanguage : ComponentActivity() {
 @Composable
 fun SelectLanguageOption() {
     val mContext = LocalContext.current
+    val activity = (LocalContext.current as? Activity)
+
     val languageOptions =
         listOf(stringResource(R.string.radio_english), stringResource(R.string.radio_bangala))
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(languageOptions[1]) }
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.selectableGroup()) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.selectableGroup()
+    ) {
         Text(
             text = "Please select language",
             style = MaterialTheme.typography.bodyLarge.merge(),
@@ -75,9 +79,9 @@ fun SelectLanguageOption() {
                         } else {
                             LocaleHelper.setLocale(mContext, "en");
                         }
-                        //start register screen
-                        val i = Intent(mContext, RegisterActivity::class.java)
-                        mContext.startActivity(i)
+                        val intent = Intent(activity, RegisterActivity::class.java)
+                        activity?.startActivity(intent)
+                        activity?.finish()
                     })
                     .padding(horizontal = 16.dp)
             ) {
