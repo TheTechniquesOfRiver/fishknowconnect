@@ -25,8 +25,6 @@ class LoginActivity : AppCompatActivity() {
     lateinit var loginViewModelFactory: LoginViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("Locale", ""+ Locale.getDefault())
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.lifecycleOwner = this
         //viewmodel

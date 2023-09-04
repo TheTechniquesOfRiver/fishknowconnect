@@ -34,30 +34,24 @@ class SettingFragment : Fragment() {
             textView.text = it
         }
 
-
-//      Initialize the button by finding it by its ID
+        //      Initialize the button by finding it by its ID
         val buttonBangala = root.findViewById<RadioButton>(R.id.radio_bangla)
         val buttonEnglish = root.findViewById<RadioButton>(R.id.radio_eng)
-
+        //change into bangla language
         buttonBangala.setOnClickListener {
-            Log.d("Setting", "bangala")
             LocaleHelper.setLocale(this.requireContext(), "bn");
             val i = Intent(this.requireContext(), NavigationDrawerActivity::class.java)
             startActivity(i)
         }
-        // Add an OnClickListener to the button
+        // change into english language
         buttonEnglish.setOnClickListener {
-            Log.d("Setting", "english")
-
             LocaleHelper.setLocale(this.requireContext(), "en");
             val i = Intent(this.requireContext(), NavigationDrawerActivity::class.java)
             startActivity(i)
         }
-        //start navigation activity
-
-
         return root
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -1,5 +1,7 @@
 package com.example.fishknowconnect
 
+import LocaleHelper
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -21,8 +23,6 @@ class NavigationDrawerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNavigationDrawerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("Locale", ""+ Locale.getDefault())
-
         super.onCreate(savedInstanceState)
         binding = ActivityNavigationDrawerBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -43,6 +43,13 @@ class NavigationDrawerActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    /**
+     * locale attach
+     */
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
