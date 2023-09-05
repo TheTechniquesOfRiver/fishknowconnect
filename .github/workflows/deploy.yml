@@ -5,6 +5,7 @@ on:
   push: 
    branches: # the branch to be deployed
       - 'yash'
+   workflow_dispatch: manually
     
 jobs:
     build:
