@@ -2,12 +2,7 @@
 name: Deploy python js App to ECR # name
 
 on:
-  push: 
-   branches: # the branch to be deployed
-      - 'yash'
-    workflows: [Upload data]
-    types:
-      - requested
+  workflow_dispatch: 
     
 jobs:
     build:
@@ -21,7 +16,7 @@ jobs:
             
             - name: Configure AWS credentials 
             # Programmatic authentication to aws
-              uses: aws-actions/configure-aws-credentials@v1
+              uses: aws-actions/configure-aws-credentials@v1-node16
               with:
                     aws-access-key-id: $
                     aws-secret-access-key: $
