@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import com.example.fishknowconnect.ui.register.RegisterActivity
+import com.example.fishknowconnect.ui.selectLanguage.SelectLanguage
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //splash screen
         Handler(Looper.getMainLooper()).postDelayed({
-            val i = Intent(this@MainActivity, RegisterActivity::class.java)
+            val i = Intent(this@MainActivity, SelectLanguage::class.java)
             startActivity(i)
             finish()
         }, 1000)

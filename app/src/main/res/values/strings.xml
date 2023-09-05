@@ -1,16 +1,23 @@
 <resources>
     <string name="app_name">FishKnowConnect</string>
-    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
+    <string name="title_activity_navigation_drawer">FishKnowConnect</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Name</string>
-    <string name="nav_header_subtitle">Title</string>
+    <string name="nav_header_title">Username</string>
+    <string name="nav_header_subtitle">Role</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_setting">Setting</string>
+    <string name="menu_logout">Logout</string>
+    //userprofile
+    //userprofile
+    <string name="text_phone">phone</string>
+    <string name="text_username">username</string>
+    <string name="text_id">id</string>
+    <string name="text_password">password</string>
     //login
     <string name="button_login">Login</string>
     //home
@@ -22,5 +29,10 @@
     <string name="textview_approve_post_request">7 Approve Post Request</string>
     <string name="welcome">Welcome to Fish Know Connect\n</string>
     <string name="title_activity_register">Register</string>
+    <string name="title_activity_select_language">SelectLanguage</string>
+    //selectlanguage
+    <string name="radio_english">English</string>
+    <string name="radio_bangala">Bangala</string>
+
 
 </resources>

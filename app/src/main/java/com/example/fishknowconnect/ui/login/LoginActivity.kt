@@ -15,6 +15,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.example.fishknowconnect.NavigationDrawerActivity
 import com.example.fishknowconnect.databinding.ActivityLoginBinding
+import java.util.Locale
 
 
 class LoginActivity : AppCompatActivity() {
@@ -36,15 +37,17 @@ class LoginActivity : AppCompatActivity() {
         val edittextUsername = findViewById<EditText>(R.id.editTextTextUsername)
         val edittextPassword = findViewById<EditText>(R.id.editTextTextPassword)
         buttonLogin.setOnClickListener(View.OnClickListener {
-            val postData = LoginData(edittextUsername.text.toString(), edittextPassword.text.toString())
-            loginViewModel.getLogin(postData)
-            loginViewModel.onLoginSuccess.observe(this) { onSuccessLogin ->
-                if (onSuccessLogin) {
-                    val i = Intent(this@LoginActivity, NavigationDrawerActivity::class.java)
-                    startActivity(i)
-                    finish()
-                }
-            }
+            val i = Intent(this@LoginActivity, NavigationDrawerActivity::class.java)
+            startActivity(i)
+//            val postData = LoginData(edittextUsername.text.toString(), edittextPassword.text.toString())
+//            loginViewModel.getLogin(postData)
+//            loginViewModel.onLoginSuccess.observe(this) { onSuccessLogin ->
+//                if (onSuccessLogin) {
+//                    val i = Intent(this@LoginActivity, NavigationDrawerActivity::class.java)
+//                    startActivity(i)
+//                    finish()
+//                }
+//            }
         })
     }
 }

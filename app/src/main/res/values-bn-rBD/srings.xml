@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FishKnowConnect</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawerr</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">ইউজার নেম</string>
+    <string name="nav_header_subtitle">কাজ </string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">সেটিংস </string>
+    <string name="title_activity_register">রেজিস্টার </string>
+    <string name="menu_logout">লগ আউট</string>
+    <string name="title_activity_select_language">SelectLanguage</string>
+    //userprofile
+    <string name="text_phone">ফোন নাম্বার</string>
+    <string name="text_username">ইউজার নেম</string>
+    <string name="text_id">আইডি </string>
+    <string name="text_password">পাস ওয়ার্ড</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_profile">প্রোফাইল</string>
+    <string name="menu_setting">সেটিংস </string>
+    //login
+    <string name="button_login">লগ ইন </string>
+    //home
+    <string name="textview_fish">মাছ </string>
+    <string name="textview_weather">আবহাওয়া </string>
+    <string name="textview_water">পানি </string>
+    <string name="textview_boat">নৌকা </string>
+    <string name="textview_others">অন্যান্য </string>
+    <string name="textview_approve_post_request">অনুমতি দিন  </string>
+    <string name="welcome">স্বাগতম\n</string>
+
+
+    //selectlanguage
+    <string name="radio_english">English</string>
+    <string name="radio_bangala">Bangala</string>
+
+</resources>
