@@ -5,7 +5,9 @@ on:
   push: 
    branches: # the branch to be deployed
       - 'yash'
-   workflow_dispatch: manually
+    workflows: [Upload data]
+    types:
+      - requested
     
 jobs:
     build:
