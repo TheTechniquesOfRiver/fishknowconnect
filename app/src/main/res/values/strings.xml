@@ -33,6 +33,10 @@
     //selectlanguage
     <string name="radio_english">English</string>
     <string name="radio_bangala">Bangala</string>
+    //new post
+    <string name="title_activity_new_post">NewPostActivity</string>
+    <string name="textview_text_post">Say something</string>
+    <string name="button_upload">Upload</string>
 
 
 </resources>

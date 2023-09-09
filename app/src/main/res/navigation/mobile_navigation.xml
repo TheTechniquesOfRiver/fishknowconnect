@@ -12,22 +12,27 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_nav_home_to_boatFragment"
-            app:destination="@id/boatFragment" />
+            app:destination="@id/boatFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_nav_home_to_fishFragment"
-            app:destination="@id/fishFragment" />
+            app:destination="@id/fishFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_nav_home_to_weatherFragment"
-            app:destination="@id/weatherFragment" />
+            app:destination="@id/weatherFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_nav_home_to_othersFragment"
+            app:destination="@id/othersFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_nav_home_to_approvePostRequestFragment"
+            app:destination="@id/approvePostRequestFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_nav_home_to_waterFragment"
             app:destination="@id/waterFragment" />
-        <action
-            android:id="@+id/action_nav_home_to_othersFragment"
-            app:destination="@id/othersFragment" />
-        <action
-            android:id="@+id/action_nav_home_to_approvePostRequestFragment"
-            app:destination="@id/approvePostRequestFragment" />
     </fragment>
 
     <fragment
@@ -44,30 +49,58 @@
     <fragment
         android:id="@+id/boatFragment"
         android:name="com.example.fishknowconnect.ui.fish.BoatFragment"
-        android:label="Boat" />
+        android:label="Boat" >
+        <action
+            android:id="@+id/action_boatFragment_to_newPostActivity"
+            app:destination="@id/newPostActivity" />
+    </fragment>
     <fragment
         android:id="@+id/fishFragment"
         android:name="com.example.fishknowconnect.ui.fish.FishFragment"
-        android:label="Fish" />
+        android:label="Fish" >
+        <action
+            android:id="@+id/action_fishFragment_to_newPostActivity"
+            app:destination="@id/newPostActivity" />
+    </fragment>
     <fragment
         android:id="@+id/weatherFragment"
         android:name="com.example.fishknowconnect.ui.fish.WeatherFragment"
-        android:label="Weather" />
+        android:label="Weather" >
+        <action
+            android:id="@+id/action_weatherFragment_to_newPostActivity"
+            app:destination="@id/newPostActivity" />
+    </fragment>
     <fragment
         android:id="@+id/waterFragment"
         android:name="com.example.fishknowconnect.ui.fish.WaterFragment"
-        android:label="Water" />
+        android:label="Water" >
+        <action
+            android:id="@+id/action_waterFragment_to_newPostActivity"
+            app:destination="@id/newPostActivity" />
+    </fragment>
     <fragment
         android:id="@+id/othersFragment"
         android:name="com.example.fishknowconnect.ui.fish.OthersFragment"
-        android:label="@string/textview_others" />
+        android:label="@string/textview_others" >
+        <action
+            android:id="@+id/action_othersFragment_to_newPostActivity"
+            app:destination="@id/newPostActivity" />
+    </fragment>
     <fragment
         android:id="@+id/approvePostRequestFragment"
         android:name="com.example.fishknowconnect.ui.fish.ApprovePostRequestFragment"
-        android:label="ApprovePostRequest" />
+        android:label="ApprovePostRequest" >
+        <action
+            android:id="@+id/action_approvePostRequestFragment_to_newPostActivity"
+            app:destination="@id/newPostActivity" />
+    </fragment>
     <activity
         android:id="@+id/loginActivity"
         android:name="com.example.fishknowconnect.ui.login.LoginActivity"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
+    <activity
+        android:id="@+id/newPostActivity"
+        android:name="com.example.fishknowconnect.ui.newPost.NewPostActivity"
+        android:label="NewPostActivity" />
 </navigation>
