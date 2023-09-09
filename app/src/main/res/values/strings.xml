@@ -14,10 +14,10 @@
     <string name="menu_logout">Logout</string>
     //userprofile
     //userprofile
-    <string name="text_phone">phone</string>
-    <string name="text_username">username</string>
-    <string name="text_id">id</string>
-    <string name="text_password">password</string>
+    <string name="text_age">Age</string>
+    <string name="text_username">Username</string>
+    <string name="text_location">Location</string>
+    <string name="text_password">Password</string>
     //login
     <string name="button_login">Login</string>
     //home
@@ -32,7 +32,7 @@
     <string name="title_activity_select_language">SelectLanguage</string>
     //selectlanguage
     <string name="radio_english">English</string>
-    <string name="radio_bangala">Bangala</string>
+    <string name="radio_bangala">Bangla</string>
     //new post
     <string name="title_activity_new_post">NewPostActivity</string>
     <string name="textview_text_post">Say something</string>
