@@ -84,10 +84,10 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
             label = { Text(text = stringResource(R.string.text_password)) })
         OutlinedTextField(value = viewModel.phone,
             onValueChange = { phone -> viewModel.updatePhone(phone) },
-            label = { Text(text = stringResource(R.string.text_phone)) })
+            label = { Text(text = stringResource(R.string.text_age)) })
         OutlinedTextField(value = viewModel.id,
             onValueChange = { id -> viewModel.updateId(id) },
-            label = { Text(text = stringResource(R.string.text_id)) })
+            label = { Text(text = stringResource(R.string.text_location)) })
         Button(onClick = {
             //perform registration
             viewModel.performRegistration()
