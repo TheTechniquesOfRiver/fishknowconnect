@@ -1,20 +1,33 @@
 package com.example.fishknowconnect.ui.newPost
 
+import android.Manifest
 import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Face
@@ -25,35 +38,72 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode.Companion.Color
+import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import coil.compose.rememberImagePainter
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Objects
 
 class NewPostActivity : ComponentActivity() {
+
+    //scrollview
+    @Composable
+    fun DrawScrollableView(content: @Composable () -> Unit, modifier: Modifier) {
+        AndroidView(modifier = modifier, factory = {
+            val scrollView = ScrollView(it)
+            val layout = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+            scrollView.layoutParams = layout
+            scrollView.isVerticalFadingEdgeEnabled = true
+            scrollView.isScrollbarFadingEnabled = false
+            scrollView.addView(ComposeView(it).apply {
+                setContent {
+                    content()
+                }
+            })
+            val linearLayout = LinearLayout(it)
+            linearLayout.orientation = LinearLayout.VERTICAL
+            linearLayout.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+            linearLayout.addView(scrollView)
+            linearLayout
+        })
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FishKnowConnectTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
-                ) {
-                    Column {
-                        ToolBarLayout()
-                        NewPostScreen("New Post")
+                DrawScrollableView(modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(), content = {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        Column {
+                            ToolBarLayout()
+                            NewPostScreen("New Post")
+                        }
                     }
-                }
+                })
             }
         }
     }
@@ -77,15 +127,49 @@ fun ToolBarLayout() {
     })
 }
 
+
 @Composable
 fun NewPostScreen(name: String, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val file = context.createImageFile()
+    val uri = FileProvider.getUriForFile(
+        Objects.requireNonNull(context), context.packageName + ".provider", file
+    )
+    var capturedImageUri by remember {
+        mutableStateOf<Uri>(Uri.EMPTY)
+    }
+    val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) {
+        capturedImageUri = uri
+    }
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // Permission Accepted:
+            cameraLauncher.launch(uri)
+            Log.d("NEW POST SCREEN", "PERMISSION GRANTED")
+        } else {
+            // Permission Denied:
+            Log.d("NEW POST SCREEN", "PERMISSION DENIED")
+        }
+    }
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(all = 8.dp),
     ) {
+        if (capturedImageUri.path?.isNotEmpty() == true) {
+            Image(
+                modifier = Modifier
+                    .padding(16.dp, 8.dp)
+                    .height(240.dp),
+                painter = rememberImagePainter(capturedImageUri),
+                contentDescription = null
+            )
+        }
         OutlinedTextField(
             value = "",
+            modifier = Modifier.padding(all = 16.dp),
             onValueChange = { postText -> },
             label = { Text(text = stringResource(R.string.textview_text_post)) },
             minLines = 5
@@ -93,10 +177,27 @@ fun NewPostScreen(name: String, modifier: Modifier = Modifier) {
         Row(
             modifier = Modifier.padding(all = 8.dp),
         ) {
-            IconButton(onClick = {}) {
+            IconButton(onClick = {
+                recordVoice()
+                Toast.makeText(context, "Record voice", Toast.LENGTH_SHORT).show()
+            }) {
                 Icon(imageVector = Icons.Outlined.Face, contentDescription = "Audio")
             }
-            IconButton(onClick = {}) {
+            IconButton(onClick = {
+                // Check permission
+                when (PackageManager.PERMISSION_GRANTED) {
+                    ContextCompat.checkSelfPermission(
+                        context, (Manifest.permission.CAMERA)
+                    ) -> {
+                        // Launch camera
+                        cameraLauncher.launch(uri)
+                    }
+                    else -> {
+                        // Asking for permission
+                        launcher.launch((Manifest.permission.CAMERA))
+                    }
+                }
+            }) {
                 Icon(imageVector = Icons.Outlined.AccountBox, contentDescription = "Images")
             }
             IconButton(onClick = {}) {
@@ -110,6 +211,24 @@ fun NewPostScreen(name: String, modifier: Modifier = Modifier) {
             )
         }
     }
+
+
+}
+
+fun Context.createImageFile(): File {
+    // Create an image file name
+    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+    val imageFileName = "JPEG_" + timeStamp + "_"
+    val image = File.createTempFile(
+        imageFileName, /* prefix */
+        ".jpg", /* suffix */
+        externalCacheDir      /* directory */
+    )
+    return image
+}
+
+fun recordVoice() {
+
 }
 
 @Preview(showBackground = true)
@@ -119,6 +238,7 @@ fun ToolBarLayoutPreview() {
         ToolBarLayout()
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
