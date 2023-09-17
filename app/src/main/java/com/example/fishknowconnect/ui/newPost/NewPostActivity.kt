@@ -2,15 +2,10 @@ package com.example.fishknowconnect.ui.newPost
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -25,7 +20,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.AccountBox
@@ -47,45 +41,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.rememberImagePainter
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.ui.newPost.ui.theme.DrawScrollableView
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Objects
 
 class NewPostActivity : ComponentActivity() {
 
-    //scrollview
-    @Composable
-    fun DrawScrollableView(content: @Composable () -> Unit, modifier: Modifier) {
-        AndroidView(modifier = modifier, factory = {
-            val scrollView = ScrollView(it)
-            val layout = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-            scrollView.layoutParams = layout
-            scrollView.isVerticalFadingEdgeEnabled = true
-            scrollView.isScrollbarFadingEnabled = false
-            scrollView.addView(ComposeView(it).apply {
-                setContent {
-                    content()
-                }
-            })
-            val linearLayout = LinearLayout(it)
-            linearLayout.orientation = LinearLayout.VERTICAL
-            linearLayout.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-            linearLayout.addView(scrollView)
-            linearLayout
-        })
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,22 +100,48 @@ fun ToolBarLayout() {
 @Composable
 fun NewPostScreen(name: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val file = context.createImageFile()
-    val uri = FileProvider.getUriForFile(
-        Objects.requireNonNull(context), context.packageName + ".provider", file
+    val imageFile = context.createImageFile()
+    val videoFile = context.createVideoFile()
+
+    val imageUri = FileProvider.getUriForFile(
+        Objects.requireNonNull(context), context.packageName + ".provider", imageFile
+    )
+    var videoUri = FileProvider.getUriForFile(
+        Objects.requireNonNull(context), context.packageName + ".provider", videoFile
     )
     var capturedImageUri by remember {
         mutableStateOf<Uri>(Uri.EMPTY)
     }
+    var capturedVideoUri by remember {
+        mutableStateOf<Uri>(Uri.EMPTY)
+    }
+    var hasImage by remember {
+        mutableStateOf(false)
+    }
+    var hasVideo by remember {
+        mutableStateOf(false)
+    }
     val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) {
-        capturedImageUri = uri
+        capturedImageUri = imageUri
+        hasImage = true
+
+    }
+    val videoLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CaptureVideo()) {
+        capturedVideoUri = videoUri
+        hasVideo = true
+        Log.d("NEW POST SCREEN", "PERMISSION $videoUri")
+
     }
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
+            hasImage = false
+            hasVideo = false
+
             // Permission Accepted:
-            cameraLauncher.launch(uri)
+            cameraLauncher.launch(imageUri)
+            videoLauncher.launch(videoUri)
             Log.d("NEW POST SCREEN", "PERMISSION GRANTED")
         } else {
             // Permission Denied:
@@ -166,6 +161,9 @@ fun NewPostScreen(name: String, modifier: Modifier = Modifier) {
                 painter = rememberImagePainter(capturedImageUri),
                 contentDescription = null
             )
+        }
+        if (capturedVideoUri.path?.isNotEmpty() == true) {
+            ShowVideoPlayer(videoUri = capturedVideoUri)
         }
         OutlinedTextField(
             value = "",
@@ -189,10 +187,13 @@ fun NewPostScreen(name: String, modifier: Modifier = Modifier) {
                     ContextCompat.checkSelfPermission(
                         context, (Manifest.permission.CAMERA)
                     ) -> {
+//                        hasImage = false
                         // Launch camera
-                        cameraLauncher.launch(uri)
+                        cameraLauncher.launch(imageUri)
                     }
+
                     else -> {
+//                        hasImage = false
                         // Asking for permission
                         launcher.launch((Manifest.permission.CAMERA))
                     }
@@ -200,7 +201,25 @@ fun NewPostScreen(name: String, modifier: Modifier = Modifier) {
             }) {
                 Icon(imageVector = Icons.Outlined.AccountBox, contentDescription = "Images")
             }
-            IconButton(onClick = {}) {
+            IconButton(onClick = {
+                // Check permission
+                when (PackageManager.PERMISSION_GRANTED) {
+                    ContextCompat.checkSelfPermission(
+                        context, (Manifest.permission.CAMERA)
+                    ) -> {
+//                        hasVideo = false
+
+                        // Launch camera
+                        videoLauncher.launch(videoUri)
+                    }
+
+                    else -> {
+//                        hasVideo = fase
+                        // Asking for permission
+                        launcher.launch((Manifest.permission.CAMERA))
+                    }
+                }
+            }) {
                 Icon(imageVector = Icons.Outlined.AccountBox, contentDescription = "Video")
             }
         }
@@ -211,21 +230,8 @@ fun NewPostScreen(name: String, modifier: Modifier = Modifier) {
             )
         }
     }
-
-
 }
 
-fun Context.createImageFile(): File {
-    // Create an image file name
-    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-    val imageFileName = "JPEG_" + timeStamp + "_"
-    val image = File.createTempFile(
-        imageFileName, /* prefix */
-        ".jpg", /* suffix */
-        externalCacheDir      /* directory */
-    )
-    return image
-}
 
 fun recordVoice() {
 
