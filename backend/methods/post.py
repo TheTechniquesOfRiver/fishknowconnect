@@ -13,8 +13,8 @@ post_module = Blueprint('post', __name__)
 def upload_image_to_s3(image_file, image_filename):
     path = r"C:\Users\NishadiEdirisinghe\Pictures\Screenshots"
     s3_key = os.path.join(path, image_filename)
-    s3_client.upload_file(s3_key, config('AWS_S3'), s3_key)
-    s3_url = f"https://{config('AWS_S3')}.s3.amazonaws.com/{s3_key}"
+    s3_client.upload_file(s3_key, config('AWS_S3'), image_filename, ExtraArgs={'ACL':'public-read'})
+    s3_url = f"https://{config('AWS_S3')}.s3.amazonaws.com/{image_filename}"
     return s3_url
 
 # New route to handle post creation
@@ -24,21 +24,25 @@ def create_post():
     post_data = request.form.to_dict()
 
     # Ensure that all required fields are provided in the request
-    required_fields = ['id', 'title', 'type', 'content']
+    required_fields = ['title', 'type', 'content']
     for field in required_fields:
         if field not in post_data:
             return jsonify({'error': f'Missing required field: {field}'}), 400
 
     # Check if there's a file in the request
+    s3_url = ''
     if 'file' in request.files:
-        image_file = request.files['file']
-        if image_file.filename != '':
-            # Securely generate a filename for the image
-            image_filename = image_file.filename
-            # Upload the image to S3
-            s3_url = upload_image_to_s3(image_file, image_filename)
-            # Add the S3 URL to the post data
-            post_data['file_url'] = s3_url
+        for i in request.files.getlist('file'):
+            if i.filename != '':
+                # Securely generate a filename for the image
+                image_filename = i.filename
+                # Upload the image to S3
+                if s3_url == '':
+                    s3_url = upload_image_to_s3(i, image_filename)
+                else:
+                    s3_url = s3_url + ',' + upload_image_to_s3(i, image_filename)
+                # Add the S3 URL to the post data
+                post_data['file_url'] = s3_url
 
     # Insert the new post into the 'posts' collection
     try:
@@ -59,19 +63,29 @@ def update_post(post_id):
         return jsonify({'error': 'No fields to update provided'}), 400
 
     # Check if there's a file in the request
+    s3_url = ''
     if 'file' in request.files:
-        image_file = request.files['file']
-        if image_file.filename != '':
-            # Securely generate a filename for the image
-            image_filename = image_file.filename
-            # Upload the image to S3
-            s3_url = upload_image_to_s3(image_file, image_filename)
-            # Add the S3 URL to the post data
-            post_data['file_url'] = s3_url
+        for i in request.files.getlist('file'):
+            if i.filename != '':
+                # Securely generate a filename for the image
+                image_filename = i.filename
+                # Upload the image to S3
+                if s3_url == '':
+                    s3_url = upload_image_to_s3(i, image_filename)
+                else:
+                    s3_url = s3_url + ',' + upload_image_to_s3(i, image_filename)               
 
     # Update the post in the 'posts' collection based on the post_id
     try:
         target_id = ObjectId(post_id)
+        post = mydb.posts.find_one({"_id": target_id})
+
+        if post['file_url'] == '':
+            post_data['file_url'] = s3_url            
+        else:
+            s3_url = post['file_url'] + ',' + s3_url
+            post_data['file_url'] = s3_url     
+
         result = mydb.posts.update_one({'_id': target_id}, {'$set': post_data})
 
         if result.modified_count > 0:
@@ -96,14 +110,39 @@ def get_all_posts():
         serialized_posts = []
         for post in posts:
             serialized_posts.append({
-                'id': post['id'],
-                #'title': post['title'],
-                #'type': post['type'],
-                #'content': post['content'],
-                'image_url': post.get('image_url', None)  # Handle posts without images
+                'id': str(post['_id']),
+                'title': post['title'],
+                'type': post['type'],
+                'content': post['content'],
+                'file_url': post.get('file_url', None)  # Handle posts without images
             })
 
         return jsonify(serialized_posts), 200
+
+    except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    
+@post_module.route('/get_post_by_id/<string:post_id>', methods=['GET'])
+def get_post_by_id(post_id):
+    try:
+        # Fetch a from the 'posts' collection
+        target_id = ObjectId(post_id)
+        post = mydb.posts.find_one({"_id": target_id})
+
+        # If there is no posts, return nothing
+        if not post:
+            return jsonify([])
+
+        # Serialize the post to JSON format
+        serialized_post = {
+            'id': str(post['_id']),
+            'title': post['title'],
+            'type': post['type'],
+            'content': post['content'],
+            'file_url': post.get('file_url', None)  # Handle posts without images
+        }
+
+        return jsonify(serialized_post), 200
 
     except Exception as e:
             return jsonify({'error': str(e)}), 500
