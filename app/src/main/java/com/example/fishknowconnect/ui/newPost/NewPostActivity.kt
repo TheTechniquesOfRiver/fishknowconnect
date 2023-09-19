@@ -1,7 +1,6 @@
 package com.example.fishknowconnect.ui.newPost
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -21,13 +20,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Face
 import androidx.compose.material3.Button
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -49,6 +45,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.rememberImagePainter
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.ToolBarLayout
 import com.example.fishknowconnect.ui.newPost.ui.theme.DrawScrollableView
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import java.util.Objects
@@ -68,8 +65,8 @@ class NewPostActivity : ComponentActivity() {
                         color = MaterialTheme.colorScheme.background
                     ) {
                         Column {
-                            ToolBarLayout()
-                            NewPostScreen("New Post")
+                            ToolBarLayout("New post")
+                            NewPostScreen()
                         }
                     }
                 })
@@ -78,27 +75,11 @@ class NewPostActivity : ComponentActivity() {
     }
 }
 
-/**
- *tool bar design set up
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ToolBarLayout() {
-    val activity = (LocalContext.current as? Activity)
-    CenterAlignedTopAppBar(title = {
-        Text(text = "New post")
-    }, navigationIcon = {
-        IconButton(onClick = {
-            activity?.finish()
-        }) {
-            Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Menu")
-        }
-    })
-}
+
 
 
 @Composable
-fun NewPostScreen(name: String, modifier: Modifier = Modifier) {
+fun NewPostScreen() {
     val context = LocalContext.current
     val imageFile = context.createImageFile()
     val videoFile = context.createVideoFile()
@@ -241,7 +222,7 @@ fun recordVoice() {
 @Composable
 fun ToolBarLayoutPreview() {
     FishKnowConnectTheme {
-        ToolBarLayout()
+        ToolBarLayout("New post")
     }
 }
 
@@ -250,6 +231,6 @@ fun ToolBarLayoutPreview() {
 @Composable
 fun NewPostScreenPreview() {
     FishKnowConnectTheme {
-        NewPostScreen("New Post")
+        NewPostScreen()
     }
 }
