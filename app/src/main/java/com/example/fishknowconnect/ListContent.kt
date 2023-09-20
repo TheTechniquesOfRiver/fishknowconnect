@@ -19,7 +19,7 @@ import com.example.fishknowconnect.ui.fish.FishDataProvider
 @Composable
 fun ListContent() {
     val fishes = remember { FishDataProvider.fishList }
-    LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)) {
+    LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp)) {
         items(items = fishes, itemContent = {
             FishListItem(fish = it)
         })

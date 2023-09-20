@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.fishknowconnect.R
@@ -52,16 +50,16 @@ class HomeFragment : Fragment(), OnClickListener {
                     navController?.navigate(R.id.action_nav_home_to_fishActivity)
                 }
                 R.id.imageViewWeather -> {
-                    navController?.navigate(R.id.action_nav_home_to_weatherFragment)
+                    navController?.navigate(R.id.action_nav_home_to_weatherActivity)
                 }
                 R.id.imageViewWater -> {
-                    navController?.navigate(R.id.action_nav_home_to_waterFragment)
+                    navController?.navigate(R.id.action_nav_home_to_waterActivity)
                 }
                 R.id.imageViewBoat -> {
-                    navController?.navigate(R.id.action_nav_home_to_boatFragment)
+                    navController?.navigate(R.id.action_nav_home_to_boatActivity)
                 }
                 R.id.imageViewOthers -> {
-                    navController?.navigate(R.id.action_nav_home_to_othersFragment)
+                    navController?.navigate(R.id.action_nav_home_to_othersActivity)
                 }
                 R.id.imageButton -> {
                     navController?.navigate(R.id.action_nav_home_to_approvePostRequestFragment)
