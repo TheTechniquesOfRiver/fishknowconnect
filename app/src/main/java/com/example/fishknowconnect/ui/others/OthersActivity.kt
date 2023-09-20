@@ -1,4 +1,4 @@
-package com.example.fishknowconnect.ui.fish
+package com.example.fishknowconnect.ui.others
 
 import android.app.Activity
 import android.content.Intent
@@ -38,7 +38,7 @@ import com.example.fishknowconnect.ToolBarLayout
 import com.example.fishknowconnect.ui.fish.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 
-class FishActivity : ComponentActivity() {
+class OthersActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -49,8 +49,8 @@ class FishActivity : ComponentActivity() {
                         color = MaterialTheme.colorScheme.background
                     ) {
                         Column {
-                           ToolBarLayout("Fish")
-                            FishScreen("Fish")
+                           ToolBarLayout("Others")
+                            OthersScreen("Others")
                         }
                     }
                 }
@@ -63,7 +63,7 @@ class FishActivity : ComponentActivity() {
  * Fish screen view
  */
 @Composable
-fun FishScreen(name: String, modifier: Modifier = Modifier) {
+fun OthersScreen(name: String, modifier: Modifier = Modifier) {
     val activity = (LocalContext.current as? Activity)
     //create new post button
     Column(
@@ -109,6 +109,6 @@ fun FishScreen(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun FishScreenPreview() {
     FishKnowConnectTheme {
-        FishScreen("Fishscreen")
+        OthersScreen("Othersscreen")
     }
 }

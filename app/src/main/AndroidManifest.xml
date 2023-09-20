@@ -37,6 +37,70 @@
         </provider>
 
         <activity
+            android:name=".ui.weather.WeatherActivity"
+            android:exported="false"
+            android:label="@string/title_activity_weather"
+            android:theme="@style/Theme.FishKnowConnect" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/path_provider" />
+        </provider>
+
+        <activity
+            android:name=".ui.water.WaterActivity"
+            android:exported="false"
+            android:label="@string/title_activity_water"
+            android:theme="@style/Theme.FishKnowConnect" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/path_provider" />
+        </provider>
+
+        <activity
+            android:name=".ui.boat.BoatActivity"
+            android:exported="false"
+            android:label="@string/title_activity_boat"
+            android:theme="@style/Theme.FishKnowConnect" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/path_provider" />
+        </provider>
+
+        <activity
+            android:name=".ui.others.OthersActivity"
+            android:exported="false"
+            android:label="@string/title_activity_others"
+            android:theme="@style/Theme.FishKnowConnect" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/path_provider" />
+        </provider>
+
+        <activity
             android:name=".ui.newPost.NewPostActivity"
             android:exported="false"
             android:label="@string/title_activity_new_post"
