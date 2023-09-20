@@ -29,10 +29,7 @@ class BoatFragment : Fragment(),OnClickListener {
         val boatViewModel = ViewModelProvider(this).get(BoatViewModel::class.java)
         _binding = FragmentBoatBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val textView: TextView = binding.textViewBoat
-        boatViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+
         return root
     }
 

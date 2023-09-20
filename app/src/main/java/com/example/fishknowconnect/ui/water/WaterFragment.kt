@@ -29,10 +29,6 @@ class WaterFragment : Fragment(), OnClickListener{
         val waterViewModel = ViewModelProvider(this).get(WaterViewModel::class.java)
         _binding = FragmentWaterBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val textView: TextView = binding.textViewWater
-        waterViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         return root
     }
 

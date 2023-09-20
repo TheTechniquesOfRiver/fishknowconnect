@@ -25,10 +25,6 @@ class ApprovePostRequestFragment : Fragment() {
             ViewModelProvider(this).get(ApprovePostRequestViewModel::class.java)
         _binding = FragmentApprovePostRequestBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val textView: TextView = binding.textViewApprovePostRequest
-        approvePostRequestViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         return root
     }
 

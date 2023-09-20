@@ -76,15 +76,14 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/alfa_slab_one"
+                android:fontFamily="sans-serif-black"
                 android:text="@string/button_login"
                 android:textSize="48dp"
                 app:layout_constraintBottom_toTopOf="@+id/editTextTextUsername"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.113"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView3"
-                app:layout_constraintVertical_bias="0.588" />
+                app:layout_constraintVertical_bias="0.347" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

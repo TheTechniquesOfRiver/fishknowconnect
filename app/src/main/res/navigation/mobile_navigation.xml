@@ -48,7 +48,7 @@
     <fragment
         android:id="@+id/boatFragment"
         android:name="com.example.fishknowconnect.ui.fish.BoatFragment"
-        android:label="Boat" >
+        android:label="Boat">
         <action
             android:id="@+id/action_boatFragment_to_newPostActivity"
             app:destination="@id/newPostActivity" />
@@ -56,7 +56,7 @@
     <fragment
         android:id="@+id/weatherFragment"
         android:name="com.example.fishknowconnect.ui.fish.WeatherFragment"
-        android:label="Weather" >
+        android:label="Weather">
         <action
             android:id="@+id/action_weatherFragment_to_newPostActivity"
             app:destination="@id/newPostActivity" />
@@ -64,7 +64,7 @@
     <fragment
         android:id="@+id/waterFragment"
         android:name="com.example.fishknowconnect.ui.fish.WaterFragment"
-        android:label="Water" >
+        android:label="Water">
         <action
             android:id="@+id/action_waterFragment_to_newPostActivity"
             app:destination="@id/newPostActivity" />
@@ -72,7 +72,7 @@
     <fragment
         android:id="@+id/othersFragment"
         android:name="com.example.fishknowconnect.ui.fish.OthersFragment"
-        android:label="@string/textview_others" >
+        android:label="@string/textview_others">
         <action
             android:id="@+id/action_othersFragment_to_newPostActivity"
             app:destination="@id/newPostActivity" />
@@ -80,7 +80,7 @@
     <fragment
         android:id="@+id/approvePostRequestFragment"
         android:name="com.example.fishknowconnect.ui.fish.ApprovePostRequestFragment"
-        android:label="ApprovePostRequest" >
+        android:label="ApprovePostRequest">
         <action
             android:id="@+id/action_approvePostRequestFragment_to_newPostActivity"
             app:destination="@id/newPostActivity" />

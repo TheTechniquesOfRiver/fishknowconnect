@@ -12,7 +12,10 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -22,14 +25,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.login.LoginActivity
 import com.example.fishknowconnect.ui.register.ui.theme.FishKnowConnectTheme
+import com.google.android.exoplayer2.text.webvtt.WebvttCssStyle.FontSizeUnit
 
 
 class RegisterActivity : ComponentActivity() {
@@ -71,10 +82,22 @@ class RegisterActivity : ComponentActivity() {
  */
 @Composable
 fun RegisterScreen(viewModel: RegisterViewModel) {
+Text(
+    text = stringResource(R.string.title_activity_register),
+    textAlign = TextAlign.Center,
+    style = TextStyle(
+        fontSize = 48.sp,
+        fontWeight = FontWeight.Bold,
+        fontFamily = FontFamily.SansSerif,
+        textAlign = TextAlign.Center
+    ),
+    modifier = Modifier.fillMaxWidth()
+        .padding(0.dp, 150.dp, 0.dp, 0.dp)
+)
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(all = 8.dp),
+        modifier = Modifier.fillMaxWidth(),
     ) {
         OutlinedTextField(value = viewModel.username,
             onValueChange = { username -> viewModel.updateUsername(username) },
@@ -88,11 +111,18 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
         OutlinedTextField(value = viewModel.id,
             onValueChange = { id -> viewModel.updateId(id) },
             label = { Text(text = stringResource(R.string.text_location)) })
-        Button(onClick = {
+        Button(modifier = Modifier.height(74.dp).width(287.dp).padding(0.dp,10.dp), onClick = {
             //perform registration
             viewModel.performRegistration()
         }) {
-            Text(text = stringResource(R.string.title_activity_register))
+            Text(text = stringResource(R.string.title_activity_register),
+            style = TextStyle(
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                fontFamily = FontFamily.SansSerif
+            )
+            )
         }
 
     }
