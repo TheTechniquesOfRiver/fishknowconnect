@@ -1,6 +1,7 @@
 package com.example.fishknowconnect.ui.newPost
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
