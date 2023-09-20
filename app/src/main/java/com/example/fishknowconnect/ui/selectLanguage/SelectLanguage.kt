@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -27,8 +29,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.ui.login.LoginActivity
 import com.example.fishknowconnect.ui.register.RegisterActivity
@@ -42,7 +47,7 @@ class SelectLanguage : ComponentActivity() {
             FishKnowConnectTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background,
                 ) {
                     SelectLanguageOption()
                 }
@@ -60,11 +65,14 @@ fun SelectLanguageOption() {
         listOf(stringResource(R.string.radio_english), stringResource(R.string.radio_bangala))
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(languageOptions[1]) }
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.selectableGroup()
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.selectableGroup().padding(0.dp,50.dp)
     ) {
         Text(
             text = "Please select language",
-            style = MaterialTheme.typography.bodyLarge.merge(),
+            style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    ),
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         languageOptions.forEach { text ->
@@ -85,11 +93,15 @@ fun SelectLanguageOption() {
                     })
                     .padding(horizontal = 16.dp)
             ) {
-                RadioButton(selected = (text == selectedOption), onClick = null)
+                RadioButton(selected = (text == selectedOption), onClick = null,
+                    modifier = Modifier.padding(130.dp, 10.dp, 0.dp, 0.dp))
                 Text(
                     text = text,
-                    style = MaterialTheme.typography.bodyLarge.merge(),
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    style = TextStyle(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                    ),
+                    modifier = Modifier.padding(horizontal = 16.dp, 7.dp)
                 )
             }
         }

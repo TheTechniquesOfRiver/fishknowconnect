@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FishKnowConnect</string>
+    <string name="app_name">নদীর কৌশল</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
     <string name="navigation_drawer_open">Open navigation drawerr</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -29,7 +29,7 @@
     <string name="textview_boat">নৌকা </string>
     <string name="textview_others">অন্যান্য </string>
     <string name="textview_approve_post_request">অনুমতি দিন  </string>
-    <string name="welcome">স্বাগতম\n</string>
+    <string name="welcome">স্বাগতম নদীর কৌশল\n</string>
 
 
     //selectlanguage

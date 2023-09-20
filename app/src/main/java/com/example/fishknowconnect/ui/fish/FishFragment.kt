@@ -30,10 +30,6 @@ class FishFragment : Fragment(), OnClickListener {
         val fishViewModel = ViewModelProvider(this).get(FishViewModel::class.java)
         _binding = FragmentFishBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val textView: TextView = binding.textViewFish
-        fishViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
 
         return root
     }

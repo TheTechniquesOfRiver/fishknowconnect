@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">FishKnowConnect</string>
-    <string name="title_activity_navigation_drawer">FishKnowConnect</string>
+    <string name="app_name">TechniqueOfRiver</string>
+    <string name="title_activity_navigation_drawer">TechniqueOfRiver</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Username</string>
@@ -27,7 +27,7 @@
     <string name="textview_boat">Boat</string>
     <string name="textview_others">Others</string>
     <string name="textview_approve_post_request">7 Approve Post Request</string>
-    <string name="welcome">Welcome to Fish Know Connect\n</string>
+    <string name="welcome">Welcome to Technique Of River\n</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_select_language">SelectLanguage</string>
     //selectlanguage

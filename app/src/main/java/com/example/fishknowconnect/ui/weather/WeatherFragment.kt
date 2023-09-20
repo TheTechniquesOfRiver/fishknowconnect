@@ -29,10 +29,6 @@ class WeatherFragment : Fragment(), OnClickListener {
         val weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
         _binding = FragmentWeatherBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val textView: TextView = binding.textViewWeather
-        weatherViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         return root
     }
 

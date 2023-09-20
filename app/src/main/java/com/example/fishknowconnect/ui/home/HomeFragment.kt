@@ -35,7 +35,7 @@ class HomeFragment : Fragment(), OnClickListener {
         view.findViewById<ImageView>(R.id.imageViewBoat).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.imageViewWater).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.imageViewOthers).setOnClickListener(this)
-        view.findViewById<ImageButton>(R.id.imageButton).setOnClickListener(this)
+        view.findViewById<ImageView>(R.id.imageButton).setOnClickListener(this)
     }
 
     override fun onDestroyView() {

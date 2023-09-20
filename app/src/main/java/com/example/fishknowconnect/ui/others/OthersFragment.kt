@@ -28,10 +28,10 @@ class OthersFragment : Fragment(), OnClickListener {
         val othersViewModel = ViewModelProvider(this).get(OthersViewModel::class.java)
         _binding = FragmentOthersBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val textView: TextView = binding.textViewOthers
-        othersViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        //val textView: TextView = binding.textViewOthers
+        //othersViewModel.text.observe(viewLifecycleOwner) {
+            //textView.text = it
+        //}
         return root
     }
 
