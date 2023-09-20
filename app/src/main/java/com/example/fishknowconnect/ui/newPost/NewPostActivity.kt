@@ -1,7 +1,6 @@
 package com.example.fishknowconnect.ui.newPost
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -53,6 +52,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.rememberImagePainter
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.ToolBarLayout
 import com.example.fishknowconnect.ui.newPost.ui.theme.DrawScrollableView
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import java.util.Objects
@@ -72,8 +72,8 @@ class NewPostActivity : ComponentActivity() {
                         color = MaterialTheme.colorScheme.background
                     ) {
                         Column {
-                            ToolBarLayout()
-                            NewPostScreen("New Post")
+                            ToolBarLayout("New post")
+                            NewPostScreen()
                         }
                     }
                 })
@@ -103,7 +103,7 @@ fun ToolBarLayout() {
 
 
 @Composable
-fun NewPostScreen(name: String, modifier: Modifier = Modifier) {
+fun NewPostScreen() {
     val context = LocalContext.current
     val imageFile = context.createImageFile()
     val videoFile = context.createVideoFile()
@@ -246,7 +246,7 @@ fun recordVoice() {
 @Composable
 fun ToolBarLayoutPreview() {
     FishKnowConnectTheme {
-        ToolBarLayout()
+        ToolBarLayout("New post")
     }
 }
 
@@ -255,6 +255,6 @@ fun ToolBarLayoutPreview() {
 @Composable
 fun NewPostScreenPreview() {
     FishKnowConnectTheme {
-        NewPostScreen("New Post")
+        NewPostScreen()
     }
 }

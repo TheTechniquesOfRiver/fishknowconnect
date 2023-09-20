@@ -49,7 +49,7 @@ class HomeFragment : Fragment(), OnClickListener {
         if (view != null) {
             when (view.id) {
                 R.id.imageViewFish -> {
-                    navController?.navigate(R.id.action_nav_home_to_fishFragment)
+                    navController?.navigate(R.id.action_nav_home_to_fishActivity)
                 }
                 R.id.imageViewWeather -> {
                     navController?.navigate(R.id.action_nav_home_to_weatherFragment)

@@ -15,10 +15,6 @@
             app:destination="@id/boatFragment"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_nav_home_to_fishFragment"
-            app:destination="@id/fishFragment"
-            app:popUpToInclusive="false" />
-        <action
             android:id="@+id/action_nav_home_to_weatherFragment"
             app:destination="@id/weatherFragment"
             app:popUpToInclusive="false" />
@@ -33,6 +29,9 @@
         <action
             android:id="@+id/action_nav_home_to_waterFragment"
             app:destination="@id/waterFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_fishActivity"
+            app:destination="@id/fishActivity" />
     </fragment>
 
     <fragment
@@ -52,14 +51,6 @@
         android:label="Boat">
         <action
             android:id="@+id/action_boatFragment_to_newPostActivity"
-            app:destination="@id/newPostActivity" />
-    </fragment>
-    <fragment
-        android:id="@+id/fishFragment"
-        android:name="com.example.fishknowconnect.ui.fish.FishFragment"
-        android:label="Fish">
-        <action
-            android:id="@+id/action_fishFragment_to_newPostActivity"
             app:destination="@id/newPostActivity" />
     </fragment>
     <fragment
@@ -98,10 +89,13 @@
         android:id="@+id/loginActivity"
         android:name="com.example.fishknowconnect.ui.login.LoginActivity"
         android:label="activity_login"
-        tools:layout="@layout/activity_login" >
-    </activity>
+        tools:layout="@layout/activity_login" />
     <activity
         android:id="@+id/newPostActivity"
         android:name="com.example.fishknowconnect.ui.newPost.NewPostActivity"
         android:label="NewPostActivity" />
+    <activity
+        android:id="@+id/fishActivity"
+        android:name="com.example.fishknowconnect.ui.fish.FishActivity"
+        android:label="FishActivity" />
 </navigation>
