@@ -1,7 +1,6 @@
 package com.example.fishknowconnect.ui.newPost
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -12,7 +11,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,22 +19,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.outlined.AccountBox
-import androidx.compose.material.icons.outlined.Done
-import androidx.compose.material.icons.outlined.Face
 import androidx.compose.material3.Button
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -68,8 +57,6 @@ import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import java.util.Objects
 
 class NewPostActivity : ComponentActivity() {
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -83,6 +70,7 @@ class NewPostActivity : ComponentActivity() {
                     ) {
                         Column {
                             ToolBarLayout("New post")
+
                             NewPostScreen()
                         }
                     }
@@ -92,53 +80,26 @@ class NewPostActivity : ComponentActivity() {
     }
 }
 
-
-
 @Composable
 fun NewPostScreen() {
     val context = LocalContext.current
     val imageFile = context.createImageFile()
-    val videoFile = context.createVideoFile()
-
+    //gets file uri
     val imageUri = FileProvider.getUriForFile(
         Objects.requireNonNull(context), context.packageName + ".provider", imageFile
-    )
-    var videoUri = FileProvider.getUriForFile(
-        Objects.requireNonNull(context), context.packageName + ".provider", videoFile
     )
     var capturedImageUri by remember {
         mutableStateOf<Uri>(Uri.EMPTY)
     }
-    var capturedVideoUri by remember {
-        mutableStateOf<Uri>(Uri.EMPTY)
-    }
-    var hasImage by remember {
-        mutableStateOf(false)
-    }
-    var hasVideo by remember {
-        mutableStateOf(false)
-    }
     val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) {
         capturedImageUri = imageUri
-        hasImage = true
-
-    }
-    val videoLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CaptureVideo()) {
-        capturedVideoUri = videoUri
-        hasVideo = true
-        Log.d("NEW POST SCREEN", "PERMISSION $videoUri")
-
     }
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            hasImage = false
-            hasVideo = false
-
             // Permission Accepted:
             cameraLauncher.launch(imageUri)
-            videoLauncher.launch(videoUri)
             Log.d("NEW POST SCREEN", "PERMISSION GRANTED")
         } else {
             // Permission Denied:
@@ -148,7 +109,9 @@ fun NewPostScreen() {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
     ) {
         if (capturedImageUri.path?.isNotEmpty() == true) {
             Image(
@@ -159,11 +122,7 @@ fun NewPostScreen() {
                 contentDescription = null
             )
         }
-        if (capturedVideoUri.path?.isNotEmpty() == true) {
-            ShowVideoPlayer(videoUri = capturedVideoUri)
-        }
-        OutlinedTextField(
-            value = "",
+        OutlinedTextField(value = "",
             modifier = Modifier.padding(all = 16.dp),
             onValueChange = { postText -> },
             label = { Text(text = stringResource(R.string.textview_text_post)) },
@@ -184,13 +143,11 @@ fun NewPostScreen() {
                     ContextCompat.checkSelfPermission(
                         context, (Manifest.permission.CAMERA)
                     ) -> {
-//                        hasImage = false
                         // Launch camera
                         cameraLauncher.launch(imageUri)
                     }
 
                     else -> {
-//                        hasImage = false
                         // Asking for permission
                         launcher.launch((Manifest.permission.CAMERA))
                     }
@@ -199,23 +156,8 @@ fun NewPostScreen() {
                 Icon(imageVector = iconPhotoCamera(), contentDescription = "Images")
             }
             IconButton(onClick = {
-                // Check permission
-                when (PackageManager.PERMISSION_GRANTED) {
-                    ContextCompat.checkSelfPermission(
-                        context, (Manifest.permission.CAMERA)
-                    ) -> {
-//                        hasVideo = false
+                Toast.makeText(context, "Capture video", Toast.LENGTH_SHORT).show()
 
-                        // Launch camera
-                        videoLauncher.launch(videoUri)
-                    }
-
-                    else -> {
-//                        hasVideo = fase
-                        // Asking for permission
-                        launcher.launch((Manifest.permission.CAMERA))
-                    }
-                }
             }) {
                 Icon(imageVector = iconVideoCameraBack(), contentDescription = "Video")
             }
@@ -223,11 +165,11 @@ fun NewPostScreen() {
         Button(onClick = {}) {
             Icon(imageVector = iconUpload(), contentDescription = "Upload")
             Text(
-                text = stringResource(id = R.string.button_upload), Modifier.padding(start = 10.dp),
+                text = stringResource(id = R.string.button_upload),
+                Modifier.padding(start = 10.dp),
                 style = TextStyle(
-                    fontSize = 20.sp,
-                    fontFamily = FontFamily.SansSerif
-            )
+                    fontSize = 20.sp, fontFamily = FontFamily.SansSerif
+                )
             )
         }
     }
@@ -237,6 +179,7 @@ fun NewPostScreen() {
 fun recordVoice() {
 
 }
+
 @Composable
 fun iconRecordVoiceOver(): ImageVector {
     return remember {
@@ -565,10 +508,3 @@ fun ToolBarLayoutPreview() {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun NewPostScreenPreview() {
-    FishKnowConnectTheme {
-        NewPostScreen()
-    }
-}
