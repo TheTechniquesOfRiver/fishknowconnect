@@ -49,8 +49,8 @@ class FishActivity : ComponentActivity() {
                         color = MaterialTheme.colorScheme.background
                     ) {
                         Column {
-                           ToolBarLayout("Fish")
-                            FishScreen("Fish")
+                            ToolBarLayout(this@FishActivity.getString(R.string.fish))
+                            FishScreen(this@FishActivity.getString(R.string.fish))
                         }
                     }
                 }
@@ -74,30 +74,32 @@ fun FishScreen(name: String, modifier: Modifier = Modifier) {
     ) {
         Button(modifier = Modifier.padding(vertical = 25.dp), onClick = {
             //start new post screen
-            val intent = Intent(activity, NewPostActivity::class.java)
+            val intent = Intent(activity, NewPostActivity::class.java).apply {
+                putExtra("type", name)
+            }
             activity?.startActivity(intent)
         }) {
             Text(
                 text = stringResource(id = R.string.button_new_post),
                 textAlign = TextAlign.Right,
-                style = TextStyle(fontSize = 20.sp, color = Color.White, fontFamily = FontFamily.SansSerif)
+                style = TextStyle(
+                    fontSize = 20.sp, color = Color.White, fontFamily = FontFamily.SansSerif
+                )
             )
             Icon(
                 imageVector = Icons.Default.AddCircle,
                 contentDescription = null,
-                modifier = Modifier.size(40.dp).padding(start = 5.dp)
+                modifier = Modifier
+                    .size(40.dp)
+                    .padding(start = 5.dp)
             )
         }
     }
     //title
     Text(
-        text = "LATEST POSTS...",
-        style = TextStyle(
-            fontSize = 20.sp,
-            fontFamily = FontFamily.SansSerif,
-            fontWeight = FontWeight.Bold
-        ),
-        modifier = Modifier
+        text = "LATEST POSTS...", style = TextStyle(
+            fontSize = 20.sp, fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.Bold
+        ), modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp, 0.dp)
     )

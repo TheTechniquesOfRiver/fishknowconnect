@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 class NewPostViewModel() : ViewModel() {
@@ -30,8 +32,8 @@ class NewPostViewModel() : ViewModel() {
     var postType by mutableStateOf("")
         private set
 
-    fun updateType(type: String) {
-        postType = type
+    fun type(value: String) {
+        postType = value
     }
 
     var file by mutableStateOf(File(""))
@@ -55,12 +57,14 @@ class NewPostViewModel() : ViewModel() {
      *@param title title of the content
      * @param type type of the content
      */
-    fun uploadPictureToServer(title: String, type: String) {
+    fun uploadPictureToServer(title: String) {
         viewModelScope.launch(Dispatchers.Main) {
-            mutableState.value = NewPostState.Success("success")
             mutableState.value = NewPostState.Loading
             val response = FishKnowConnectApi.retrofitService.createPost(
-                title, type, content, changeFileIntoMultiPartForm()
+                title.toRequestBody(),
+                postType.toRequestBody(),
+                content.toRequestBody(),
+                changeFileIntoMultiPartForm()
             )
             val newPostResponse = response.body()
             if (newPostResponse == null) {
@@ -78,5 +82,14 @@ class NewPostViewModel() : ViewModel() {
             }
 
         }
+    }
+
+    /**
+     * change string into text type requestBody
+     * @return RequestBody
+     */
+    fun String.toRequestBody(): RequestBody {
+        val mediaType = "text/plain"
+        return toRequestBody(mediaType.toMediaTypeOrNull())
     }
 }

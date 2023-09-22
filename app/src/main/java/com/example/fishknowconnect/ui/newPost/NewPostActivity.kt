@@ -200,8 +200,11 @@ class NewPostActivity : ComponentActivity() {
             }
             Button(onClick = {
                 Log.d("NEW POST SCREEN", "PERMISSION GRANTED${imageFile}")
-
-                viewModel.uploadPictureToServer("", "fish")
+                val intentType = intent.getStringExtra("type")
+                if (intentType != null) {
+                    viewModel.type(intentType)
+                }
+                viewModel.uploadPictureToServer("")
             }) {
                 Icon(imageVector = iconUpload(), contentDescription = "Upload")
                 Text(

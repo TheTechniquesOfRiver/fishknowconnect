@@ -12,7 +12,9 @@
     <string name="menu_profile">Profile</string>
     <string name="menu_setting">Setting</string>
     <string name="menu_logout">Logout</string>
-    //userprofile
+    //fish
+    <string name="fish">Fish</string>
+
     //userprofile
     <string name="text_age">Age</string>
     <string name="text_username">Username</string>

@@ -5,6 +5,7 @@ import com.example.fishknowconnect.ui.newPost.NewPostResponse
 import com.example.fishknowconnect.ui.register.RegisterResponse
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -43,9 +44,9 @@ interface FishKnowConnectApiService {
     @Multipart
     @POST("create_post")
     suspend fun createPost(
-        @Part("title") title: String,
-        @Part("type") type: String,
-        @Part("content") content: String,
+        @Part("title") title: RequestBody,
+        @Part("type") type: RequestBody ,
+        @Part("content") content: RequestBody ,
         @Part file: MultipartBody.Part?
     ): Response<NewPostResponse>
 }
