@@ -103,7 +103,8 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     //logging
-    implementation("com.squareup.okhttp3:logging-interceptor:3.9.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("androidx.preference:preference:1.2.1")
     //compose navigation

@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -32,9 +31,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.fishknowconnect.ListContent
 import com.example.fishknowconnect.R
-import com.example.fishknowconnect.ToolBarLayout
+import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.fish.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 
@@ -101,8 +99,7 @@ fun WeatherScreen(name: String, modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .padding(16.dp, 0.dp)
     )
-    //show list
-    ListContent()
+
 }
 
 @Preview(showBackground = true)

@@ -9,6 +9,6 @@ class NewPostViewModelFactory(
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return NewPostViewModel(context) as T
+        return NewPostViewModel() as T
     }
 }
