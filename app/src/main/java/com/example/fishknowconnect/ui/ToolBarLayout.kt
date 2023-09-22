@@ -1,4 +1,4 @@
-package com.example.fishknowconnect
+package com.example.fishknowconnect.ui
 
 import android.app.Activity
 import androidx.compose.material.icons.Icons

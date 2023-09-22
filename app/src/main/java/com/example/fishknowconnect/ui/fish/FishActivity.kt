@@ -3,8 +3,11 @@ package com.example.fishknowconnect.ui.fish
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -20,6 +22,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,25 +36,31 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.fishknowconnect.ListContent
+import com.example.fishknowconnect.DisplayList
 import com.example.fishknowconnect.R
-import com.example.fishknowconnect.ToolBarLayout
+import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
+import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.fish.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 
 class FishActivity : ComponentActivity() {
+    val viewModel: FishViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            setContent {
-                FishKnowConnectTheme {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        Column {
-                            ToolBarLayout(this@FishActivity.getString(R.string.fish))
-                            FishScreen(this@FishActivity.getString(R.string.fish))
+            FishKnowConnectTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+                ) {
+                    Column {
+                        ToolBarLayout(this@FishActivity.getString(R.string.fish))
+                        FishScreen(this@FishActivity.getString(R.string.fish), viewModel)
+                        when (val responseValue = viewModel.state.collectAsState().value) {
+                            FishState.Loading -> IndeterminateCircularIndicator()
+                            is FishState.Success -> responseValue.response?.let { DisplayList(it) }
+                            is FishState.Error -> ShowErrorMessage()
+                            else -> {
+                            }
                         }
                     }
                 }
@@ -60,10 +70,23 @@ class FishActivity : ComponentActivity() {
 }
 
 /**
+ * shows error dialog
+ */
+@Composable
+fun ShowErrorMessage() {
+    val context = LocalContext.current as? Activity
+    Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+}
+
+
+/**
  * Fish screen view
  */
 @Composable
-fun FishScreen(name: String, modifier: Modifier = Modifier) {
+fun FishScreen(name: String, viewModel: FishViewModel) {
+    LaunchedEffect(Unit, block = {
+        viewModel.getAllContents()
+    })
     val activity = (LocalContext.current as? Activity)
     //create new post button
     Column(
@@ -103,14 +126,14 @@ fun FishScreen(name: String, modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .padding(16.dp, 0.dp)
     )
-    //show list
-    ListContent()
 }
+
 
 @Preview(showBackground = true)
 @Composable
 fun FishScreenPreview() {
     FishKnowConnectTheme {
-        FishScreen("Fishscreen")
+        val viewModel = FishViewModel()
+        FishScreen("Fishscreen", viewModel)
     }
 }
