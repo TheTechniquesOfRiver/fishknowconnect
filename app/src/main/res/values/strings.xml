@@ -12,8 +12,7 @@
     <string name="menu_profile">Profile</string>
     <string name="menu_setting">Setting</string>
     <string name="menu_logout">Logout</string>
-    //fish
-    <string name="fish">Fish</string>
+
 
     //userprofile
     <string name="text_age">Age</string>
@@ -38,6 +37,9 @@
     //new post
     <string name="title_activity_new_post">NewPostActivity</string>
     <string name="textview_text_post">Say something...</string>
+    <string name="text_something_went_wrong">Something went wrong..</string>
+    <string name="text_content_details">Content details</string>
+
     <string name="button_upload">Upload</string>
     <string name="button_new_post">Create New Post</string>
     <string name="title_activity_fish">FishActivity</string>

@@ -3,6 +3,7 @@ package com.example.fishknowconnect.ui.fish
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -52,12 +53,13 @@ class FishActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     Column {
-                        ToolBarLayout(this@FishActivity.getString(R.string.fish))
-                        FishScreen(this@FishActivity.getString(R.string.fish), viewModel)
+                        ToolBarLayout(this@FishActivity.getString(R.string.textview_fish))
+                        FishScreen(this@FishActivity.getString(R.string.textview_fish), viewModel)
                         val context = LocalContext.current as? Activity
                         when (val responseValue = viewModel.state.collectAsState().value) {
                             FishState.Loading -> IndeterminateCircularIndicator()
-                            is FishState.Success -> responseValue.response?.let { DisplayList(it, context) }
+                            is FishState.Success -> responseValue.response?.let {
+                                DisplayList(it, context) }
                             is FishState.Error -> ShowErrorMessage()
                             else -> {
                             }
@@ -75,7 +77,7 @@ class FishActivity : ComponentActivity() {
 @Composable
 fun ShowErrorMessage() {
     val context = LocalContext.current as? Activity
-    Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+    Toast.makeText(context, stringResource(id = R.string.text_something_went_wrong), Toast.LENGTH_SHORT).show()
 }
 
 
