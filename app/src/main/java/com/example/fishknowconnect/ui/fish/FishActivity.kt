@@ -3,7 +3,6 @@ package com.example.fishknowconnect.ui.fish
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -55,9 +54,10 @@ class FishActivity : ComponentActivity() {
                     Column {
                         ToolBarLayout(this@FishActivity.getString(R.string.fish))
                         FishScreen(this@FishActivity.getString(R.string.fish), viewModel)
+                        val context = LocalContext.current as? Activity
                         when (val responseValue = viewModel.state.collectAsState().value) {
                             FishState.Loading -> IndeterminateCircularIndicator()
-                            is FishState.Success -> responseValue.response?.let { DisplayList(it) }
+                            is FishState.Success -> responseValue.response?.let { DisplayList(it, context) }
                             is FishState.Error -> ShowErrorMessage()
                             else -> {
                             }

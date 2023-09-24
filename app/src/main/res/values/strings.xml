@@ -45,8 +45,7 @@
     <string name="title_activity_water">WaterActivity</string>
     <string name="title_activity_boat">BoatActivity</string>
     <string name="title_activity_others">OthersActivity</string>
-
-
+    <string name="title_activity_list_item_detail">ListItemDetailActivity</string>
 
 
 </resources>

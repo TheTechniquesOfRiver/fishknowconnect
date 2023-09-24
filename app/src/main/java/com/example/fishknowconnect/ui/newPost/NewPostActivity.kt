@@ -148,6 +148,7 @@ class NewPostActivity : ComponentActivity() {
                 capturedVideoUri = videoUri
                 imageVisibility = false
                 videoVisibility = true
+                viewModel.updateFile(videoFile)
             }
         val launcher = rememberLauncherForActivityResult(
             ActivityResultContracts.RequestPermission()
