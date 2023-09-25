@@ -1,5 +1,6 @@
 package com.example.fishknowconnect.ui.listItemDetail
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -25,6 +26,7 @@ import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.listItemDetail.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostState
+import com.example.fishknowconnect.ui.newPost.ShowVideoPlayer
 
 class ListItemDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,4 +75,5 @@ fun ListItemDetailScreen(
         painter = rememberAsyncImagePainter(fileUrl),
         contentDescription = null
     )
+//    ShowVideoPlayer(videoUri = Uri.parse(fileUrl))
 }
