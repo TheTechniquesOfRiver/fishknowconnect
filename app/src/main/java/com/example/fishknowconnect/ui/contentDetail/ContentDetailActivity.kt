@@ -43,16 +43,16 @@ class ContentDetailActivity : ComponentActivity(), TextToSpeech.OnInitListener {
                     tts = TextToSpeech(this@ContentDetailActivity, this)
                     Column {
                         ToolBarLayout(resources.getString(R.string.text_content_details))
-                        if (intentTitle != null && intentContent != null && intentFileUrl != null) {
+//                        if (intentTitle != null && intentContent != null && intentFileUrl != null) {
                             ListItemDetailScreen(intentTitle, intentContent, intentFileUrl)
-                        } else {
-                            Toast.makeText(
-                                this@ContentDetailActivity,
-                                resources.getString(R.string.text_something_went_wrong),
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                        }
+//                        } else {
+//                            Toast.makeText(
+//                                this@ContentDetailActivity,
+//                                resources.getString(R.string.text_something_went_wrong),
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//
+//                        }
                     }
                 }
             }
@@ -84,7 +84,7 @@ class ContentDetailActivity : ComponentActivity(), TextToSpeech.OnInitListener {
 
 @Composable
 fun ListItemDetailScreen(
-    title: String, content: String, fileUrl: String, modifier: Modifier = Modifier
+    title: String?, content: String?, fileUrl: String?, modifier: Modifier = Modifier
 ) {
     Button(onClick = {
         if (isListenEnable) {
@@ -93,12 +93,19 @@ fun ListItemDetailScreen(
     }) {
         Text(text = stringResource(id = R.string.text_listen), modifier = modifier)
     }
-    Text(text = title, modifier = modifier)
-    Text(text = content, modifier = modifier)
-    Image(
-        modifier = Modifier.padding(16.dp, 8.dp),
-        painter = rememberAsyncImagePainter(fileUrl),
-        contentDescription = null
-    )
+    if(!title.isNullOrEmpty()){
+        Text(text = title, modifier = modifier)
+    }
+    if(!content.isNullOrEmpty()){
+        Text(text = content, modifier = modifier)
+    }
+    if(!fileUrl.isNullOrEmpty()){
+        Image(
+            modifier = Modifier.padding(16.dp, 8.dp),
+            painter = rememberAsyncImagePainter(fileUrl),
+            contentDescription = null
+        )
+    }
+
 //    ShowVideoPlayer(videoUri = Uri.parse(fileUrl))
 }
