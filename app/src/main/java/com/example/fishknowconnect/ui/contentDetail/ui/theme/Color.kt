@@ -1,4 +1,4 @@
-package com.example.fishknowconnect.ui.listItemDetail.ui.theme
+package com.example.fishknowconnect.ui.contentDetail.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
