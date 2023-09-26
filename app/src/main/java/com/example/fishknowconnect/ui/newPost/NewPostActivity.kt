@@ -115,17 +115,40 @@ class NewPostActivity : ComponentActivity() {
     fun NewPostScreen(viewModel: NewPostViewModel) {
         val context = LocalContext.current
         val imageFile = context.createImageFile()
+        val videoFile = context.createVideoFile()
         //gets file uri
         val imageUri = FileProvider.getUriForFile(
             Objects.requireNonNull(context), context.packageName + ".provider", imageFile
         )
+        var videoUri = FileProvider.getUriForFile(
+            Objects.requireNonNull(context), context.packageName + ".provider", videoFile
+        )
         var capturedImageUri by remember {
             mutableStateOf<Uri>(Uri.EMPTY)
+        }
+        var capturedVideoUri by remember {
+            mutableStateOf<Uri>(Uri.EMPTY)
+        }
+        var imageVisibility by remember {
+            mutableStateOf(false)
+        }
+
+        var videoVisibility by remember {
+            mutableStateOf(false)
         }
         val cameraLauncher =
             rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) {
                 capturedImageUri = imageUri
+                imageVisibility = true
+                videoVisibility = false
                 viewModel.updateFile(imageFile)
+            }
+        val videoLauncher =
+            rememberLauncherForActivityResult(ActivityResultContracts.CaptureVideo()) {
+                capturedVideoUri = videoUri
+                imageVisibility = false
+                videoVisibility = true
+                viewModel.updateFile(videoFile)
             }
         val launcher = rememberLauncherForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -146,7 +169,7 @@ class NewPostActivity : ComponentActivity() {
                 .fillMaxWidth()
                 .fillMaxHeight(),
         ) {
-            if (capturedImageUri.path?.isNotEmpty() == true) {
+            if (imageVisibility && capturedImageUri.path?.isNotEmpty() == true) {
 
                 Image(
                     modifier = Modifier
@@ -156,6 +179,9 @@ class NewPostActivity : ComponentActivity() {
                     contentDescription = null
                 )
 
+            }
+            if (videoVisibility && capturedVideoUri.path?.isNotEmpty() == true) {
+                ShowVideoPlayer(videoUri = capturedVideoUri)
             }
             OutlinedTextField(
                 value = viewModel.content,
@@ -193,7 +219,20 @@ class NewPostActivity : ComponentActivity() {
                 }
                 IconButton(onClick = {
                     Toast.makeText(context, "Capture video", Toast.LENGTH_SHORT).show()
+                    // Check permission
+                    when (PackageManager.PERMISSION_GRANTED) {
+                        ContextCompat.checkSelfPermission(
+                            context, (Manifest.permission.CAMERA)
+                        ) -> {
+                            // Launch camera
+                            videoLauncher.launch(videoUri)
+                        }
 
+                        else -> {
+                            // Asking for permission
+                            launcher.launch((Manifest.permission.CAMERA))
+                        }
+                    }
                 }) {
                     Icon(imageVector = iconVideoCameraBack(), contentDescription = "Video")
                 }

@@ -53,6 +53,8 @@ android {
 
 dependencies {
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     val nav_version = "2.7.1"
 
@@ -111,6 +113,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
     // Coil
     implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation("io.coil-kt:coil-video:2.4.0")
     //exoplayer
     implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
     implementation ("androidx.media3:media3-session:1.1.1")
