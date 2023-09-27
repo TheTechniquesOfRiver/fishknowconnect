@@ -22,8 +22,8 @@
 
         <ImageView
             android:id="@+id/imageViewFish"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/contentfish"
             android:padding="0dp"
@@ -163,8 +163,8 @@
 
         <ImageView
             android:id="@+id/imageViewOthers"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/contentothers"
             android:padding="2dp"
