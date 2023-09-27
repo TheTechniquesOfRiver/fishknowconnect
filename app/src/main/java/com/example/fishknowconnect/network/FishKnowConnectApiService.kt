@@ -18,9 +18,9 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 
-//private const val BASE_URL = "http://13.236.94.194:3000/"
+private const val BASE_URL = "http://13.236.94.194:3000/"
 //private const val BASE_URL = "http://127.0.0.1:3000/"
-private const val BASE_URL = "http://10.0.2.2:3000/"
+//private const val BASE_URL = "http://10.0.2.2:3000/"
 private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 private val client = OkHttpClient.Builder().addInterceptor(logging).build()
 private val retrofit =
@@ -47,9 +47,10 @@ interface FishKnowConnectApiService {
     @POST("create_post")
     suspend fun createPost(
         @Part("title") title: RequestBody,
-        @Part("type") type: RequestBody ,
-        @Part("content") content: RequestBody ,
-        @Part file: MultipartBody.Part?
+        @Part("type") type: RequestBody,
+        @Part("content") content: RequestBody,
+        @Part file: MultipartBody.Part?,
+        @Part("fileType") fileType: RequestBody
     ): Response<NewPostResponse>
 
     @GET("get_all_posts")
