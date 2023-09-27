@@ -261,111 +261,113 @@ class NewPostActivity : ComponentActivity() {
     fun recordVoice() {
 
 
-}
-@Composable
-fun iconRecordVoiceOver(): ImageVector {
-    return remember {
-        ImageVector.Builder(
-            name = "settings_voice",
-            defaultWidth = 40.0.dp,
-            defaultHeight = 40.0.dp,
-            viewportWidth = 40.0f,
-            viewportHeight = 40.0f
-        ).apply {
-            path(
-                fill = SolidColor(Color.Black),
-                fillAlpha = 1f,
-                stroke = null,
-                strokeAlpha = 1f,
-                strokeLineWidth = 1.0f,
-                strokeLineCap = StrokeCap.Butt,
-                strokeLineJoin = StrokeJoin.Miter,
-                strokeLineMiter = 1f,
-                pathFillType = PathFillType.NonZero
-            ) {
-                moveTo(13.208f, 39.833f)
-                quadToRelative(-0.583f, 0f, -0.958f, -0.395f)
-                quadToRelative(-0.375f, -0.396f, -0.375f, -0.98f)
-                quadToRelative(0f, -0.583f, 0.375f, -0.958f)
-                reflectiveQuadToRelative(0.958f, -0.375f)
-                quadToRelative(0.584f, 0f, 0.98f, 0.375f)
-                quadToRelative(0.395f, 0.375f, 0.395f, 0.958f)
-                quadToRelative(0f, 0.584f, -0.395f, 0.98f)
-                quadToRelative(-0.396f, 0.395f, -0.98f, 0.395f)
-                close()
-                moveToRelative(6.792f, 0f)
-                quadToRelative(-0.583f, 0f, -0.958f, -0.395f)
-                quadToRelative(-0.375f, -0.396f, -0.375f, -0.98f)
-                quadToRelative(0f, -0.541f, 0.375f, -0.937f)
-                reflectiveQuadToRelative(0.958f, -0.396f)
-                quadToRelative(0.583f, 0f, 0.979f, 0.375f)
-                reflectiveQuadToRelative(0.396f, 0.958f)
-                quadToRelative(0f, 0.584f, -0.396f, 0.98f)
-                quadToRelative(-0.396f, 0.395f, -0.979f, 0.395f)
-                close()
-                moveToRelative(6.792f, 0f)
-                quadToRelative(-0.584f, 0f, -0.959f, -0.395f)
-                quadToRelative(-0.375f, -0.396f, -0.375f, -0.98f)
-                quadToRelative(0f, -0.583f, 0.375f, -0.958f)
-                reflectiveQuadToRelative(0.959f, -0.375f)
-                quadToRelative(0.583f, 0f, 0.979f, 0.375f)
-                reflectiveQuadToRelative(0.396f, 0.958f)
-                quadToRelative(0f, 0.584f, -0.396f, 0.98f)
-                quadToRelative(-0.396f, 0.395f, -0.979f, 0.395f)
-                close()
-                moveTo(20f, 22.625f)
-                quadToRelative(-1.833f, 0f, -3.062f, -1.313f)
-                quadToRelative(-1.23f, -1.312f, -1.23f, -3.187f)
-                verticalLineTo(7.958f)
-                quadToRelative(0f, -1.791f, 1.25f, -3.041f)
-                reflectiveQuadTo(20f, 3.667f)
-                quadToRelative(1.792f, 0f, 3.042f, 1.25f)
-                quadToRelative(1.25f, 1.25f, 1.25f, 3.041f)
-                verticalLineToRelative(10.167f)
-                quadToRelative(0f, 1.875f, -1.23f, 3.187f)
-                quadToRelative(-1.229f, 1.313f, -3.062f, 1.313f)
-                close()
-                moveToRelative(0f, -9.5f)
-                close()
-                moveToRelative(0f, 21.708f)
-                quadToRelative(-0.542f, 0f, -0.917f, -0.375f)
-                reflectiveQuadToRelative(-0.375f, -0.958f)
-                verticalLineToRelative(-4.125f)
-                quadToRelative(-4f, -0.458f, -6.791f, -3.208f)
-                quadToRelative(-2.792f, -2.75f, -3.25f, -6.625f)
-                quadToRelative(-0.084f, -0.584f, 0.312f, -1f)
-                quadToRelative(0.396f, -0.417f, 1.021f, -0.417f)
-                quadToRelative(0.458f, 0f, 0.833f, 0.354f)
-                quadToRelative(0.375f, 0.354f, 0.459f, 0.854f)
-                quadToRelative(0.458f, 3.209f, 2.896f, 5.334f)
-                quadToRelative(2.437f, 2.125f, 5.812f, 2.125f)
-                quadToRelative(3.375f, 0f, 5.812f, -2.125f)
-                quadToRelative(2.438f, -2.125f, 2.896f, -5.334f)
-                quadToRelative(0.084f, -0.5f, 0.459f, -0.854f)
-                reflectiveQuadToRelative(0.875f, -0.354f)
-                quadToRelative(0.583f, 0f, 0.979f, 0.417f)
-                quadToRelative(0.396f, 0.416f, 0.312f, 1f)
-                quadToRelative(-0.458f, 3.875f, -3.25f, 6.625f)
-                quadToRelative(-2.791f, 2.75f, -6.75f, 3.208f)
-                verticalLineTo(33.5f)
-                quadToRelative(0f, 0.583f, -0.395f, 0.958f)
-                quadToRelative(-0.396f, 0.375f, -0.938f, 0.375f)
-                close()
-                moveToRelative(0f, -14.875f)
-                quadToRelative(0.75f, 0f, 1.208f, -0.52f)
-                quadToRelative(0.459f, -0.521f, 0.459f, -1.313f)
-                verticalLineTo(7.958f)
-                quadToRelative(0f, -0.708f, -0.479f, -1.187f)
-                quadToRelative(-0.48f, -0.479f, -1.188f, -0.479f)
-                reflectiveQuadToRelative(-1.188f, 0.479f)
-                quadToRelative(-0.479f, 0.479f, -0.479f, 1.187f)
-                verticalLineToRelative(10.167f)
-                quadToRelative(0f, 0.792f, 0.459f, 1.313f)
-                quadToRelative(0.458f, 0.52f, 1.208f, 0.52f)
-                close()
-            }
-        }.build()
+    }
 
+    @Composable
+    fun iconRecordVoiceOver(): ImageVector {
+        return remember {
+            ImageVector.Builder(
+                name = "settings_voice",
+                defaultWidth = 40.0.dp,
+                defaultHeight = 40.0.dp,
+                viewportWidth = 40.0f,
+                viewportHeight = 40.0f
+            ).apply {
+                path(
+                    fill = SolidColor(Color.Black),
+                    fillAlpha = 1f,
+                    stroke = null,
+                    strokeAlpha = 1f,
+                    strokeLineWidth = 1.0f,
+                    strokeLineCap = StrokeCap.Butt,
+                    strokeLineJoin = StrokeJoin.Miter,
+                    strokeLineMiter = 1f,
+                    pathFillType = PathFillType.NonZero
+                ) {
+                    moveTo(13.208f, 39.833f)
+                    quadToRelative(-0.583f, 0f, -0.958f, -0.395f)
+                    quadToRelative(-0.375f, -0.396f, -0.375f, -0.98f)
+                    quadToRelative(0f, -0.583f, 0.375f, -0.958f)
+                    reflectiveQuadToRelative(0.958f, -0.375f)
+                    quadToRelative(0.584f, 0f, 0.98f, 0.375f)
+                    quadToRelative(0.395f, 0.375f, 0.395f, 0.958f)
+                    quadToRelative(0f, 0.584f, -0.395f, 0.98f)
+                    quadToRelative(-0.396f, 0.395f, -0.98f, 0.395f)
+                    close()
+                    moveToRelative(6.792f, 0f)
+                    quadToRelative(-0.583f, 0f, -0.958f, -0.395f)
+                    quadToRelative(-0.375f, -0.396f, -0.375f, -0.98f)
+                    quadToRelative(0f, -0.541f, 0.375f, -0.937f)
+                    reflectiveQuadToRelative(0.958f, -0.396f)
+                    quadToRelative(0.583f, 0f, 0.979f, 0.375f)
+                    reflectiveQuadToRelative(0.396f, 0.958f)
+                    quadToRelative(0f, 0.584f, -0.396f, 0.98f)
+                    quadToRelative(-0.396f, 0.395f, -0.979f, 0.395f)
+                    close()
+                    moveToRelative(6.792f, 0f)
+                    quadToRelative(-0.584f, 0f, -0.959f, -0.395f)
+                    quadToRelative(-0.375f, -0.396f, -0.375f, -0.98f)
+                    quadToRelative(0f, -0.583f, 0.375f, -0.958f)
+                    reflectiveQuadToRelative(0.959f, -0.375f)
+                    quadToRelative(0.583f, 0f, 0.979f, 0.375f)
+                    reflectiveQuadToRelative(0.396f, 0.958f)
+                    quadToRelative(0f, 0.584f, -0.396f, 0.98f)
+                    quadToRelative(-0.396f, 0.395f, -0.979f, 0.395f)
+                    close()
+                    moveTo(20f, 22.625f)
+                    quadToRelative(-1.833f, 0f, -3.062f, -1.313f)
+                    quadToRelative(-1.23f, -1.312f, -1.23f, -3.187f)
+                    verticalLineTo(7.958f)
+                    quadToRelative(0f, -1.791f, 1.25f, -3.041f)
+                    reflectiveQuadTo(20f, 3.667f)
+                    quadToRelative(1.792f, 0f, 3.042f, 1.25f)
+                    quadToRelative(1.25f, 1.25f, 1.25f, 3.041f)
+                    verticalLineToRelative(10.167f)
+                    quadToRelative(0f, 1.875f, -1.23f, 3.187f)
+                    quadToRelative(-1.229f, 1.313f, -3.062f, 1.313f)
+                    close()
+                    moveToRelative(0f, -9.5f)
+                    close()
+                    moveToRelative(0f, 21.708f)
+                    quadToRelative(-0.542f, 0f, -0.917f, -0.375f)
+                    reflectiveQuadToRelative(-0.375f, -0.958f)
+                    verticalLineToRelative(-4.125f)
+                    quadToRelative(-4f, -0.458f, -6.791f, -3.208f)
+                    quadToRelative(-2.792f, -2.75f, -3.25f, -6.625f)
+                    quadToRelative(-0.084f, -0.584f, 0.312f, -1f)
+                    quadToRelative(0.396f, -0.417f, 1.021f, -0.417f)
+                    quadToRelative(0.458f, 0f, 0.833f, 0.354f)
+                    quadToRelative(0.375f, 0.354f, 0.459f, 0.854f)
+                    quadToRelative(0.458f, 3.209f, 2.896f, 5.334f)
+                    quadToRelative(2.437f, 2.125f, 5.812f, 2.125f)
+                    quadToRelative(3.375f, 0f, 5.812f, -2.125f)
+                    quadToRelative(2.438f, -2.125f, 2.896f, -5.334f)
+                    quadToRelative(0.084f, -0.5f, 0.459f, -0.854f)
+                    reflectiveQuadToRelative(0.875f, -0.354f)
+                    quadToRelative(0.583f, 0f, 0.979f, 0.417f)
+                    quadToRelative(0.396f, 0.416f, 0.312f, 1f)
+                    quadToRelative(-0.458f, 3.875f, -3.25f, 6.625f)
+                    quadToRelative(-2.791f, 2.75f, -6.75f, 3.208f)
+                    verticalLineTo(33.5f)
+                    quadToRelative(0f, 0.583f, -0.395f, 0.958f)
+                    quadToRelative(-0.396f, 0.375f, -0.938f, 0.375f)
+                    close()
+                    moveToRelative(0f, -14.875f)
+                    quadToRelative(0.75f, 0f, 1.208f, -0.52f)
+                    quadToRelative(0.459f, -0.521f, 0.459f, -1.313f)
+                    verticalLineTo(7.958f)
+                    quadToRelative(0f, -0.708f, -0.479f, -1.187f)
+                    quadToRelative(-0.48f, -0.479f, -1.188f, -0.479f)
+                    reflectiveQuadToRelative(-1.188f, 0.479f)
+                    quadToRelative(-0.479f, 0.479f, -0.479f, 1.187f)
+                    verticalLineToRelative(10.167f)
+                    quadToRelative(0f, 0.792f, 0.459f, 1.313f)
+                    quadToRelative(0.458f, 0.52f, 1.208f, 0.52f)
+                    close()
+                }
+            }.build()
+
+        }
     }
 
     @Composable
