@@ -18,9 +18,9 @@ jobs:
             # Programmatic authentication to aws
               uses: aws-actions/configure-aws-credentials@v1-node16
               with:
-                    aws-access-key-id: $
-                    aws-secret-access-key: $
-                    aws-region: $
+                    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+                    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                    aws-region: ${{ secrets.AWS_REGION }}
 
             - name: Login to Amazon ECR
               id: login-ecr
@@ -35,3 +35,22 @@ jobs:
               run: |
                 docker buildx build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./backend/.
                 docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+    
+    Deploy:
+        name: Deploy to EC2
+        runs-on: ubuntu-latest
+        needs: build
+        
+        steps:
+          - uses: appleboy/ssh-action@v1.0.0
+            name: Build & Deploy
+            with:
+                key: ${{ secrets.SSH_PRIVATE_KEY }}
+                host: ${{secrets.SSH_HOST}}
+                username: ${{secrets.USER_NAME}}
+                port: 22
+                script: |
+                  sudo aws ecr get-login-password --region ap-southeast-2 | sudo docker login --username AWS --password-stdin 036174619429.dkr.ecr.ap-southeast-2.amazonaws.com
+                  sudo docker pull 036174619429.dkr.ecr.ap-southeast-2.amazonaws.com/fishknowconnect:latest
+                  sudo docker-compose down
+                  sudo docker-compose up -d
