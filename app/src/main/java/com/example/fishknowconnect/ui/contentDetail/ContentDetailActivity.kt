@@ -1,5 +1,6 @@
 package com.example.fishknowconnect.ui.contentDetail
 
+import android.content.Context
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.util.Log
@@ -43,21 +44,20 @@ class ContentDetailActivity : ComponentActivity(), TextToSpeech.OnInitListener {
                     tts = TextToSpeech(this@ContentDetailActivity, this)
                     Column {
                         ToolBarLayout(resources.getString(R.string.text_content_details))
-//                        if (intentTitle != null && intentContent != null && intentFileUrl != null) {
-                            ListItemDetailScreen(intentTitle, intentContent, intentFileUrl)
-//                        } else {
-//                            Toast.makeText(
-//                                this@ContentDetailActivity,
-//                                resources.getString(R.string.text_something_went_wrong),
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//
-//                        }
+                        ListItemDetailScreen(intentTitle, intentContent, intentFileUrl)
                     }
                 }
             }
         }
     }
+
+    /**
+     * locale attach
+     */
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase))
+    }
+
 
     override fun onDestroy() {
         // Shutdown TTS when
@@ -93,13 +93,13 @@ fun ListItemDetailScreen(
     }) {
         Text(text = stringResource(id = R.string.text_listen), modifier = modifier)
     }
-    if(!title.isNullOrEmpty()){
+    if (!title.isNullOrEmpty()) {
         Text(text = title, modifier = modifier)
     }
-    if(!content.isNullOrEmpty()){
+    if (!content.isNullOrEmpty()) {
         Text(text = content, modifier = modifier)
     }
-    if(!fileUrl.isNullOrEmpty()){
+    if (!fileUrl.isNullOrEmpty()) {
         Image(
             modifier = Modifier.padding(16.dp, 8.dp),
             painter = rememberAsyncImagePainter(fileUrl),

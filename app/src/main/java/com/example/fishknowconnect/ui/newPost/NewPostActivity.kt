@@ -2,9 +2,8 @@ package com.example.fishknowconnect.ui.newPost
 
 import android.Manifest
 import android.app.Activity
-import android.content.Intent
+import android.content.Context
 import android.content.pm.PackageManager
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -23,7 +22,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -47,7 +45,6 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -62,8 +59,6 @@ import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.newPost.ui.theme.DrawScrollableView
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
-import com.example.fishknowconnect.ui.recordVoice.RecordVoiceActivity
-import java.io.File
 import java.util.Objects
 
 class NewPostActivity : ComponentActivity() {
@@ -113,6 +108,13 @@ class NewPostActivity : ComponentActivity() {
         activity?.finish()
     }
 
+
+    /**
+     * locale attach
+     */
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase))
+    }
 
     /**
      * shows error dialog
@@ -168,6 +170,7 @@ class NewPostActivity : ComponentActivity() {
                 capturedImageUri = imageUri
                 imageVisibility = true
                 videoVisibility = false
+               viewModel.updateFileType("image")
                 viewModel.updateFile(imageFile)
             }
         val videoLauncher =
@@ -175,11 +178,10 @@ class NewPostActivity : ComponentActivity() {
                 capturedVideoUri = videoUri
                 imageVisibility = false
                 videoVisibility = true
+                viewModel.updateFileType("video")
                 viewModel.updateFile(videoFile)
             }
-//        if(!imageFile.exists() || !videoFile.exists()){
-//            viewModel.updateFile(File(""))
-//        }
+
         val launcher = rememberLauncherForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->

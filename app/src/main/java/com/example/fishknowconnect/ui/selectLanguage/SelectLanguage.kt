@@ -69,7 +69,7 @@ fun SelectLanguageOption() {
         horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.selectableGroup().padding(0.dp,50.dp)
     ) {
         Text(
-            text = "Please select language",
+            text = "Please select language/ দয়া  করে  ভাষা পছন্দ করুন ",
             style = TextStyle(
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,

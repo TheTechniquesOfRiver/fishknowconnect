@@ -1,6 +1,5 @@
 package com.example.fishknowconnect.ui.newPost
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -44,6 +43,12 @@ class NewPostViewModel() : ViewModel() {
             file = uploadedFile
     }
 
+    var fileType by mutableStateOf("")
+        private set
+
+    fun updateFileType(type: String) {
+        fileType = type
+    }
     /**
      * Converts file into multipart form for post
      */
@@ -69,7 +74,8 @@ class NewPostViewModel() : ViewModel() {
                 title.toRequestBody(),
                 postType.toRequestBody(),
                 content.toRequestBody(),
-                changeFileIntoMultiPartForm()
+                changeFileIntoMultiPartForm(),
+                fileType.toRequestBody()
             )
             val newPostResponse = response.body()
             if (newPostResponse == null) {

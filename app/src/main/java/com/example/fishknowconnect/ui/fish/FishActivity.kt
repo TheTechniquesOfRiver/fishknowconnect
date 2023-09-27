@@ -143,7 +143,7 @@ fun FishScreen(name: String, viewModel: FishViewModel) {
     }
     //title
     Text(
-        text = "LATEST POSTS...", style = TextStyle(
+        text = stringResource(id = R.string.text_latest_post), style = TextStyle(
             fontSize = 20.sp, fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.Bold
         ), modifier = Modifier
             .fillMaxWidth()
