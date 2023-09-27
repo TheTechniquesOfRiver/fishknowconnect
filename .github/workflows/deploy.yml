@@ -50,7 +50,7 @@ jobs:
                 username: ${{secrets.USER_NAME}}
                 port: 22
                 script: |
-                  sudo -i
-                  aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 036174619429.dkr.ecr.ap-southeast-2.amazonaws.com
-                  cd /root/fishknowconnect && docker-compose down
-                  cd /root/fishknowconnect && docker-compose up -d
+                  sudo aws ecr get-login-password --region ap-southeast-2 | sudo docker login --username AWS --password-stdin 036174619429.dkr.ecr.ap-southeast-2.amazonaws.com
+                  sudo docker pull 036174619429.dkr.ecr.ap-southeast-2.amazonaws.com/fishknowconnect:latest
+                  sudo docker-compose down
+                  sudo docker-compose up -d
