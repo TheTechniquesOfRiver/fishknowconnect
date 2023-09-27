@@ -51,8 +51,13 @@
     <string name="title_activity_water">WaterActivity</string>
     <string name="title_activity_boat">BoatActivity</string>
     <string name="title_activity_others">OthersActivity</string>
+
+    //content description
+    <string name="contentfish">contentFish</string>
+    <string name="contentothers">contentOthers</string>
     <string name="title_activity_list_item_detail">ListItemDetailActivity</string>
     <string name="title_activity_record_voice">RecordVoiceActivity</string>
+
 
 
 </resources>

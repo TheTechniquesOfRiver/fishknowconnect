@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
 import coil.decode.VideoFrameDecoder
-import com.example.fishknowconnect.ui.fish.GetAllPostResponse
 import com.example.fishknowconnect.ui.contentDetail.ContentDetailActivity
+import com.example.fishknowconnect.ui.fish.GetAllPostResponse
 
 /**
  * Display all list
