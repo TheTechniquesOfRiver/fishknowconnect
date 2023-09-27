@@ -12,7 +12,8 @@
     <string name="menu_profile">Profile</string>
     <string name="menu_setting">Setting</string>
     <string name="menu_logout">Logout</string>
-    //userprofile
+
+
     //userprofile
     <string name="text_age">Age</string>
     <string name="text_username">Username</string>
@@ -34,8 +35,15 @@
     <string name="radio_english">English</string>
     <string name="radio_bangala">Bangla</string>
     //new post
+    <string name="text_new_post">New Post</string>
     <string name="title_activity_new_post">NewPostActivity</string>
     <string name="textview_text_post">Say something...</string>
+    <string name="text_something_went_wrong">Something went wrong..</string>
+    <string name="text_content_details">Content details</string>
+    //content details
+    <string name="text_listen">Listen</string>
+//recording
+    <string name="text_record_voice">Record voice</string>
     <string name="button_upload">Upload</string>
     <string name="button_new_post">Create New Post</string>
     <string name="title_activity_fish">FishActivity</string>
@@ -43,10 +51,12 @@
     <string name="title_activity_water">WaterActivity</string>
     <string name="title_activity_boat">BoatActivity</string>
     <string name="title_activity_others">OthersActivity</string>
+
     //content description
     <string name="contentfish">contentFish</string>
     <string name="contentothers">contentOthers</string>
-
+    <string name="title_activity_list_item_detail">ListItemDetailActivity</string>
+    <string name="title_activity_record_voice">RecordVoiceActivity</string>
 
 
 
