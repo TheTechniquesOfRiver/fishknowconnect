@@ -28,6 +28,13 @@ class NewPostViewModel() : ViewModel() {
     fun updateContent(input: String) {
         content = input
     }
+    //title update
+    var postTitle by mutableStateOf("")
+        private set
+
+    fun updateTitle(title: String) {
+        postTitle = title
+    }
 
     var postType by mutableStateOf("")
         private set
@@ -71,7 +78,7 @@ class NewPostViewModel() : ViewModel() {
         viewModelScope.launch(Dispatchers.Main) {
             mutableState.value = NewPostState.Loading
             val response = FishKnowConnectApi.retrofitService.createPost(
-                title.toRequestBody(),
+                postTitle.toRequestBody(),
                 postType.toRequestBody(),
                 content.toRequestBody(),
                 changeFileIntoMultiPartForm(),

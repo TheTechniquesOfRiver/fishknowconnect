@@ -38,6 +38,7 @@
     <string name="text_new_post">New Post</string>
     <string name="title_activity_new_post">NewPostActivity</string>
     <string name="textview_text_post">Say something...</string>
+    <string name="textview_post_title">Title</string>
     <string name="text_something_went_wrong">Something went wrong..</string>
     <string name="text_content_details">Content details</string>
     <string name="text_latest_post">Latest post</string>

@@ -36,6 +36,7 @@
     <string name="radio_english">English</string>
     <string name="radio_bangala">Bangala</string>
     //new post
+    <string name="textview_post_title">শিরোনাম</string>
     <string name="text_latest_post">সর্বশেষ পোস্ট</string>
     <string name="text_new_post">নতুন পোস্ট </string>
     <string name="title_activity_new_post">NewPostActivity</string>
