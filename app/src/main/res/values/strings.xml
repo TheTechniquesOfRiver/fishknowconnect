@@ -16,8 +16,8 @@
 
     //userprofile
     <string name="text_age">Age</string>
-    <string name="text_username">Username</string>
     <string name="text_location">Location</string>
+    <string name="text_username">Username</string>
     <string name="text_password">Password</string>
     //login
     <string name="button_login">Login</string>

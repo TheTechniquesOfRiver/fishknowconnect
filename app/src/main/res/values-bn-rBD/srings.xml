@@ -12,9 +12,9 @@
     <string name="menu_logout">লগ আউট</string>
     <string name="title_activity_select_language">SelectLanguage</string>
     //userprofile
-    <string name="text_phone">ফোন নাম্বার</string>
     <string name="text_username">ইউজার নেম</string>
-    <string name="text_id">আইডি </string>
+    <string name="text_age">বয়স </string>
+    <string name="text_location">স্থান</string>
     <string name="text_password">পাস ওয়ার্ড</string>
 
     <string name="menu_home">Home</string>
@@ -35,5 +35,16 @@
     //selectlanguage
     <string name="radio_english">English</string>
     <string name="radio_bangala">Bangala</string>
+    //new post
+    <string name="text_new_post">নতুন পোস্ট </string>
+    <string name="title_activity_new_post">NewPostActivity</string>
+    <string name="textview_text_post">কথা বলুন ..</string>
+    <string name="text_something_went_wrong">কিছু ভুল হয়েছে </string>
+    <string name="text_content_details">বিস্তারিত </string>
+    //content details
+    <string name="text_listen">শুনুন </string>
+
+    <string name="button_upload">আপ লোড </string>
+    <string name="button_new_post">নতুন পোস্ট তৈরি করুণ </string>
 
 </resources>
