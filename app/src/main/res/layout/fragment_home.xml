@@ -9,189 +9,204 @@
 
     <FrameLayout
         android:id="@+id/frameLayoutFishCategory"
-        android:layout_width="170dp"
-        android:layout_height="158dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="22dp"
         android:layout_marginTop="48dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/bordered_image_view"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayoutWaterCategory"
+        app:layout_constraintEnd_toStartOf="@+id/frameLayoutWeatherCategory"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageViewFish"
             android:layout_width="match_parent"
-            android:layout_height="114dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/contentfish"
             android:padding="0dp"
             android:src="@drawable/casting" />
 
         <TextView
             android:id="@+id/textViewFish"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
+            android:layout_gravity="bottom|center_horizontal"
             android:clickable="false"
             android:text="@string/textview_fish"
-            android:textSize="20dp"
             android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textAlignment="center"/>
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/frameLayoutWeatherCategory"
-        android:layout_width="170dp"
-        android:layout_height="158dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="22dp"
         android:background="@drawable/bordered_image_view"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayoutBoat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/frameLayoutFishCategory"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <pl.droidsonroids.gif.GifImageView
             android:id="@+id/imageViewWeather"
             android:layout_width="match_parent"
-            android:layout_height="114dp"
-            android:padding="0dp"
-            android:src="@drawable/kid" />
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            android:src="@drawable/weather" />
 
         <TextView
             android:id="@+id/textViewWeather"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/textview_weather"
-            android:layout_gravity="center"
+            android:layout_gravity="bottom|center_horizontal"
             android:layout_marginTop="50dp"
             android:clickable="false"
-            android:textSize="20dp"
+            android:text="@string/textview_weather"
             android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textAlignment="center"/>
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/frameLayoutWaterCategory"
-        android:layout_width="170dp"
-        android:layout_height="158dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="22dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/bordered_image_view"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayoutOthers"
+        app:layout_constraintEnd_toStartOf="@+id/frameLayoutBoat"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayoutFishCategory">
 
-        <ImageView
+        <pl.droidsonroids.gif.GifImageView
             android:id="@+id/imageViewWater"
             android:layout_width="match_parent"
-            android:layout_height="114dp"
-            android:src="@drawable/wave"
-            android:padding="0dp"/>
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            android:src="@drawable/wave" />
+
         <TextView
             android:id="@+id/textViewWater"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/textview_water"
-            android:layout_gravity="center"
+            android:layout_gravity="bottom|center_horizontal"
             android:layout_marginTop="50dp"
             android:clickable="false"
-            android:textSize="20dp"
+            android:text="@string/textview_water"
             android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textAlignment="center"/>
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/frameLayoutBoat"
-        android:layout_width="170dp"
-        android:layout_height="158dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="60dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="22dp"
         android:background="@drawable/bordered_image_view"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayoutApprovePost"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/frameLayoutWaterCategory"
         app:layout_constraintTop_toBottomOf="@+id/frameLayoutWeatherCategory">
 
-        <ImageView
+        <pl.droidsonroids.gif.GifImageView
             android:id="@+id/imageViewBoat"
             android:layout_width="match_parent"
-            android:layout_height="114dp"
-            android:padding="0dp"
+            android:layout_height="match_parent"
+            android:padding="2dp"
             android:src="@drawable/fishing_boat" />
 
         <TextView
             android:id="@+id/textViewBoat"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="bottom|center_horizontal"
             android:layout_marginTop="50dp"
             android:clickable="false"
             android:text="@string/textview_boat"
-            android:textSize="20dp"
             android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textAlignment="center"/>
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/frameLayoutOthers"
-        android:layout_width="170dp"
-        android:layout_height="158dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="22dp"
-        android:layout_marginTop="60dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="48dp"
         android:background="@drawable/bordered_image_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/frameLayoutApprovePost"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayoutWaterCategory">
 
         <ImageView
             android:id="@+id/imageViewOthers"
             android:layout_width="match_parent"
-            android:layout_height="114dp"
-            android:src="@drawable/other"
-            android:padding="5dp"/>
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/contentothers"
+            android:padding="2dp"
+            android:src="@drawable/application" />
 
         <TextView
             android:id="@+id/textViewOthers"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/textview_others"
-            android:layout_gravity="center"
+            android:layout_gravity="bottom|center_horizontal"
             android:layout_marginTop="50dp"
             android:clickable="false"
-            android:textSize="20dp"
+            android:text="@string/textview_others"
             android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textAlignment="center"/>
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/frameLayoutApprovePost"
-        android:layout_width="170dp"
-        android:layout_height="158dp"
-        android:layout_marginTop="60dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="22dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="48dp"
         android:background="@drawable/bordered_image_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/frameLayoutOthers"
         app:layout_constraintTop_toBottomOf="@+id/frameLayoutBoat">
 
-        <ImageView
+        <pl.droidsonroids.gif.GifImageView
             android:id="@+id/imageButton"
             android:layout_width="match_parent"
-            android:layout_height="114dp"
-            android:padding="5dp"
-            android:src="@drawable/emails__1_" />
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            android:src="@drawable/approvepost" />
 
         <TextView
             android:id="@+id/textView9"
-            android:layout_width="159dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
             android:layout_marginTop="50dp"
             android:clickable="false"
+            android:minHeight="48dp"
             android:text="@string/textview_approve_post_request"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textSize="20sp" />
     </FrameLayout>
 
 

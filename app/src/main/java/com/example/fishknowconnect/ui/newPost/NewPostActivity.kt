@@ -2,7 +2,9 @@ package com.example.fishknowconnect.ui.newPost
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -21,6 +23,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,6 +47,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -58,6 +62,8 @@ import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.newPost.ui.theme.DrawScrollableView
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
+import com.example.fishknowconnect.ui.recordVoice.RecordVoiceActivity
+import java.io.File
 import java.util.Objects
 
 class NewPostActivity : ComponentActivity() {
@@ -75,7 +81,12 @@ class NewPostActivity : ComponentActivity() {
                         color = MaterialTheme.colorScheme.background
                     ) {
                         Column {
-                            ToolBarLayout("New post")
+                            ToolBarLayout(resources.getString(R.string.text_new_post))
+//                            Image(
+//                                painter = painterResource(id = R.drawable.dog),
+//                                contentDescription = stringResource(id = R.string.text_new_post)
+//
+//                            )
                             NewPostScreen(viewModel = viewModel)
                             when (val response = viewModel.state.collectAsState().value) {
                                 NewPostState.Loading -> IndeterminateCircularIndicator()
@@ -114,6 +125,22 @@ class NewPostActivity : ComponentActivity() {
     @Composable
     fun NewPostScreen(viewModel: NewPostViewModel) {
         val context = LocalContext.current
+        val intentRecordFile = intent.getStringExtra("recordFile")
+        Log.d("result", "intentRecordFile$intentRecordFile")
+
+
+//        val mMediaPlayer = MediaPlayer.create(context, intentRecordFile)
+//        Row {
+//            // IconButton for Start Action
+//            IconButton(onClick = { mMediaPlayer.start() }) {
+//                Icon(painter = painterResource(id = R.drawable.video), contentDescription = "", Modifier.size(100.dp))
+//            }
+//
+//            // IconButton for Pause Action
+//            IconButton(onClick = { mMediaPlayer.pause() }) {
+//                Icon(painter = painterResource(id = R.drawable.video), contentDescription = "", Modifier.size(100.dp))
+//            }
+//        }
         val imageFile = context.createImageFile()
         val videoFile = context.createVideoFile()
         //gets file uri
@@ -150,6 +177,9 @@ class NewPostActivity : ComponentActivity() {
                 videoVisibility = true
                 viewModel.updateFile(videoFile)
             }
+//        if(!imageFile.exists() || !videoFile.exists()){
+//            viewModel.updateFile(File(""))
+//        }
         val launcher = rememberLauncherForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
@@ -238,7 +268,6 @@ class NewPostActivity : ComponentActivity() {
                 }
             }
             Button(onClick = {
-                Log.d("NEW POST SCREEN", "PERMISSION GRANTED${imageFile}")
                 val intentType = intent.getStringExtra("type")
                 if (intentType != null) {
                     viewModel.type(intentType)
@@ -258,15 +287,16 @@ class NewPostActivity : ComponentActivity() {
     }
 
 
-    fun recordVoice() {
-
+    private fun recordVoice() {
+//        val intent = Intent(this, RecordVoiceActivity::class.java)
+//        startActivity(intent)
     }
 
     @Composable
     fun iconRecordVoiceOver(): ImageVector {
         return remember {
             ImageVector.Builder(
-                name = "record_voice_over",
+                name = "settings_voice",
                 defaultWidth = 40.0.dp,
                 defaultHeight = 40.0.dp,
                 viewportWidth = 40.0f,
@@ -283,96 +313,89 @@ class NewPostActivity : ComponentActivity() {
                     strokeLineMiter = 1f,
                     pathFillType = PathFillType.NonZero
                 ) {
-                    moveTo(32.083f, 26.042f)
-                    quadToRelative(-0.416f, -0.417f, -0.458f, -1.042f)
-                    quadToRelative(-0.042f, -0.625f, 0.417f, -1.125f)
-                    quadToRelative(1.416f, -1.75f, 2.208f, -3.729f)
-                    quadToRelative(0.792f, -1.979f, 0.792f, -4.604f)
-                    quadToRelative(0f, -2.584f, -0.792f, -4.584f)
-                    quadToRelative(-0.792f, -2f, -2.25f, -3.75f)
-                    quadToRelative(-0.417f, -0.5f, -0.396f, -1.125f)
-                    quadToRelative(0.021f, -0.625f, 0.479f, -1.041f)
-                    quadToRelative(0.459f, -0.459f, 1.084f, -0.459f)
-                    reflectiveQuadToRelative(1f, 0.459f)
-                    quadTo(36f, 7.208f, 37.021f, 9.792f)
-                    quadToRelative(1.021f, 2.583f, 1.021f, 5.75f)
-                    quadToRelative(0f, 3.166f, -1.021f, 5.75f)
-                    quadToRelative(-1.021f, 2.583f, -2.854f, 4.75f)
-                    quadToRelative(-0.375f, 0.458f, -1f, 0.458f)
-                    reflectiveQuadToRelative(-1.084f, -0.458f)
+                    moveTo(13.208f, 39.833f)
+                    quadToRelative(-0.583f, 0f, -0.958f, -0.395f)
+                    quadToRelative(-0.375f, -0.396f, -0.375f, -0.98f)
+                    quadToRelative(0f, -0.583f, 0.375f, -0.958f)
+                    reflectiveQuadToRelative(0.958f, -0.375f)
+                    quadToRelative(0.584f, 0f, 0.98f, 0.375f)
+                    quadToRelative(0.395f, 0.375f, 0.395f, 0.958f)
+                    quadToRelative(0f, 0.584f, -0.395f, 0.98f)
+                    quadToRelative(-0.396f, 0.395f, -0.98f, 0.395f)
                     close()
-                    moveToRelative(-5.708f, -5.75f)
-                    quadToRelative(-0.333f, -0.375f, -0.396f, -0.959f)
-                    quadToRelative(-0.062f, -0.583f, 0.271f, -1.125f)
-                    quadToRelative(0.333f, -0.583f, 0.521f, -1.25f)
-                    quadToRelative(0.187f, -0.666f, 0.187f, -1.416f)
-                    quadToRelative(0f, -0.75f, -0.187f, -1.417f)
-                    quadToRelative(-0.188f, -0.667f, -0.521f, -1.25f)
-                    quadToRelative(-0.333f, -0.542f, -0.292f, -1.125f)
-                    quadToRelative(0.042f, -0.583f, 0.417f, -0.958f)
-                    quadToRelative(0.5f, -0.459f, 1.167f, -0.438f)
-                    quadToRelative(0.666f, 0.021f, 1.041f, 0.563f)
-                    quadToRelative(0.667f, 1f, 1.042f, 2.166f)
-                    quadTo(30f, 14.25f, 30f, 15.542f)
-                    quadToRelative(0f, 1.291f, -0.375f, 2.458f)
-                    quadToRelative(-0.375f, 1.167f, -1.042f, 2.167f)
-                    quadToRelative(-0.375f, 0.541f, -1.041f, 0.583f)
-                    quadToRelative(-0.667f, 0.042f, -1.167f, -0.458f)
+                    moveToRelative(6.792f, 0f)
+                    quadToRelative(-0.583f, 0f, -0.958f, -0.395f)
+                    quadToRelative(-0.375f, -0.396f, -0.375f, -0.98f)
+                    quadToRelative(0f, -0.541f, 0.375f, -0.937f)
+                    reflectiveQuadToRelative(0.958f, -0.396f)
+                    quadToRelative(0.583f, 0f, 0.979f, 0.375f)
+                    reflectiveQuadToRelative(0.396f, 0.958f)
+                    quadToRelative(0f, 0.584f, -0.396f, 0.98f)
+                    quadToRelative(-0.396f, 0.395f, -0.979f, 0.395f)
                     close()
-                    moveTo(15f, 21.792f)
-                    quadToRelative(-2.708f, 0f, -4.458f, -1.771f)
-                    reflectiveQuadToRelative(-1.75f, -4.479f)
-                    quadToRelative(0f, -2.709f, 1.75f, -4.479f)
-                    quadToRelative(1.75f, -1.771f, 4.5f, -1.771f)
-                    quadToRelative(2.666f, 0f, 4.437f, 1.771f)
-                    quadToRelative(1.771f, 1.77f, 1.771f, 4.479f)
-                    quadToRelative(0f, 2.708f, -1.771f, 4.479f)
-                    reflectiveQuadTo(15f, 21.792f)
+                    moveToRelative(6.792f, 0f)
+                    quadToRelative(-0.584f, 0f, -0.959f, -0.395f)
+                    quadToRelative(-0.375f, -0.396f, -0.375f, -0.98f)
+                    quadToRelative(0f, -0.583f, 0.375f, -0.958f)
+                    reflectiveQuadToRelative(0.959f, -0.375f)
+                    quadToRelative(0.583f, 0f, 0.979f, 0.375f)
+                    reflectiveQuadToRelative(0.396f, 0.958f)
+                    quadToRelative(0f, 0.584f, -0.396f, 0.98f)
+                    quadToRelative(-0.396f, 0.395f, -0.979f, 0.395f)
                     close()
-                    moveTo(3.25f, 34.75f)
-                    quadToRelative(-0.583f, 0f, -0.958f, -0.375f)
-                    reflectiveQuadToRelative(-0.375f, -0.917f)
-                    verticalLineToRelative(-2.666f)
-                    quadToRelative(0f, -1.5f, 0.75f, -2.604f)
-                    quadToRelative(0.75f, -1.105f, 2f, -1.73f)
-                    quadToRelative(2.083f, -1.041f, 4.833f, -1.77f)
-                    quadToRelative(2.75f, -0.73f, 5.5f, -0.73f)
-                    reflectiveQuadToRelative(5.5f, 0.73f)
-                    quadToRelative(2.75f, 0.729f, 4.875f, 1.77f)
-                    quadToRelative(1.208f, 0.625f, 1.979f, 1.73f)
-                    quadToRelative(0.771f, 1.104f, 0.771f, 2.604f)
-                    verticalLineToRelative(2.666f)
-                    quadToRelative(0f, 0.542f, -0.375f, 0.917f)
-                    reflectiveQuadToRelative(-0.958f, 0.375f)
+                    moveTo(20f, 22.625f)
+                    quadToRelative(-1.833f, 0f, -3.062f, -1.313f)
+                    quadToRelative(-1.23f, -1.312f, -1.23f, -3.187f)
+                    verticalLineTo(7.958f)
+                    quadToRelative(0f, -1.791f, 1.25f, -3.041f)
+                    reflectiveQuadTo(20f, 3.667f)
+                    quadToRelative(1.792f, 0f, 3.042f, 1.25f)
+                    quadToRelative(1.25f, 1.25f, 1.25f, 3.041f)
+                    verticalLineToRelative(10.167f)
+                    quadToRelative(0f, 1.875f, -1.23f, 3.187f)
+                    quadToRelative(-1.229f, 1.313f, -3.062f, 1.313f)
                     close()
-                    moveToRelative(1.333f, -2.625f)
-                    horizontalLineToRelative(20.875f)
-                    verticalLineToRelative(-1.333f)
-                    quadToRelative(0f, -0.584f, -0.312f, -1.104f)
-                    quadToRelative(-0.313f, -0.521f, -0.896f, -0.855f)
-                    quadToRelative(-1.833f, -1f, -4.25f, -1.604f)
-                    quadToRelative(-2.417f, -0.604f, -4.958f, -0.604f)
-                    quadToRelative(-2.584f, 0f, -5.021f, 0.625f)
-                    quadToRelative(-2.438f, 0.625f, -4.271f, 1.583f)
-                    quadToRelative(-0.5f, 0.25f, -0.833f, 0.813f)
-                    quadToRelative(-0.334f, 0.562f, -0.334f, 1.146f)
+                    moveToRelative(0f, -9.5f)
                     close()
-                    moveTo(15f, 19.167f)
-                    quadToRelative(1.583f, 0f, 2.604f, -1.042f)
-                    quadToRelative(1.021f, -1.042f, 1.021f, -2.583f)
-                    quadToRelative(0f, -1.542f, -1.021f, -2.584f)
-                    quadToRelative(-1.021f, -1.041f, -2.562f, -1.041f)
-                    quadToRelative(-1.584f, 0f, -2.604f, 1.041f)
-                    quadToRelative(-1.021f, 1.042f, -1.021f, 2.584f)
-                    quadToRelative(0f, 1.541f, 1.021f, 2.583f)
-                    quadToRelative(1.02f, 1.042f, 2.562f, 1.042f)
+                    moveToRelative(0f, 21.708f)
+                    quadToRelative(-0.542f, 0f, -0.917f, -0.375f)
+                    reflectiveQuadToRelative(-0.375f, -0.958f)
+                    verticalLineToRelative(-4.125f)
+                    quadToRelative(-4f, -0.458f, -6.791f, -3.208f)
+                    quadToRelative(-2.792f, -2.75f, -3.25f, -6.625f)
+                    quadToRelative(-0.084f, -0.584f, 0.312f, -1f)
+                    quadToRelative(0.396f, -0.417f, 1.021f, -0.417f)
+                    quadToRelative(0.458f, 0f, 0.833f, 0.354f)
+                    quadToRelative(0.375f, 0.354f, 0.459f, 0.854f)
+                    quadToRelative(0.458f, 3.209f, 2.896f, 5.334f)
+                    quadToRelative(2.437f, 2.125f, 5.812f, 2.125f)
+                    quadToRelative(3.375f, 0f, 5.812f, -2.125f)
+                    quadToRelative(2.438f, -2.125f, 2.896f, -5.334f)
+                    quadToRelative(0.084f, -0.5f, 0.459f, -0.854f)
+                    reflectiveQuadToRelative(0.875f, -0.354f)
+                    quadToRelative(0.583f, 0f, 0.979f, 0.417f)
+                    quadToRelative(0.396f, 0.416f, 0.312f, 1f)
+                    quadToRelative(-0.458f, 3.875f, -3.25f, 6.625f)
+                    quadToRelative(-2.791f, 2.75f, -6.75f, 3.208f)
+                    verticalLineTo(33.5f)
+                    quadToRelative(0f, 0.583f, -0.395f, 0.958f)
+                    quadToRelative(-0.396f, 0.375f, -0.938f, 0.375f)
                     close()
-                    moveToRelative(0.042f, -3.625f)
-                    close()
-                    moveToRelative(0f, 16.583f)
+                    moveToRelative(0f, -14.875f)
+                    quadToRelative(0.75f, 0f, 1.208f, -0.52f)
+                    quadToRelative(0.459f, -0.521f, 0.459f, -1.313f)
+                    verticalLineTo(7.958f)
+                    quadToRelative(0f, -0.708f, -0.479f, -1.187f)
+                    quadToRelative(-0.48f, -0.479f, -1.188f, -0.479f)
+                    reflectiveQuadToRelative(-1.188f, 0.479f)
+                    quadToRelative(-0.479f, 0.479f, -0.479f, 1.187f)
+                    verticalLineToRelative(10.167f)
+                    quadToRelative(0f, 0.792f, 0.459f, 1.313f)
+                    quadToRelative(0.458f, 0.52f, 1.208f, 0.52f)
                     close()
                 }
             }.build()
+
         }
     }
 
