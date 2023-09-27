@@ -35,3 +35,26 @@ jobs:
               run: |
                 docker buildx build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./backend/.
                 docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+    
+    Deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - uses: actions/checkout@v2 
+      - name: Build & Deploy
+        env:
+            PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            HOSTNAME: ${{secrets.SSH_HOST}}
+            USER_NAME: ${{secrets.USER_NAME}}
+      
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+
+              # Now we have got the access of EC2 and we will start the deploy .
+              sudo -i
+              aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 036174619429.dkr.ecr.ap-southeast-2.amazonaws.com
+              cd /root/fishknowconnect && docker-compose down
+              cd /root/fishknowconnect && docker-compose up -d
