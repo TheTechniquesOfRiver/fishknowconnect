@@ -2,7 +2,9 @@ package com.example.fishknowconnect.ui.newPost
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -21,6 +23,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,6 +47,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -58,6 +62,8 @@ import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.newPost.ui.theme.DrawScrollableView
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
+import com.example.fishknowconnect.ui.recordVoice.RecordVoiceActivity
+import java.io.File
 import java.util.Objects
 
 class NewPostActivity : ComponentActivity() {
@@ -75,7 +81,12 @@ class NewPostActivity : ComponentActivity() {
                         color = MaterialTheme.colorScheme.background
                     ) {
                         Column {
-                            ToolBarLayout("New post")
+                            ToolBarLayout(resources.getString(R.string.text_new_post))
+//                            Image(
+//                                painter = painterResource(id = R.drawable.dog),
+//                                contentDescription = stringResource(id = R.string.text_new_post)
+//
+//                            )
                             NewPostScreen(viewModel = viewModel)
                             when (val response = viewModel.state.collectAsState().value) {
                                 NewPostState.Loading -> IndeterminateCircularIndicator()
@@ -114,6 +125,22 @@ class NewPostActivity : ComponentActivity() {
     @Composable
     fun NewPostScreen(viewModel: NewPostViewModel) {
         val context = LocalContext.current
+        val intentRecordFile = intent.getStringExtra("recordFile")
+        Log.d("result", "intentRecordFile$intentRecordFile")
+
+
+//        val mMediaPlayer = MediaPlayer.create(context, intentRecordFile)
+//        Row {
+//            // IconButton for Start Action
+//            IconButton(onClick = { mMediaPlayer.start() }) {
+//                Icon(painter = painterResource(id = R.drawable.video), contentDescription = "", Modifier.size(100.dp))
+//            }
+//
+//            // IconButton for Pause Action
+//            IconButton(onClick = { mMediaPlayer.pause() }) {
+//                Icon(painter = painterResource(id = R.drawable.video), contentDescription = "", Modifier.size(100.dp))
+//            }
+//        }
         val imageFile = context.createImageFile()
         val videoFile = context.createVideoFile()
         //gets file uri
@@ -150,6 +177,9 @@ class NewPostActivity : ComponentActivity() {
                 videoVisibility = true
                 viewModel.updateFile(videoFile)
             }
+//        if(!imageFile.exists() || !videoFile.exists()){
+//            viewModel.updateFile(File(""))
+//        }
         val launcher = rememberLauncherForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
@@ -238,7 +268,6 @@ class NewPostActivity : ComponentActivity() {
                 }
             }
             Button(onClick = {
-                Log.d("NEW POST SCREEN", "PERMISSION GRANTED${imageFile}")
                 val intentType = intent.getStringExtra("type")
                 if (intentType != null) {
                     viewModel.type(intentType)
@@ -258,9 +287,9 @@ class NewPostActivity : ComponentActivity() {
     }
 
 
-    fun recordVoice() {
-
-
+    private fun recordVoice() {
+//        val intent = Intent(this, RecordVoiceActivity::class.java)
+//        startActivity(intent)
     }
 
     @Composable
