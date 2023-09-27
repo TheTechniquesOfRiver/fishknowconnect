@@ -43,7 +43,7 @@ jobs:
         
         steps:
           - uses: appleboy/ssh-action@v1.0.0
-          - name: Build & Deploy
+            name: Build & Deploy
             with:
                 key: ${{ secrets.SSH_PRIVATE_KEY }}
                 host: ${{secrets.SSH_HOST}}
