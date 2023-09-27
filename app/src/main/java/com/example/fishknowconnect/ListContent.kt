@@ -33,8 +33,8 @@ import coil.compose.rememberAsyncImagePainter
 import coil.decode.VideoFrameDecoder
 import coil.imageLoader
 import coil.util.DebugLogger
+import com.example.fishknowconnect.ui.contentDetail.ContentDetailActivity
 import com.example.fishknowconnect.ui.fish.GetAllPostResponse
-import com.example.fishknowconnect.ui.listItemDetail.ListItemDetailActivity
 import com.example.fishknowconnect.ui.newPost.ShowVideoPlayer
 
 /**
@@ -106,7 +106,7 @@ fun ListItem(item: GetAllPostResponse, context: Activity?) {
  * Open detail screen with each item
  */
 fun openItemDetailScreen(item: GetAllPostResponse, context: Activity?) {
-    val intent = Intent(context, ListItemDetailActivity::class.java).apply {
+    val intent = Intent(context, ContentDetailActivity::class.java).apply {
         putExtra("title", item.title)
         putExtra("content", item.content)
         putExtra("file_url", item.file_url)
