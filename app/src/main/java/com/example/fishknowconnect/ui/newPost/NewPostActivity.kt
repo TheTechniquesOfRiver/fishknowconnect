@@ -216,6 +216,13 @@ class NewPostActivity : ComponentActivity() {
                 ShowVideoPlayer(videoUri = capturedVideoUri)
             }
             OutlinedTextField(
+                value = viewModel.postTitle,
+                modifier = Modifier.padding(all = 16.dp),
+                onValueChange = { title -> viewModel.updateTitle(title) },
+                label = { Text(text = stringResource(R.string.textview_post_title)) },
+                minLines = 2
+            )
+            OutlinedTextField(
                 value = viewModel.content,
                 modifier = Modifier.padding(all = 16.dp),
                 onValueChange = { content -> viewModel.updateContent(content) },
