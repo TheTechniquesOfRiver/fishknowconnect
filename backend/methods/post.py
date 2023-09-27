@@ -12,9 +12,7 @@ post_module = Blueprint('post', __name__)
 
 # Define a function to upload an image to S3
 def upload_image_to_s3(image_file, image_filename):
-    path = r"C:\Users\NishadiEdirisinghe\Pictures\Screenshots"
-    s3_key = os.path.join(path, image_filename)
-    s3_client.upload_file(s3_key, config('AWS_S3'), image_filename, ExtraArgs={'ACL':'public-read'})
+    s3_client.upload_fileobj(image_file, config('AWS_S3'), image_filename, ExtraArgs={'ACL':'public-read'})
     s3_url = f"https://{config('AWS_S3')}.s3.amazonaws.com/{image_filename}"
     return s3_url
 
