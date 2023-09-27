@@ -11,6 +11,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -76,9 +77,8 @@ fun SelectLanguageOption() {
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         languageOptions.forEach { text ->
-            Row(
-                Modifier
-                    .fillMaxWidth()
+            Row(verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
                     .selectable(selected = (text == selectedOption), onClick = {
                         onOptionSelected(text)
                         //set language
@@ -93,16 +93,16 @@ fun SelectLanguageOption() {
                     })
                     .padding(horizontal = 16.dp)
             ) {
-                RadioButton(selected = (text == selectedOption), onClick = null,
-                    modifier = Modifier.padding(130.dp, 10.dp, 0.dp, 0.dp))
-                Text(
-                    text = text,
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                    ),
-                    modifier = Modifier.padding(horizontal = 16.dp, 7.dp)
-                )
+                    RadioButton(selected = (text == selectedOption), onClick = null,)
+                    Text(
+                        text = text,
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                        ),
+                        modifier = Modifier.padding(horizontal = 10.dp, 7.dp)
+                    )
+
             }
         }
     }
