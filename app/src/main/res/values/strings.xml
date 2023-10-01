@@ -45,6 +45,8 @@
     <string name="text_latest_post">Latest post</string>
     //content details
     <string name="text_listen">Listen</string>
+    <string name="text_title">Title</string>
+    <string name="text_content">Content</string>
     //recording
     <string name="text_record_voice">Record voice</string>
     <string name="button_upload">Upload</string>
@@ -61,6 +63,8 @@
     <string name="title_activity_list_item_detail">ListItemDetailActivity</string>
     <string name="title_activity_record_voice">RecordVoiceActivity</string>
     <string name="title_activity_choose_register_or_login">ChooseRegisterOrLoginActivity</string>
+    <string name="text_username_required">Username required\n</string>
+    <string name="text_password_required">Password required</string>
 
 
 </resources>

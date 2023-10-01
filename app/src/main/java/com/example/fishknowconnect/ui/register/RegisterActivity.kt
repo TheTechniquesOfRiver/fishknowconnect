@@ -86,86 +86,54 @@ class RegisterActivity : ComponentActivity() {
  */
 @Composable
 fun RegisterScreen(viewModel: RegisterViewModel) {
-    val imageLoader = ImageLoader.Builder(LocalContext.current)
-        .components {
-            if (SDK_INT >= 28) {
-                add(ImageDecoderDecoder.Factory())
-            } else {
-                add(GifDecoder.Factory())
-            }
-        }
-        .build()
     val scrollState = rememberScrollState()
-    //Box(modifier = Modifier.verticalScroll(scrollState))
-    //{
-        Column(modifier = Modifier
+    Column(
+        modifier = Modifier
             .fillMaxWidth()
-            .verticalScroll(scrollState)
-            ,horizontalAlignment = Alignment.CenterHorizontally,verticalArrangement = Arrangement.Center) {
-            //Row(verticalAlignment = Alignment.CenterVertically) {
-            //Image(
-                //painter = rememberAsyncImagePainter(R.drawable.list, imageLoader),
-                //contentDescription = null,
-                //modifier = Modifier
-                //.fillMaxWidth()
-                //.padding(0.dp, 60.dp, 0.dp, 0.dp)
-            //)
-            //}
-            //Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                text = stringResource(R.string.title_activity_register),
-                textAlign = TextAlign.Center,
-                style = TextStyle(
-                    fontSize = 48.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily.SansSerif,
-                    textAlign = TextAlign.Center
-                ),
-                //modifier = Modifier
-                //.fillMaxWidth()
-                //.padding(0.dp, 280.dp, 0.dp, 0.dp)
+            .verticalScroll(scrollState),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = stringResource(R.string.title_activity_register),
+            textAlign = TextAlign.Center,
+            style = TextStyle(
+                fontSize = 48.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.SansSerif,
+                textAlign = TextAlign.Center
             )
-            //}
-            //}
-
-            //Column(
-            //verticalArrangement = Arrangement.Center,
-            //horizontalAlignment = Alignment.CenterHorizontally,
-            //modifier = Modifier.fillMaxWidth()
-            //.padding(0.dp, 280.dp, 0.dp, 0.dp),
-            //) {
-            OutlinedTextField(value = viewModel.username,
-                onValueChange = { username -> viewModel.updateUsername(username) },
-                label = { Text(text = stringResource(R.string.text_username)) })
-            OutlinedTextField(value = viewModel.password,
-                onValueChange = { password -> viewModel.updatePassword(password) },
-                label = { Text(text = stringResource(R.string.text_password)) })
-            OutlinedTextField(value = viewModel.age,
-                onValueChange = { age -> viewModel.updateAge(age) },
-                label = { Text(text = stringResource(R.string.text_age)) })
-            OutlinedTextField(value = viewModel.location,
-                onValueChange = { location -> viewModel.updateLocation(location) },
-                label = { Text(text = stringResource(R.string.text_location)) })
-            Button(modifier = Modifier
-                .height(81.dp)
-                .width(287.dp)
-                .padding(0.dp, 10.dp), onClick = {
-                //perform registration
-                viewModel.performRegistration()
-            }) {
-                Text(text = stringResource(R.string.title_activity_register),
-                    style = TextStyle(
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black,
-                        fontFamily = FontFamily.SansSerif
-                    )
+        )
+        OutlinedTextField(value = viewModel.username,
+            onValueChange = { username -> viewModel.updateUsername(username) },
+            label = { Text(text = stringResource(R.string.text_username)) })
+        OutlinedTextField(value = viewModel.password,
+            onValueChange = { password -> viewModel.updatePassword(password) },
+            label = { Text(text = stringResource(R.string.text_password)) })
+        OutlinedTextField(value = viewModel.age,
+            onValueChange = { age -> viewModel.updateAge(age) },
+            label = { Text(text = stringResource(R.string.text_age)) })
+        OutlinedTextField(value = viewModel.location,
+            onValueChange = { location -> viewModel.updateLocation(location) },
+            label = { Text(text = stringResource(R.string.text_location)) })
+        Button(modifier = Modifier
+            .height(81.dp)
+            .width(287.dp)
+            .padding(0.dp, 10.dp), onClick = {
+            //perform registration
+            viewModel.performRegistration()
+        }) {
+            Text(
+                text = stringResource(R.string.title_activity_register), style = TextStyle(
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    fontFamily = FontFamily.SansSerif
                 )
-            }
-
+            )
         }
-    //}
 
+    }
 }
 
 /**
