@@ -1,10 +1,11 @@
-package com.example.fishknowconnect
+package com.example.fishknowconnect.ui
 
 import LocaleHelper
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -14,8 +15,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.example.fishknowconnect.R
 import com.example.fishknowconnect.databinding.ActivityNavigationDrawerBinding
-import java.util.Locale
 
 class NavigationDrawerActivity : AppCompatActivity() {
 
@@ -54,10 +55,22 @@ class NavigationDrawerActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.navigation_drawer, menu)
+        menuInflater.inflate(R.menu.activity_main_drawer, menu)
         return true
     }
 
+    // Handling the click events of the menu items
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Switching on the item id of the menu item
+        when (item.itemId) {
+            R.id.loginActivity -> {
+                // Code to be executed when the add button is clicked
+                Log.d("logout", "logout")
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_navigation_drawer)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()

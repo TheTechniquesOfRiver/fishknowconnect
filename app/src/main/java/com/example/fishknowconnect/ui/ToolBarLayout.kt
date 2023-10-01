@@ -16,7 +16,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 
 /**
  *tool bar design set up

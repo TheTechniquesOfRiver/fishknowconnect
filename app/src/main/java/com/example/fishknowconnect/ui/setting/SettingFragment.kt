@@ -3,7 +3,6 @@ package com.example.fishknowconnect.ui.setting
 import LocaleHelper
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,9 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.fishknowconnect.NavigationDrawerActivity
+import com.example.fishknowconnect.ui.NavigationDrawerActivity
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.databinding.FragmentSettingBinding
-import kotlin.math.log
 
 class SettingFragment : Fragment() {
 

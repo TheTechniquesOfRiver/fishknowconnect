@@ -21,6 +21,7 @@
     <string name="text_password">Password</string>
     //login
     <string name="button_login">Login</string>
+    <string name="text_or">OR</string>
     //home
     <string name="textview_fish">Fish</string>
     <string name="textview_weather">Weather</string>
@@ -44,7 +45,7 @@
     <string name="text_latest_post">Latest post</string>
     //content details
     <string name="text_listen">Listen</string>
-//recording
+    //recording
     <string name="text_record_voice">Record voice</string>
     <string name="button_upload">Upload</string>
     <string name="button_new_post">Create New Post</string>
@@ -53,13 +54,13 @@
     <string name="title_activity_water">WaterActivity</string>
     <string name="title_activity_boat">BoatActivity</string>
     <string name="title_activity_others">OthersActivity</string>
-
+    //registerorlogin
     //content description
     <string name="contentfish">contentFish</string>
     <string name="contentothers">contentOthers</string>
     <string name="title_activity_list_item_detail">ListItemDetailActivity</string>
     <string name="title_activity_record_voice">RecordVoiceActivity</string>
-
+    <string name="title_activity_choose_register_or_login">ChooseRegisterOrLoginActivity</string>
 
 
 </resources>

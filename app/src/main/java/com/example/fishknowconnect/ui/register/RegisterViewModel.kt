@@ -31,20 +31,20 @@ class RegisterViewModel : ViewModel() {
         password = input
     }
 
-    //phone update
-    var phone by mutableStateOf("")
+    //age update
+    var age by mutableStateOf("")
         private set
 
-    fun updatePhone(input: String) {
-        phone = input
+    fun updateAge(input: String) {
+        age = input
     }
 
-    //id update
-    var id by mutableStateOf("")
+    //location update
+    var location by mutableStateOf("")
         private set
 
-    fun updateId(input: String) {
-        id = input
+    fun updateLocation(input: String) {
+        location = input
     }
 
 
@@ -53,25 +53,25 @@ class RegisterViewModel : ViewModel() {
      */
     fun performRegistration() {
         viewModelScope.launch(Dispatchers.Main) {
-            mutableState.value = RegistrationState.Success("success")
-
-//            mutableState.value = RegistrationState.Loading
-//            val response =
-//                FishKnowConnectApi.retrofitService.register(username, password, phone, id)
-//            val registerResponse = response.body()
-//            if (registerResponse == null) {
-//                mutableState.value = RegistrationState.Error("response null value")
-//            } else {
-//                if (response.isSuccessful) {
-//                    when (response.code()) {
-//                        200  -> mutableState.value = RegistrationState.Success(registerResponse.message)
-//                    }
-//                } else {
-//                    when (response.code()) {
-//                        409 -> mutableState.value = RegistrationState.Error(registerResponse.message)
-//                    }
-//                }
-//            }
+            mutableState.value = RegistrationState.Loading
+            val response =
+                FishKnowConnectApi.retrofitService.register(username, password, age, location)
+            val registerResponse = response.body()
+            if (registerResponse == null) {
+                mutableState.value = RegistrationState.Error("response null value")
+            } else {
+                if (response.isSuccessful) {
+                    when (response.code()) {
+                        200 -> mutableState.value =
+                            RegistrationState.Success(registerResponse.message)
+                    }
+                } else {
+                    when (response.code()) {
+                        409 -> mutableState.value =
+                            RegistrationState.Error(registerResponse.message)
+                    }
+                }
+            }
 
         }
     }
