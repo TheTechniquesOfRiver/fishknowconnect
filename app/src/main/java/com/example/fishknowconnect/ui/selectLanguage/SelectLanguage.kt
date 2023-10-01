@@ -4,20 +4,14 @@ import LocaleHelper
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -27,7 +21,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -35,13 +28,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.fishknowconnect.ui.NavigationDrawerActivity
+import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.ui.login.LoginActivity
-import com.example.fishknowconnect.ui.register.RegisterActivity
 import com.example.fishknowconnect.ui.selectLanguage.ui.theme.FishKnowConnectTheme
-import java.util.Locale
 
 class SelectLanguage : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -50,7 +44,14 @@ class SelectLanguage : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background,
                 ) {
-                    SelectLanguageOption()
+                   if(PreferenceHelper.getUserLoggedInStatus(this)){
+                       val activity = (LocalContext.current as? Activity)
+                       val intent = Intent(activity, NavigationDrawerActivity::class.java)
+                       activity?.startActivity(intent)
+                       activity?.finish()
+                   }else{
+                       SelectLanguageOption()
+                   }
                 }
             }
         }
@@ -87,7 +88,7 @@ fun SelectLanguageOption() {
                         } else {
                             LocaleHelper.setLocale(mContext, "en");
                         }
-                        val intent = Intent(activity, RegisterActivity::class.java)
+                        val intent = Intent(activity, LoginActivity::class.java)
                         activity?.startActivity(intent)
                         activity?.finish()
                     })

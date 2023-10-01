@@ -39,8 +39,8 @@ interface FishKnowConnectApiService {
     suspend fun register(
         @Field("username") username: String,
         @Field("password") password: String,
-        @Field("phone") phone: String,
-        @Field("ID") id: String
+        @Field("age") age: String,
+        @Field("location") location: String
     ): Response<RegisterResponse>
 
     @Multipart
