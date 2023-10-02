@@ -2,7 +2,7 @@ from config.aws import kms_client
 from decouple import config
 from botocore.exceptions import ClientError
 
-
+#data encrypt function
 def encrypt(data):
         try:
             cipher_text = kms_client.encrypt(
@@ -14,7 +14,7 @@ def encrypt(data):
             print(f"Your ciphertext is: {cipher_text}")
             return cipher_text
 
-
+#data dencrypt function
 def decrypt(data):
         try:
             plainText = kms_client.decrypt(

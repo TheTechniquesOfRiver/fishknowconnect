@@ -4,9 +4,14 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MEd" />
 
     <uses-feature android:name="android.hardware.camera.any" />
+
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -19,6 +24,86 @@
         android:theme="@style/Theme.FishKnowConnect"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.fish.FishActivity"
+            android:exported="false"
+            android:label="@string/title_activity_record_voice"
+            android:theme="@style/Theme.FishKnowConnect" />
+        <activity
+            android:name=".ui.recordVoice.RecordVoiceActivity"
+            android:exported="false"
+            android:label="@string/title_activity_record_voice"
+            android:theme="@style/Theme.FishKnowConnect" />
+        <activity
+            android:name=".ui.contentDetail.ContentDetailActivity"
+            android:exported="false"
+            android:label="@string/title_activity_fish"
+            android:theme="@style/Theme.FishKnowConnect" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/path_provider" />
+        </provider>
+
+        <activity
+            android:name=".ui.weather.WeatherActivity"
+            android:exported="false"
+            android:label="@string/title_activity_weather"
+            android:theme="@style/Theme.FishKnowConnect" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/path_provider" />
+        </provider>
+
+        <activity
+            android:name=".ui.water.WaterActivity"
+            android:exported="false"
+            android:label="@string/title_activity_water"
+            android:theme="@style/Theme.FishKnowConnect" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/path_provider" />
+        </provider>
+
+        <activity
+            android:name=".ui.boat.BoatActivity"
+            android:exported="false"
+            android:label="@string/title_activity_boat"
+            android:theme="@style/Theme.FishKnowConnect" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/path_provider" />
+        </provider>
+
+        <activity
+            android:name=".ui.others.OthersActivity"
+            android:exported="false"
+            android:label="@string/title_activity_others"
+            android:theme="@style/Theme.FishKnowConnect" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -49,12 +134,12 @@
             android:exported="false"
             android:theme="@style/Theme.FishKnowConnect" />
         <activity
-            android:name=".NavigationDrawerActivity"
+            android:name=".ui.NavigationDrawerActivity"
             android:exported="true"
             android:label="@string/title_activity_navigation_drawer"
             android:theme="@style/Theme.FishKnowConnect" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.SplashScreenActivity"
             android:exported="true"
             android:label="@string/title_activity_navigation_drawer"
             android:theme="@style/Theme.FishKnowConnect">

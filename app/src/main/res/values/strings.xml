@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">FishKnowConnect</string>
-    <string name="title_activity_navigation_drawer">FishKnowConnect</string>
+    <string name="app_name">TechniqueOfRiver</string>
+    <string name="title_activity_navigation_drawer">TechniqueOfRiver</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Username</string>
@@ -12,14 +12,16 @@
     <string name="menu_profile">Profile</string>
     <string name="menu_setting">Setting</string>
     <string name="menu_logout">Logout</string>
-    //userprofile
+
+
     //userprofile
     <string name="text_age">Age</string>
-    <string name="text_username">Username</string>
     <string name="text_location">Location</string>
+    <string name="text_username">Username</string>
     <string name="text_password">Password</string>
     //login
     <string name="button_login">Login</string>
+    <string name="text_or">OR</string>
     //home
     <string name="textview_fish">Fish</string>
     <string name="textview_weather">Weather</string>
@@ -27,16 +29,42 @@
     <string name="textview_boat">Boat</string>
     <string name="textview_others">Others</string>
     <string name="textview_approve_post_request">7 Approve Post Request</string>
-    <string name="welcome">Welcome to Fish Know Connect\n</string>
+    <string name="welcome">Welcome to Technique Of River\n</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_select_language">SelectLanguage</string>
     //selectlanguage
     <string name="radio_english">English</string>
-    <string name="radio_bangala">Bangla</string>
+    <string name="radio_bangala">বাংলা</string>
     //new post
+    <string name="text_new_post">New Post</string>
     <string name="title_activity_new_post">NewPostActivity</string>
-    <string name="textview_text_post">Say something</string>
+    <string name="textview_text_post">Say something...</string>
+    <string name="textview_post_title">Title</string>
+    <string name="text_something_went_wrong">Something went wrong..</string>
+    <string name="text_content_details">Content details</string>
+    <string name="text_latest_post">Latest post</string>
+    //content details
+    <string name="text_listen">Listen</string>
+    <string name="text_title">Title</string>
+    <string name="text_content">Content</string>
+    //recording
+    <string name="text_record_voice">Record voice</string>
     <string name="button_upload">Upload</string>
+    <string name="button_new_post">Create New Post</string>
+    <string name="title_activity_fish">FishActivity</string>
+    <string name="title_activity_weather">WeatherActivity</string>
+    <string name="title_activity_water">WaterActivity</string>
+    <string name="title_activity_boat">BoatActivity</string>
+    <string name="title_activity_others">OthersActivity</string>
+    //registerorlogin
+    //content description
+    <string name="contentfish">contentFish</string>
+    <string name="contentothers">contentOthers</string>
+    <string name="title_activity_list_item_detail">ListItemDetailActivity</string>
+    <string name="title_activity_record_voice">RecordVoiceActivity</string>
+    <string name="title_activity_choose_register_or_login">ChooseRegisterOrLoginActivity</string>
+    <string name="text_username_required">Username required\n</string>
+    <string name="text_password_required">Password required</string>
 
 
 </resources>

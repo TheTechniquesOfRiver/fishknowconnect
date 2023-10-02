@@ -1,13 +1,41 @@
 package com.example.fishknowconnect.ui.fish
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.fishknowconnect.network.FishKnowConnectApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class FishViewModel : ViewModel() {
+    private val mutableState = MutableStateFlow<FishState>(FishState.None)
+    val state = mutableState.asStateFlow()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is fish "
+    /**
+     * fetch all content data
+     */
+    fun getAllContents() {
+        viewModelScope.launch(Dispatchers.Main) {
+            mutableState.value = FishState.Loading
+            val response =
+                FishKnowConnectApi.retrofitService.getAllPost()
+            val fishResponse = response.body()
+            if (fishResponse.isNullOrEmpty()) {
+                mutableState.value = FishState.Failure("empty response")
+            } else {
+                if (response.isSuccessful) {
+                    when (response.code()) {
+                        200  -> mutableState.value = FishState.Success(fishResponse)
+                    }
+                } else {
+                    when (response.code()) {
+                        409 -> mutableState.value = FishState.Error(fishResponse)
+                    }
+                }
+            }
+
+        }
     }
-    val text: LiveData<String> = _text
 }

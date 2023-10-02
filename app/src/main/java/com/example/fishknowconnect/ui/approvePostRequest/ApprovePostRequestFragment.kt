@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.fishknowconnect.databinding.FragmentApprovePostRequestBinding
-import com.example.fishknowconnect.databinding.FragmentBoatBinding
 
 class ApprovePostRequestFragment : Fragment() {
 
@@ -25,10 +24,6 @@ class ApprovePostRequestFragment : Fragment() {
             ViewModelProvider(this).get(ApprovePostRequestViewModel::class.java)
         _binding = FragmentApprovePostRequestBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val textView: TextView = binding.textViewApprovePostRequest
-        approvePostRequestViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         return root
     }
 

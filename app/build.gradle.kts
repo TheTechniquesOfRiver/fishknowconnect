@@ -52,6 +52,14 @@ android {
 }
 
 dependencies {
+    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     val nav_version = "2.7.1"
 
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
@@ -101,15 +109,21 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     //logging
-    implementation("com.squareup.okhttp3:logging-interceptor:3.9.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("androidx.preference:preference:1.2.1")
     //compose navigation
     implementation("androidx.navigation:navigation-compose:$nav_version")
     // Coil
     implementation("io.coil-kt:coil-compose:1.4.0")
+    implementation("io.coil-kt:coil-gif:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("io.coil-kt:coil-video:2.4.0")
     //exoplayer
     implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
     implementation ("androidx.media3:media3-session:1.1.1")
+    implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.27")
+    implementation ("androidx.preference:preference:1.2.1")
 
 }

@@ -4,6 +4,7 @@ import LocaleHelper
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -12,7 +13,12 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -22,10 +28,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.ImageLoader
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.login.LoginActivity
@@ -71,28 +86,51 @@ class RegisterActivity : ComponentActivity() {
  */
 @Composable
 fun RegisterScreen(viewModel: RegisterViewModel) {
+    val scrollState = rememberScrollState()
     Column(
-        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(all = 8.dp),
+        verticalArrangement = Arrangement.Center
     ) {
+        Text(
+            text = stringResource(R.string.title_activity_register),
+            textAlign = TextAlign.Center,
+            style = TextStyle(
+                fontSize = 48.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.SansSerif,
+                textAlign = TextAlign.Center
+            )
+        )
         OutlinedTextField(value = viewModel.username,
             onValueChange = { username -> viewModel.updateUsername(username) },
             label = { Text(text = stringResource(R.string.text_username)) })
         OutlinedTextField(value = viewModel.password,
             onValueChange = { password -> viewModel.updatePassword(password) },
             label = { Text(text = stringResource(R.string.text_password)) })
-        OutlinedTextField(value = viewModel.phone,
-            onValueChange = { phone -> viewModel.updatePhone(phone) },
+        OutlinedTextField(value = viewModel.age,
+            onValueChange = { age -> viewModel.updateAge(age) },
             label = { Text(text = stringResource(R.string.text_age)) })
-        OutlinedTextField(value = viewModel.id,
-            onValueChange = { id -> viewModel.updateId(id) },
+        OutlinedTextField(value = viewModel.location,
+            onValueChange = { location -> viewModel.updateLocation(location) },
             label = { Text(text = stringResource(R.string.text_location)) })
-        Button(onClick = {
+        Button(modifier = Modifier
+            .height(81.dp)
+            .width(287.dp)
+            .padding(0.dp, 10.dp), onClick = {
             //perform registration
             viewModel.performRegistration()
         }) {
-            Text(text = stringResource(R.string.title_activity_register))
+            Text(
+                text = stringResource(R.string.title_activity_register), style = TextStyle(
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    fontFamily = FontFamily.SansSerif
+                )
+            )
         }
 
     }
@@ -111,14 +149,6 @@ fun showDialog() {
  */
 @Composable
 fun OpenLoginScreen() {
-//    val navController = rememberNavController()
-//    NavHost(navController = navController, startDestination = "register"){
-//        composable("register"){
-//                navController.navigate("login")
-//        }
-//        composable("login"){
-//        }
-//    }
     val activity = (LocalContext.current as? Activity)
     val intent = Intent(activity, LoginActivity::class.java)
     activity?.startActivity(intent)

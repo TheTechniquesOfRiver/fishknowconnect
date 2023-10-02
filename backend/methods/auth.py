@@ -8,8 +8,10 @@ def register():
     # Get registration data from request headers or body
     username = request.form.get('username')
     password = request.form.get('password')
+    age = request.form.get('age')
+    location = request.form.get('location')
 
-
+    # check user name exists or not
     existing_user = mydb.users.find_one({'username': username})
     if existing_user:
         return jsonify({'message': 'Username already exist'}), 409
@@ -17,7 +19,7 @@ def register():
 
     try:
         # Create a new user object
-        mydb.users.insert_one({"username": username, "password": hashed_password})
+        mydb.users.insert_one({"username": username, "password": hashed_password, age: "age",location: "location" })
         return jsonify({'message': 'Successfully registered'}), 200
 
     except Exception as e:
@@ -30,11 +32,13 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
 
- # Retrieve the user from the database
-    user = mydb.users.find_one({'username': username})
-    if not user or not check_password_hash(user['password'], password):
-        return jsonify({'message': 'Invalid username or password.'}), 401
-    if user and check_password_hash(user['password'], password):
-        return jsonify({'message': 'Successfully Login'}), 200
-
-    return jsonify({'message': 'Invalid username or password'}), 401
+    #check username and password 
+    try:
+        user = mydb.users.find_one({'username': username})
+        if not user or not check_password_hash(user['password'], password):
+            return jsonify({'message': 'Invalid username or password.'}), 401
+        if user and check_password_hash(user['password'], password):
+            return jsonify({'message': 'Successfully Login'}), 200
+        return jsonify({'message': 'Invalid username or password'}), 401
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400   
