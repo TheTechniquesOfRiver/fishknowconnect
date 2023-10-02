@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
+from .encryptDecyrpt import encrypt
 from config.database import mydb
 from werkzeug.security import generate_password_hash, check_password_hash
+
 
 auth_module = Blueprint('auth', __name__)
 @auth_module.route('/register', methods=['POST'])
@@ -15,11 +17,25 @@ def register():
     existing_user = mydb.users.find_one({'username': username})
     if existing_user:
         return jsonify({'message': 'Username already exist'}), 409
+    if not username:
+        return jsonify({'message': 'Enter Username'}), 409
+    if not password:
+        return jsonify({'message': 'Enter Password'}), 409
+    
+    # Created hased password 
     hashed_password = generate_password_hash(password)
-
+    # Encrypt age and location
+    if age:
+        encrypt_age = encrypt(age)
+    else:
+        encrypt_age = None
+    if location:
+        encrypt_location = encrypt(location)
+    else:
+        encrypt_location = None
     try:
         # Create a new user object
-        mydb.users.insert_one({"username": username, "password": hashed_password, age: "age",location: "location" })
+        mydb.users.insert_one({"username": username, "password": hashed_password, "age": encrypt_age,"location": encrypt_location })
         return jsonify({'message': 'Successfully registered'}), 200
 
     except Exception as e:
@@ -31,6 +47,10 @@ def login():
     # Get login data from request headers or body
     username = request.form.get('username')
     password = request.form.get('password')
+    if not username:
+        return jsonify({'message': 'Enter Username'}), 409
+    if not password:
+        return jsonify({'message': 'Enter Password'}), 409
 
     #check username and password 
     try:
