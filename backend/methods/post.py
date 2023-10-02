@@ -1,11 +1,12 @@
 from flask import Blueprint, request, jsonify
 from config.database import mydb
 from config.aws import s3_client
-from werkzeug.utils import secure_filename
 from decouple import config
 import os
 from pathlib import Path
 from bson import ObjectId
+import pymongo
+import datetime
 
 post_module = Blueprint('post', __name__)
 
@@ -42,6 +43,7 @@ def create_post():
                 # Add the S3 URL to the post data
                 post_data['file_url'] = s3_url
 
+    post_data['timestamp'] = datetime.datetime.now()
     # Insert the new post into the 'posts' collection
     try:
         mydb.posts.insert_one(post_data)
@@ -73,6 +75,7 @@ def update_post(post_id):
                 else:
                     s3_url = s3_url + ',' + upload_image_to_s3(i, image_filename)               
 
+    post_data['timestamp'] = datetime.datetime.now()
     # Update the post in the 'posts' collection based on the post_id
     try:
         target_id = ObjectId(post_id)
@@ -98,7 +101,7 @@ def update_post(post_id):
 def get_all_posts():
     try:
         # Fetch all posts from the 'posts' collection
-        posts = list(mydb.posts.find({}))
+        posts = list(mydb.posts.find({}).sort("timestamp", pymongo.DESCENDING))
 
         # If there are no posts, return an empty list
         if not posts:
@@ -107,18 +110,38 @@ def get_all_posts():
         # Serialize the posts to JSON format
         serialized_posts = []
         for post in posts:
-            serialized_posts.append({
-                'id': str(post['_id']),
-                'title': post['title'],
-                'type': post['type'],
-                'content': post['content'],
-                'file_url': post.get('file_url', None)  # Handle posts without images
-            })
+            serialized_post = {}
+            for key, value in post.items():
+                if key == '_id':
+                    value = str(post['_id'])
+                serialized_post[key] = value
+            serialized_posts.append(serialized_post)
 
         return jsonify(serialized_posts), 200
 
     except Exception as e:
             return jsonify({'error': str(e)}), 500
+
+@post_module.route('/delete_post/<string:post_id>', methods=['DELETE'])
+def delete_post_by_id(post_id):
+    try:
+        # Convert the post_id to a BSON ObjectId
+        post_id = ObjectId(post_id)
+
+        # Check if a post with the given ID exists
+        existing_post = mydb.posts.find_one({'_id': post_id})
+
+        if existing_post is None:
+            return jsonify({'error': 'Post not found'}), 404
+
+        # Delete the post with the given ID
+        mydb.posts.delete_one({'_id': post_id})
+
+        return jsonify({'message': 'Post deleted successfully'}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
     
 @post_module.route('/get_post_by_id/<string:post_id>', methods=['GET'])
 def get_post_by_id(post_id):
@@ -132,13 +155,14 @@ def get_post_by_id(post_id):
             return jsonify([])
 
         # Serialize the post to JSON format
-        serialized_post = {
-            'id': str(post['_id']),
-            'title': post['title'],
-            'type': post['type'],
-            'content': post['content'],
-            'file_url': post.get('file_url', None)  # Handle posts without images
-        }
+        serialized_posts = []
+        
+        serialized_post = {}
+        for key, value in post.items():
+            if key == '_id':
+                value = str(post['_id'])
+            serialized_post[key] = value
+        serialized_posts.append(serialized_post)
 
         return jsonify(serialized_post), 200
 
