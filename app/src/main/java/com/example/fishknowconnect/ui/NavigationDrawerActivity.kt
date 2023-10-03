@@ -1,12 +1,14 @@
 package com.example.fishknowconnect.ui
 
 import LocaleHelper
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -28,6 +30,7 @@ class NavigationDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityNavigationDrawerBinding
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNavigationDrawerBinding.inflate(layoutInflater)
@@ -39,6 +42,9 @@ class NavigationDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
         }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
+        val headerView = navView.getHeaderView(0)
+        val textviewHeaderUsername = headerView.findViewById<TextView>(R.id.textViewUsername)
+        textviewHeaderUsername.text = resources.getString(R.string.text_welcome) + " " +PreferenceHelper.getLoggedInUsernameUser(this)
         val navController = findNavController(R.id.nav_host_fragment_content_navigation_drawer)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -49,6 +55,7 @@ class NavigationDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
     }
 
     /**

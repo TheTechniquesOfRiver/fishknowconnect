@@ -31,10 +31,11 @@ class LoginActivity : AppCompatActivity() {
             ViewModelProvider(this, loginViewModelFactory).get(LoginViewModel::class.java);
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         //intialization
-        val buttonLogin = findViewById<Button>(R.id.buttonLogin)
-        val buttonRegister = findViewById<Button>(R.id.buttonRegister)
-        val edittextUsername = findViewById<EditText>(R.id.editTextTextUsername)
-        val edittextPassword = findViewById<EditText>(R.id.editTextTextPassword)
+        val buttonLogin = binding.buttonLogin
+        val buttonRegister = binding.buttonRegister
+        val edittextUsername = binding.editTextTextUsername
+        val edittextPassword = binding.editTextTextPassword
+
         //onclick for register
         buttonRegister.setOnClickListener(View.OnClickListener {
             val i = Intent(this@LoginActivity, RegisterActivity::class.java)
@@ -43,28 +44,34 @@ class LoginActivity : AppCompatActivity() {
         })
         //onclick for login
         buttonLogin.setOnClickListener(View.OnClickListener {
-            if (edittextUsername.text.toString().isEmpty()) {
-                edittextUsername.error = resources.getString(R.string.text_username_required)
-            } else if (edittextPassword.text.toString().isEmpty()) {
-                edittextPassword.error = resources.getString(R.string.text_password_required)
-            } else {
-                val postData =
-                    LoginData(edittextUsername.text.toString(), edittextPassword.text.toString())
-                loginViewModel.getLogin(postData)
-                loginViewModel.onLoginSuccess.observe(this) { onSuccessLogin ->
-                    if (onSuccessLogin) {
-                        PreferenceHelper.setUserLoggedInStatus(this, true)
-                        val i = Intent(this@LoginActivity, NavigationDrawerActivity::class.java)
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                        startActivity(i)
-                        finish()
-                    }
-                }
-                loginViewModel.onLoginFailure.observe(this) { onFailureLoginMessage ->
-                    Toast.makeText(this, onFailureLoginMessage, Toast.LENGTH_SHORT).show()
+            performLogin(edittextUsername, edittextPassword)
+        })
+    }
+
+    private fun performLogin(edittextUsername: EditText, edittextPassword: EditText) {
+        val username =  edittextUsername.text.trim().toString();
+        if (username.isEmpty()) {
+            edittextUsername.error = resources.getString(R.string.text_username_required)
+        } else if (edittextPassword.text.toString().isEmpty()) {
+            edittextPassword.error = resources.getString(R.string.text_password_required)
+        } else {
+            val postData =
+                LoginData(username, edittextPassword.text.toString())
+            loginViewModel.getLogin(postData)
+            loginViewModel.onLoginSuccess.observe(this) { onSuccessLogin ->
+                if (onSuccessLogin) {
+                    PreferenceHelper.setUserLoggedInStatus(this, true)
+                    PreferenceHelper.setLoggedInUserUsername(this, username)
+                    val i = Intent(this@LoginActivity, NavigationDrawerActivity::class.java)
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(i)
+                    finish()
                 }
             }
-        })
+            loginViewModel.onLoginFailure.observe(this) { onFailureLoginMessage ->
+                Toast.makeText(this, onFailureLoginMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }
