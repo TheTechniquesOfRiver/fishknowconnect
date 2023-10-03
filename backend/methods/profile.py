@@ -6,7 +6,7 @@ profile_module = Blueprint('profile', __name__)
 #get profile route
 @profile_module.route("/get_profile", methods=['GET'])
 def getProfile():
-    username = request.form.get('username')
+    username = request.args.get('username')
     if username:
         profile = mydb.users.find_one({"username": username})
     #return responce convert into json formate
