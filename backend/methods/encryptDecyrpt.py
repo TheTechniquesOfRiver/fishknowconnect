@@ -11,7 +11,6 @@ def encrypt(data):
             print("Couldn't encrypt text. Here's why: %s",
                   err.response['Error']['Message'])
         else:
-            print(f"Your ciphertext is: {cipher_text}")
             return cipher_text
 
 #data dencrypt function
@@ -23,5 +22,4 @@ def decrypt(data):
             print("Couldn't decrypt your ciphertext. Here's why: %s",
                     err.response['Error']['Message'])
         else:
-            print(f"Your plian text is: {plainText}")
             return plainText
