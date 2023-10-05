@@ -3,6 +3,7 @@ package com.example.fishknowconnect.network
 import com.example.fishknowconnect.ui.fish.GetAllPostResponse
 import com.example.fishknowconnect.ui.login.LoginResponse
 import com.example.fishknowconnect.ui.newPost.NewPostResponse
+import com.example.fishknowconnect.ui.profile.ProfileResponse
 import com.example.fishknowconnect.ui.register.RegisterResponse
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -17,6 +18,8 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 private const val BASE_URL = "http://13.236.94.194:3000/"
 //private const val BASE_URL = "http://127.0.0.1:3000/"
@@ -55,6 +58,11 @@ interface FishKnowConnectApiService {
 
     @GET("get_all_posts")
     suspend fun getAllPost(): Response<List<GetAllPostResponse>>
+
+    @GET("get_profile?")
+    suspend fun getProfileInfo(
+        @Query("username") username: String
+    ): Response<ProfileResponse>
 }
 
 object FishKnowConnectApi {

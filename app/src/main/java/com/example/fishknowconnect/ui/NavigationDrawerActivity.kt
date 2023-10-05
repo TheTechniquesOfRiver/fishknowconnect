@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -75,6 +74,7 @@ class NavigationDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
         when (item.itemId) {
             R.id.loginActivity -> {
                 PreferenceHelper.setUserLoggedInStatus(this, false)
+                PreferenceHelper.setLoggedInUserUsername(this, "")
                 val intent = Intent(this,LoginActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
