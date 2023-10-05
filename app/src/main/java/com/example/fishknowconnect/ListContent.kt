@@ -2,6 +2,7 @@ package com.example.fishknowconnect
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +26,8 @@ import coil.compose.rememberAsyncImagePainter
 import coil.decode.VideoFrameDecoder
 import com.example.fishknowconnect.ui.contentDetail.ContentDetailActivity
 import com.example.fishknowconnect.ui.fish.GetAllPostResponse
+import com.example.fishknowconnect.ui.newPost.ShowAudioPlayer
+import com.example.fishknowconnect.ui.newPost.ShowVideoPlayer
 
 /**
  * Display all list
@@ -73,20 +76,23 @@ fun ListItem(item: GetAllPostResponse, context: Activity?) {
                 .padding(0.dp, 0.dp, 16.dp, 0.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Image(
-            modifier = Modifier
-                .padding(16.dp, 8.dp)
-                .height(240.dp),
-            painter = rememberAsyncImagePainter(item.file_url),
-            contentDescription = null
-        )
-//    if(videourl)
-//        Image(
-//            painterResource(R.drawable.video),
-//            contentDescription = "",
-//            contentScale = ContentScale.FillWidth,
-//            alignment = Alignment.Center,
-//        )
+        when (item.fileType) {
+            "image" -> {
+                Image(
+                    modifier = Modifier
+                        .padding(16.dp, 8.dp)
+                        .height(240.dp),
+                    painter = rememberAsyncImagePainter(item.file_url),
+                    contentDescription = null
+                )
+            }
+            "video" -> {
+                ShowVideoPlayer(videoUri = Uri.parse(item.file_url))
+            }
+            "audio" -> {
+                ShowAudioPlayer(item.file_url)
+            }
+        }
     }
     Divider()
 }
@@ -99,6 +105,7 @@ fun openItemDetailScreen(item: GetAllPostResponse, context: Activity?) {
         putExtra("title", item.title)
         putExtra("content", item.content)
         putExtra("file_url", item.file_url)
+        putExtra("fileType", item.fileType)
     }
     context?.startActivity(intent)
 }
