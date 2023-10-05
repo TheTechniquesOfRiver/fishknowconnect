@@ -61,7 +61,6 @@ class FishActivity : ComponentActivity() {
                             is FishState.Success -> responseValue.response?.let {
                                 DisplayList(it, context)
                             }
-
                             is FishState.Error -> ShowErrorMessage()
                             else -> {
                             }
@@ -70,8 +69,6 @@ class FishActivity : ComponentActivity() {
                 }
             }
         }
-
-
     }
 
 
@@ -107,9 +104,9 @@ fun ShowErrorMessage() {
  */
 @Composable
 fun FishScreen(name: String, viewModel: FishViewModel) {
-    LaunchedEffect(Unit, block = {
-        viewModel.getAllContents()
-    })
+//    LaunchedEffect(Unit, block = {
+//        viewModel.getAllContents()
+//    })
     val activity = (LocalContext.current as? Activity)
     //create new post button
     Column(

@@ -65,6 +65,7 @@
     <string name="title_activity_choose_register_or_login">ChooseRegisterOrLoginActivity</string>
     <string name="text_username_required">Username required\n</string>
     <string name="text_password_required">Password required</string>
+    <string name="text_welcome">Welcome</string>
 
 
 </resources>

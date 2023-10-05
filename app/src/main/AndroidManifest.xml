@@ -130,10 +130,12 @@
             android:label="@string/title_activity_register"
             android:theme="@style/Theme.FishKnowConnect" />
         <activity
+            android:noHistory="true"
             android:name=".ui.login.LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.FishKnowConnect" />
         <activity
+            android:noHistory="true"
             android:name=".ui.NavigationDrawerActivity"
             android:exported="true"
             android:label="@string/title_activity_navigation_drawer"
