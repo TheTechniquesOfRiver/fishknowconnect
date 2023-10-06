@@ -60,7 +60,9 @@ class NewPostViewModel(
 
     fun updateFileType(type: String) {
         fileType = type
-    } var access by mutableStateOf("")
+    }
+
+    var access by mutableStateOf("")
         private set
 
     fun updateAccess(accessType: String) {

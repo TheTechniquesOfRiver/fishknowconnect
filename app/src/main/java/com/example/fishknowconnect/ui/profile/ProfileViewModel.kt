@@ -6,23 +6,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.network.FishKnowConnectApi
-import com.example.fishknowconnect.ui.register.RegistrationState
+import com.example.fishknowconnect.network.FishKnowConnectApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
-class ProfileViewModel : ViewModel() {
+class ProfileViewModel(
+    preferenceHelper: PreferenceHelper,
+    private val retrofitService: FishKnowConnectApiService
+) : ViewModel() {
     private val mutableState = MutableStateFlow<ProfileState>(ProfileState.None)
     val state = mutableState.asStateFlow()
-    private var username by mutableStateOf("")
-        private set
-
-    fun _username(sharedPrefUsername: String) {
-        username = sharedPrefUsername
-    }
+    var username = preferenceHelper.getLoggedInUsernameUser()
 
     /**
      * fetch profile data
@@ -30,7 +28,7 @@ class ProfileViewModel : ViewModel() {
     fun getProfileInfo() {
         viewModelScope.launch(Dispatchers.Main) {
             mutableState.value = ProfileState.Loading
-            val response = FishKnowConnectApi.retrofitService.getProfileInfo(username)
+            val response = retrofitService.getProfileInfo(username)
             val profileResponse = response.body()
             if (response.isSuccessful) {
                 when (response.code()) {
