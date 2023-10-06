@@ -5,7 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.network.FishKnowConnectApi
+import com.example.fishknowconnect.network.FishKnowConnectApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +19,10 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
-class NewPostViewModel() : ViewModel() {
+class NewPostViewModel(
+    private val preferenceHelper: PreferenceHelper,
+    private  val retrofitService: FishKnowConnectApiService
+) : ViewModel() {
     private val mutableState = MutableStateFlow<NewPostState>(NewPostState.None)
     val state = mutableState.asStateFlow()
 
@@ -55,6 +60,11 @@ class NewPostViewModel() : ViewModel() {
 
     fun updateFileType(type: String) {
         fileType = type
+    } var access by mutableStateOf("")
+        private set
+
+    fun updateAccess(accessType: String) {
+        access = accessType
     }
     /**
      * Converts file into multipart form for post
@@ -77,12 +87,14 @@ class NewPostViewModel() : ViewModel() {
     fun uploadPictureToServer(title: String) {
         viewModelScope.launch(Dispatchers.Main) {
             mutableState.value = NewPostState.Loading
-            val response = FishKnowConnectApi.retrofitService.createPost(
+            val response = retrofitService.createPost(
                 postTitle.toRequestBody(),
                 postType.toRequestBody(),
                 content.toRequestBody(),
                 changeFileIntoMultiPartForm(),
-                fileType.toRequestBody()
+                fileType.toRequestBody(),
+                access.toRequestBody(),
+                preferenceHelper.getLoggedInUsernameUser().toRequestBody()
             )
             val newPostResponse = response.body()
             if (newPostResponse == null) {

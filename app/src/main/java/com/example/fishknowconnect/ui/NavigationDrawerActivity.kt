@@ -28,6 +28,7 @@ class NavigationDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityNavigationDrawerBinding
+     lateinit var preferenceHelper: PreferenceHelper
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +44,8 @@ class NavigationDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
         val navView: NavigationView = binding.navView
         val headerView = navView.getHeaderView(0)
         val textviewHeaderUsername = headerView.findViewById<TextView>(R.id.textViewUsername)
-        textviewHeaderUsername.text = resources.getString(R.string.text_welcome) + " " +PreferenceHelper.getLoggedInUsernameUser(this)
+        preferenceHelper = PreferenceHelper.getInstance(applicationContext)
+        textviewHeaderUsername.text = resources.getString(R.string.text_welcome) + " " +preferenceHelper.getLoggedInUsernameUser()
         val navController = findNavController(R.id.nav_host_fragment_content_navigation_drawer)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -73,8 +75,8 @@ class NavigationDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.loginActivity -> {
-                PreferenceHelper.setUserLoggedInStatus(this, false)
-                PreferenceHelper.setLoggedInUserUsername(this, "")
+                preferenceHelper.setUserLoggedInStatus(false)
+                preferenceHelper.setLoggedInUserUsername( "")
                 val intent = Intent(this,LoginActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)

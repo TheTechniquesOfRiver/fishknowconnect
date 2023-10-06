@@ -20,16 +20,21 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     lateinit var loginViewModel: LoginViewModel
     lateinit var loginViewModelFactory: LoginViewModelFactory
+     lateinit var preferenceHelper: PreferenceHelper
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        PreferenceHelper.setUserLoggedInStatus(this, false)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.lifecycleOwner = this
         //viewmodel
         loginViewModelFactory = LoginViewModelFactory()
         loginViewModel =
             ViewModelProvider(this, loginViewModelFactory).get(LoginViewModel::class.java);
-        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        preferenceHelper = PreferenceHelper.getInstance(applicationContext)
+        preferenceHelper.setUserLoggedInStatus(false)
+
+//        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         //intialization
         val buttonLogin = binding.buttonLogin
         val buttonRegister = binding.buttonRegister
@@ -60,8 +65,8 @@ class LoginActivity : AppCompatActivity() {
             loginViewModel.getLogin(postData)
             loginViewModel.onLoginSuccess.observe(this) { onSuccessLogin ->
                 if (onSuccessLogin) {
-                    PreferenceHelper.setUserLoggedInStatus(this, true)
-                    PreferenceHelper.setLoggedInUserUsername(this, username)
+                    preferenceHelper.setUserLoggedInStatus(true)
+                    preferenceHelper.setLoggedInUserUsername(username)
                     val i = Intent(this@LoginActivity, NavigationDrawerActivity::class.java)
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(i)

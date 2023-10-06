@@ -6,7 +6,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -25,12 +24,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,17 +42,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.rememberAsyncImagePainter
+import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.network.FishKnowConnectApi
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.newPost.ui.theme.DrawScrollableView
@@ -66,9 +68,14 @@ import java.io.File
 import java.util.Objects
 
 class NewPostActivity : ComponentActivity() {
+    lateinit var newPostViewModelFactory: NewPostViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val viewModel: NewPostViewModel by viewModels()
+        newPostViewModelFactory = NewPostViewModelFactory(
+            PreferenceHelper.getInstance(applicationContext), FishKnowConnectApi.retrofitService
+        )
+        val viewModel: NewPostViewModel by viewModels(factoryProducer = { newPostViewModelFactory })
+
         super.onCreate(savedInstanceState)
         setContent {
             FishKnowConnectTheme {
@@ -125,6 +132,10 @@ class NewPostActivity : ComponentActivity() {
     @Composable
     fun NewPostScreen(viewModel: NewPostViewModel) {
         val context = LocalContext.current
+        val languageOptions = listOf(
+            stringResource(R.string.text_radio_private), stringResource(R.string.text_radio_public)
+        )
+        val (selectedOption, onOptionSelected) = remember { mutableStateOf(languageOptions[1]) }
         val intentRecordFile = intent.getStringExtra("recordFile")
 
         //get image file
@@ -231,6 +242,37 @@ class NewPostActivity : ComponentActivity() {
                 label = { Text(text = stringResource(R.string.textview_text_post)) },
                 minLines = 5
             )
+            Text(
+                text = stringResource(id = R.string.text_who_can_see), style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                ), modifier = Modifier.padding(horizontal = 10.dp, 7.dp)
+            )
+            languageOptions.forEach { text ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .selectable(selected = (text == selectedOption), onClick = {
+                            onOptionSelected(text)
+                            //set access
+                            if (text == "Share privately") {
+                                viewModel.updateAccess("private")
+                            } else {
+                                viewModel.updateAccess("public")
+                            }
+                        })
+                        .padding(horizontal = 16.dp)
+                ) {
+                    RadioButton(selected = (text == selectedOption), onClick = null)
+                    Text(
+                        text = text, style = TextStyle(
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                        ), modifier = Modifier.padding(horizontal = 10.dp, 7.dp)
+                    )
+
+                }
+            }
             Row(
                 modifier = Modifier.padding(all = 8.dp),
             ) {

@@ -10,12 +10,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,6 +44,7 @@ import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.fish.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
+import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
 
 class FishActivity : ComponentActivity() {
     val viewModel: FishViewModel by viewModels()
@@ -61,6 +64,7 @@ class FishActivity : ComponentActivity() {
                             is FishState.Success -> responseValue.response?.let {
                                 DisplayList(it, context)
                             }
+
                             is FishState.Error -> ShowErrorMessage()
                             else -> {
                             }
@@ -104,17 +108,33 @@ fun ShowErrorMessage() {
  */
 @Composable
 fun FishScreen(name: String, viewModel: FishViewModel) {
-//    LaunchedEffect(Unit, block = {
-//        viewModel.getAllContents()
-//    })
+
     val activity = (LocalContext.current as? Activity)
-    //create new post button
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(PaddingValues(horizontal = 16.dp, vertical = 0.dp)),
-        horizontalAlignment = Alignment.End,
-    ) {
+    Row() {
+        //private post button
+        Button(modifier = Modifier.padding(vertical = 25.dp), onClick = {
+            //start new post screen
+            val intent = Intent(activity, PrivatePostActivity::class.java).apply {}
+            activity?.startActivity(intent)
+        }) {
+            Text(
+                text = stringResource(id = R.string.button_private_post),
+                textAlign = TextAlign.Left,
+                style = TextStyle(
+                    fontSize = 20.sp, color = Color.White, fontFamily = FontFamily.SansSerif
+                )
+            )
+            Icon(
+                imageVector = Icons.Default.List,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(40.dp)
+                    .padding(start = 5.dp)
+            )
+
+        }
+        //create new post button
+
         Button(modifier = Modifier.padding(vertical = 25.dp), onClick = {
             //start new post screen
             val intent = Intent(activity, NewPostActivity::class.java).apply {
@@ -138,6 +158,7 @@ fun FishScreen(name: String, viewModel: FishViewModel) {
             )
         }
     }
+
     //title
     Text(
         text = stringResource(id = R.string.text_latest_post), style = TextStyle(

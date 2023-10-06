@@ -43,6 +43,9 @@
     <string name="text_something_went_wrong">Something went wrong..</string>
     <string name="text_content_details">Content details</string>
     <string name="text_latest_post">Latest post</string>
+    <string name="text_radio_private">Share privately</string>
+    <string name="text_radio_public">Share with everyone</string>
+    <string name="text_who_can_see">Who can see?</string>
     //content details
     <string name="text_listen">Listen</string>
     <string name="text_title">Title</string>
@@ -50,7 +53,8 @@
     //recording
     <string name="text_record_voice">Record voice</string>
     <string name="button_upload">Upload</string>
-    <string name="button_new_post">Create New Post</string>
+    <string name="button_new_post">New Post</string>
+    <string name="button_private_post">Private Post</string>
     <string name="title_activity_fish">FishActivity</string>
     <string name="title_activity_weather">WeatherActivity</string>
     <string name="title_activity_water">WaterActivity</string>
@@ -66,6 +70,9 @@
     <string name="text_username_required">Username required\n</string>
     <string name="text_password_required">Password required</string>
     <string name="text_welcome">Welcome</string>
+    <string name="title_activity_private_post">PrivatePostActivity</string>
+    //privatepost
+    <string name="text_request_access">Request access</string>
 
 
 </resources>

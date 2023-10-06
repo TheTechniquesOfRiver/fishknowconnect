@@ -20,7 +20,7 @@ class FishViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.Main) {
             mutableState.value = FishState.Loading
             val response =
-                FishKnowConnectApi.retrofitService.getAllPost()
+                FishKnowConnectApi.retrofitService.getAllPublicPost()
             val fishResponse = response.body()
             if (fishResponse.isNullOrEmpty()) {
                 mutableState.value = FishState.Failure("empty response")

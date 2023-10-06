@@ -25,6 +25,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.privatePost.PrivatePostActivity"
+            android:exported="false"
+            android:label="@string/title_activity_private_post"
+            android:theme="@style/Theme.FishKnowConnect" />
+        <activity
             android:name=".ui.fish.FishActivity"
             android:exported="false"
             android:label="@string/title_activity_record_voice"
@@ -130,15 +135,15 @@
             android:label="@string/title_activity_register"
             android:theme="@style/Theme.FishKnowConnect" />
         <activity
-            android:noHistory="true"
             android:name=".ui.login.LoginActivity"
             android:exported="false"
+            android:noHistory="true"
             android:theme="@style/Theme.FishKnowConnect" />
         <activity
-            android:noHistory="true"
             android:name=".ui.NavigationDrawerActivity"
             android:exported="true"
             android:label="@string/title_activity_navigation_drawer"
+            android:noHistory="true"
             android:theme="@style/Theme.FishKnowConnect" />
         <activity
             android:name=".ui.SplashScreenActivity"
