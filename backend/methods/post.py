@@ -191,7 +191,7 @@ def get_public_posts():
                 serialized_post[key] = value
             serialized_posts.append(serialized_post)
 
-        return jsonify(serialized_post), 200
+        return jsonify(serialized_posts), 200
 
     except Exception as e:
             return jsonify({'error': str(e)}), 500
@@ -219,7 +219,7 @@ def get_private_posts():
                 serialized_post[key] = value
             serialized_posts.append(serialized_post)
             
-        return jsonify(serialized_post), 200
+        return jsonify(serialized_posts), 200
 
     except Exception as e:
             return jsonify({'error': str(e)}), 500
