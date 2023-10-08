@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.net.ProtocolException
 
 class FishViewModel : ViewModel() {
     private val mutableState = MutableStateFlow<FishState>(FishState.None)
@@ -19,21 +20,25 @@ class FishViewModel : ViewModel() {
     fun getAllContents() {
         viewModelScope.launch(Dispatchers.Main) {
             mutableState.value = FishState.Loading
-            val response =
-                FishKnowConnectApi.retrofitService.getAllPost()
-            val fishResponse = response.body()
-            if (fishResponse.isNullOrEmpty()) {
-                mutableState.value = FishState.Failure("empty response")
-            } else {
-                if (response.isSuccessful) {
-                    when (response.code()) {
-                        200  -> mutableState.value = FishState.Success(fishResponse)
-                    }
+            try {
+                val response =
+                    FishKnowConnectApi.retrofitService.getAllPublicPost()
+                val fishResponse = response.body()
+                if (fishResponse.isNullOrEmpty()) {
+                    mutableState.value = FishState.Failure("empty response")
                 } else {
-                    when (response.code()) {
-                        409 -> mutableState.value = FishState.Error(fishResponse)
+                    if (response.isSuccessful) {
+                        when (response.code()) {
+                            200  -> mutableState.value = FishState.Success(fishResponse)
+                        }
+                    } else {
+                        when (response.code()) {
+                            409 -> mutableState.value = FishState.Error(fishResponse)
+                        }
                     }
                 }
+            }catch (_: ProtocolException){
+
             }
 
         }

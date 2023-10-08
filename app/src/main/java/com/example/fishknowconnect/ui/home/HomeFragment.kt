@@ -36,10 +36,6 @@ class HomeFragment : Fragment(), OnClickListener {
         view.findViewById<ImageView>(R.id.imageButton).setOnClickListener(this)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
     /**
      * upon imageview click
      */

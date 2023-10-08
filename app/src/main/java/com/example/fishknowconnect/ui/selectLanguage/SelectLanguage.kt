@@ -44,7 +44,7 @@ class SelectLanguage : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background,
                 ) {
-                   if(PreferenceHelper.getUserLoggedInStatus(this)){
+                   if(PreferenceHelper.getInstance(applicationContext).getUserLoggedInStatus()){
                        val activity = (LocalContext.current as? Activity)
                        val intent = Intent(activity, NavigationDrawerActivity::class.java)
                        activity?.startActivity(intent)

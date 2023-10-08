@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.await
 import retrofit2.awaitResponse
+import java.net.ProtocolException
 
 class LoginViewModel() : ViewModel() {
     private var _onLoginSuccess = MutableLiveData<Boolean>()
@@ -27,12 +28,16 @@ class LoginViewModel() : ViewModel() {
      */
     fun getLogin(loginData: LoginData) {
         viewModelScope.launch(Dispatchers.Main) {
-            val response =
-                FishKnowConnectApi.retrofitService.login(loginData.username, loginData.password)
-            if (response.isSuccessful) {
-                _onLoginSuccess.value = true
-            }else{
-                _onLoginFailure.value = "Login failure. Please check username or password"
+            try {
+                val response =
+                    FishKnowConnectApi.retrofitService.login(loginData.username, loginData.password)
+                if (response.isSuccessful) {
+                    _onLoginSuccess.value = true
+                } else {
+                    _onLoginFailure.value = "Login failure. Please check username or password"
+                }
+            } catch (_: ProtocolException) {
+
             }
         }
     }
