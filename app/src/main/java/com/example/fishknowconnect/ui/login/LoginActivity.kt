@@ -32,7 +32,6 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel =
             ViewModelProvider(this, loginViewModelFactory).get(LoginViewModel::class.java);
         preferenceHelper = PreferenceHelper.getInstance(applicationContext)
-        preferenceHelper.setUserLoggedInStatus(false)
 
 //        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         //intialization

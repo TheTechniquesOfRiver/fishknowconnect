@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.net.ProtocolException
 
 class PrivatePostViewModel : ViewModel() {
     private val mutableState = MutableStateFlow<PrivatePostState>(PrivatePostState.None)
@@ -19,21 +20,25 @@ class PrivatePostViewModel : ViewModel() {
     fun getAllPrivatePostContent() {
         viewModelScope.launch(Dispatchers.Main) {
             mutableState.value = PrivatePostState.Loading
-            val response =
-                FishKnowConnectApi.retrofitService.getAllPrivatePost()
-            val privatePostResponse = response.body()
-            if (privatePostResponse.isNullOrEmpty()) {
-                mutableState.value = PrivatePostState.Failure("empty response")
-            } else {
-                if (response.isSuccessful) {
-                    when (response.code()) {
-                        200  -> mutableState.value = PrivatePostState.Success(privatePostResponse)
-                    }
+            try {
+                val response = FishKnowConnectApi.retrofitService.getAllPrivatePost()
+                val privatePostResponse = response.body()
+                if (privatePostResponse.isNullOrEmpty()) {
+                    mutableState.value = PrivatePostState.Failure("empty response")
                 } else {
-                    when (response.code()) {
-                        409 -> mutableState.value = PrivatePostState.Error(privatePostResponse)
+                    if (response.isSuccessful) {
+                        when (response.code()) {
+                            200 -> mutableState.value =
+                                PrivatePostState.Success(privatePostResponse)
+                        }
+                    } else {
+                        when (response.code()) {
+                            409 -> mutableState.value = PrivatePostState.Error(privatePostResponse)
+                        }
                     }
                 }
+            } catch (_: ProtocolException) {
+
             }
 
         }
@@ -46,8 +51,7 @@ class PrivatePostViewModel : ViewModel() {
     fun sendRequestToAccessPost(_id: String) {
         viewModelScope.launch(Dispatchers.Main) {
             mutableState.value = PrivatePostState.Loading
-            val response =
-                FishKnowConnectApi.retrofitService.sendPostAccessRequest(_id)
+            val response = FishKnowConnectApi.retrofitService.sendPostAccessRequest(_id)
 //            val privatePostAccessResponse = response.body()
 //            if (privatePostAccessResponse.isNullOrEmpty()) {
 //                mutableState.value = PrivatePostState.Failure("empty response")

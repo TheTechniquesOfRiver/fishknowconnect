@@ -13,6 +13,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -86,10 +87,6 @@ class RegisterActivity : ComponentActivity() {
     }
 }
 
-private fun isUsernameEmpty(username: String): Boolean {
-    return username.trim().isEmpty()
-}
-
 /**
  * Main Screen
  *
@@ -98,7 +95,6 @@ private fun isUsernameEmpty(username: String): Boolean {
 fun RegisterScreen(viewModel: RegisterViewModel) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -118,21 +114,27 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
         )
         OutlinedTextField(
             value = viewModel.username,
+            maxLines = 1,
             onValueChange = { username ->
                 viewModel.updateUsername(username)
             },
             label = { Text(text = stringResource(R.string.text_username)) },
         )
-        OutlinedTextField(value = viewModel.password, onValueChange = { password ->
+        OutlinedTextField(value = viewModel.password,
+            maxLines = 1,
+            onValueChange = { password ->
             viewModel.updatePassword(password)
         }, label = { Text(text = stringResource(R.string.text_password)) })
         OutlinedTextField(value = viewModel.age,
+            maxLines = 1,
             onValueChange = { age ->
                 viewModel.updateAge(age)
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             label = { Text(text = stringResource(R.string.text_age)) })
-        OutlinedTextField(value = viewModel.location, onValueChange = { location ->
+        OutlinedTextField(value = viewModel.location,
+            maxLines = 1,
+            onValueChange = { location ->
             viewModel.updateLocation(location)
         }, label = { Text(text = stringResource(R.string.text_location)) })
         Button(modifier = Modifier
