@@ -4,15 +4,14 @@ package com.example.fishknowconnect.ui.privatePost
  * Response data for get all post
  */
 data class GetPrivatePostResponse(
-    val _id:String,
+    val author:String,
     val title: String,
 )
-//{
-//    "_id": "651f37f3254432ebe0129c0d",
-//    "access": "private",
-//    "content": "",
-//    "fileType": "",
-//    "timestamp": "Thu, 05 Oct 2023 22:25:55 GMT",
-//    "title": "private",
-//    "type": "Fish"
-//}
+//"_id": "651f9015b1f4dfb5eaabd380",
+//"access": "private",
+//"author": "Test6",
+//"content": "",
+//"fileType": "",
+//"timestamp": "Fri, 06 Oct 2023 04:41:57 GMT",
+//"title": "test private",
+//"type": "Fish"
