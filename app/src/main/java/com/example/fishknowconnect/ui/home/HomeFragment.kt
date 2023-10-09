@@ -36,10 +36,6 @@ class HomeFragment : Fragment(), OnClickListener {
         view.findViewById<ImageView>(R.id.imageButton).setOnClickListener(this)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
     /**
      * upon imageview click
      */
@@ -47,22 +43,22 @@ class HomeFragment : Fragment(), OnClickListener {
         if (view != null) {
             when (view.id) {
                 R.id.imageViewFish -> {
-                    navController?.navigate(R.id.action_nav_home_to_fishActivity)
+                    navController?.navigate(R.id.action_navigation_home_to_fishActivity)
                 }
                 R.id.imageViewWeather -> {
-                    navController?.navigate(R.id.action_nav_home_to_weatherActivity)
+                    navController?.navigate(R.id.action_navigation_home_to_weatherActivity)
                 }
                 R.id.imageViewWater -> {
-                    navController?.navigate(R.id.action_nav_home_to_waterActivity)
+                    navController?.navigate(R.id.action_navigation_home_to_waterActivity)
                 }
                 R.id.imageViewBoat -> {
-                    navController?.navigate(R.id.action_nav_home_to_boatActivity)
+                    navController?.navigate(R.id.action_navigation_home_to_boatActivity)
                 }
                 R.id.imageViewOthers -> {
-                    navController?.navigate(R.id.action_nav_home_to_othersActivity)
+                    navController?.navigate(R.id.action_navigation_home_to_othersActivity)
                 }
                 R.id.imageButton -> {
-                    navController?.navigate(R.id.action_nav_home_to_approvePostRequestFragment)
+                    navController?.navigate(R.id.action_navigation_home_to_approvePostRequestFragment)
                 }
             }
         }

@@ -6,6 +6,7 @@ package com.example.fishknowconnect.ui.fish
 data class GetAllPostResponse(
     val content: String,
     val file_url: String,
+    val fileType: String,
     val id: String,
     val title:String,
     val type: String

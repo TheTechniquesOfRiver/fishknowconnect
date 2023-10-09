@@ -2,7 +2,6 @@ from flask import Blueprint, request, jsonify
 from config.database import mydb
 from config.aws import s3_client
 from decouple import config
-import os
 from pathlib import Path
 from bson import ObjectId
 import pymongo
@@ -165,6 +164,62 @@ def get_post_by_id(post_id):
         serialized_posts.append(serialized_post)
 
         return jsonify(serialized_post), 200
+
+    except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    
+
+@post_module.route('/get_public_posts', methods=['GET'])
+def get_public_posts():
+    try:
+        # Fetch a from the 'posts' collection
+        posts = list(mydb.posts.find({"access": "public"}))
+
+        # If there is no posts, return nothing
+        if not posts:
+            return jsonify([])
+
+        # Serialize the post to JSON format
+        serialized_posts = []
+        
+        serialized_post = {}
+        for post in posts:
+            serialized_post = {}
+            for key, value in post.items():
+                if key == '_id':
+                    value = str(post['_id'])
+                serialized_post[key] = value
+            serialized_posts.append(serialized_post)
+
+        return jsonify(serialized_posts), 200
+
+    except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    
+    
+@post_module.route('/get_private_posts', methods=['GET'])
+def get_private_posts():
+    try:
+        # Fetch a from the 'posts' collection
+        posts = list(mydb.posts.find({"access": "private"}))
+
+        # If there is no posts, return nothing
+        if not posts:
+            return jsonify([])
+
+        # Serialize the post to JSON format
+        serialized_posts = []
+        
+        serialized_post = {}
+        for post in posts:
+            serialized_post = {}
+            for key, value in post.items():
+                if key == '_id':
+                    value = str(post['_id'])
+                serialized_post[key] = value
+            serialized_posts.append(serialized_post)
+            
+        return jsonify(serialized_posts), 200
 
     except Exception as e:
             return jsonify({'error': str(e)}), 500

@@ -10,9 +10,9 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.fishknowconnect.ui.NavigationDrawerActivity
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.databinding.FragmentSettingBinding
+import com.example.fishknowconnect.ui.MainActivity
 
 class SettingFragment : Fragment() {
 
@@ -38,13 +38,13 @@ class SettingFragment : Fragment() {
         //change into bangla language
         buttonBangala.setOnClickListener {
             LocaleHelper.setLocale(this.requireContext(), "bn");
-            val i = Intent(this.requireContext(), NavigationDrawerActivity::class.java)
+            val i = Intent(this.requireContext(), MainActivity::class.java)
             startActivity(i)
         }
         // change into english language
         buttonEnglish.setOnClickListener {
             LocaleHelper.setLocale(this.requireContext(), "en");
-            val i = Intent(this.requireContext(), NavigationDrawerActivity::class.java)
+            val i = Intent(this.requireContext(), MainActivity::class.java)
             startActivity(i)
         }
         return root

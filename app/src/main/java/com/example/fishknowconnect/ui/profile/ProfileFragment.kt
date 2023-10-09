@@ -1,32 +1,65 @@
 package com.example.fishknowconnect.ui.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import com.example.fishknowconnect.DisplayList
+import com.example.fishknowconnect.PreferenceHelper
+import com.example.fishknowconnect.R
 import com.example.fishknowconnect.databinding.FragmentProfileBinding
+import com.example.fishknowconnect.network.FishKnowConnectApi
+import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
+import com.example.fishknowconnect.ui.fish.FishState
 
 class ProfileFragment : Fragment() {
-
+    lateinit var profileViewModelFactory: ProfileViewModelFactory
     private var _binding: FragmentProfileBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        val textView: TextView = binding.textProfile
-        profileViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        binding.lifecycleOwner = this
+        profileViewModelFactory = ProfileViewModelFactory(
+            PreferenceHelper.getInstance(requireContext()), FishKnowConnectApi.retrofitService
+        )
+        val profileViewModel: ProfileViewModel by viewModels(factoryProducer = { profileViewModelFactory })
+        binding.composeViewProfile.apply {
+            setContent {
+                LaunchedEffect(Unit, block = {
+                    profileViewModel.getProfileInfo()
+                    profileViewModel.getAllProfilePostContent()
+
+                })
+                Column {
+                    Text(text = stringResource(id = R.string.text_welcome)+ profileViewModel.username, style = TextStyle(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                    ), modifier = Modifier.padding(horizontal = 10.dp, 7.dp))
+                    ProfileScreen(profileViewModel)
+                }
+            }
         }
+        val root: View = binding.root
         return root
     }
 
@@ -35,3 +68,59 @@ class ProfileFragment : Fragment() {
         _binding = null
     }
 }
+
+
+@Composable
+fun ProfileScreen(profileViewModel: ProfileViewModel) {
+    //for profile information
+    when (val response = profileViewModel.state.collectAsState().value) {
+        ProfileState.Loading -> IndeterminateCircularIndicator()
+        is ProfileState.Success -> SetProfileInfo(response)
+        is ProfileState.Error -> showDialog(response.message)
+        else -> {
+        }
+    }
+    Text(text = stringResource(id = R.string.text_my_post), style = TextStyle(
+        fontSize = 20.sp,
+        fontWeight = FontWeight.Bold,
+    ), modifier = Modifier.padding(horizontal = 10.dp, 7.dp))
+
+    //for profile post list
+    when (val responseValue = profileViewModel.stateProfile.collectAsState().value) {
+        ProfilePostListPostState.Loading -> IndeterminateCircularIndicator()
+        is ProfilePostListPostState.Success  -> responseValue.response?.let {
+        DisplayList(it )
+    }
+        is ProfilePostListPostState.Failure -> showDialog(responseValue.response)
+        else -> {
+        }
+    }
+}
+
+
+/**
+ * shows error dialog
+ */
+@Composable
+fun showDialog(message: String) {
+    Log.d("register", message)
+    Toast.makeText(LocalContext.current.applicationContext, message, Toast.LENGTH_SHORT).show();
+}
+
+/**
+ * Set profile information
+ */
+@Composable
+fun SetProfileInfo(response: ProfileState.Success) {
+    Column {
+        Row(){
+            Text(text = "Age")
+            Text(text = response.age)
+        }
+        Row(){
+            Text(text = "Location")
+            Text(text = response.location)
+        }
+    }
+}
+

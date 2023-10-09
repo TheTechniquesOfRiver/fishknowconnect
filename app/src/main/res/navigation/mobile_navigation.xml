@@ -3,39 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
-
-    <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.fishknowconnect.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_nav_home_to_approvePostRequestFragment"
-            app:destination="@id/approvePostRequestFragment"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_nav_home_to_fishActivity"
-            app:destination="@id/fishActivity" />
-        <action
-            android:id="@+id/action_nav_home_to_boatActivity"
-            app:destination="@id/boatActivity" />
-        <action
-            android:id="@+id/action_nav_home_to_weatherActivity"
-            app:destination="@id/weatherActivity" />
-        <action
-            android:id="@+id/action_nav_home_to_waterActivity"
-            app:destination="@id/waterActivity" />
-        <action
-            android:id="@+id/action_nav_home_to_othersActivity"
-            app:destination="@id/othersActivity" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/nav_profile"
-        android:name="com.example.fishknowconnect.ui.profile.ProfileFragment"
-        android:label="@string/menu_profile"
-        tools:layout="@layout/fragment_profile" />
+    app:startDestination="@+id/navigation_home">
 
     <fragment
         android:id="@+id/nav_setting"
@@ -43,30 +11,43 @@
         android:label="@string/menu_setting"
         tools:layout="@layout/fragment_setting" />
     <fragment
-        android:id="@+id/approvePostRequestFragment"
-        android:name="com.example.fishknowconnect.ui.fish.ApprovePostRequestFragment"
-        android:label="ApprovePostRequest">
-        <action
-            android:id="@+id/action_approvePostRequestFragment_to_newPostActivity"
-            app:destination="@id/newPostActivity" />
-    </fragment>
+        android:id="@+id/nav_profile"
+        android:name="com.example.fishknowconnect.ui.profile.ProfileFragment"
+        android:label="@string/menu_profile"
+        tools:layout="@layout/fragment_profile" />
     <activity
         android:id="@+id/loginActivity"
         android:name="com.example.fishknowconnect.ui.login.LoginActivity"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
-    <activity
-        android:id="@+id/newPostActivity"
-        android:name="com.example.fishknowconnect.ui.newPost.NewPostActivity"
-        android:label="NewPostActivity" />
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.fishknowconnect.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_approvePostRequestFragment"
+            app:destination="@id/approvePostRequestFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_boatActivity"
+            app:destination="@id/boatActivity" />
+        <action
+            android:id="@+id/action_navigation_home_to_fishActivity"
+            app:destination="@id/fishActivity" />
+        <action
+            android:id="@+id/action_navigation_home_to_weatherActivity"
+            app:destination="@id/weatherActivity" />
+        <action
+            android:id="@+id/action_navigation_home_to_waterActivity"
+            app:destination="@id/waterActivity" />
+        <action
+            android:id="@+id/action_navigation_home_to_othersActivity"
+            app:destination="@id/othersActivity" />
+    </fragment>
     <activity
         android:id="@+id/fishActivity"
         android:name="com.example.fishknowconnect.ui.fish.FishActivity"
         android:label="FishActivity" />
-    <activity
-        android:id="@+id/boatActivity"
-        android:name="com.example.fishknowconnect.ui.boat.BoatActivity"
-        android:label="BoatActivity" />
     <activity
         android:id="@+id/weatherActivity"
         android:name="com.example.fishknowconnect.ui.weather.WeatherActivity"
@@ -76,7 +57,17 @@
         android:name="com.example.fishknowconnect.ui.water.WaterActivity"
         android:label="WaterActivity" />
     <activity
+        android:id="@+id/boatActivity"
+        android:name="com.example.fishknowconnect.ui.boat.BoatActivity"
+        android:label="BoatActivity" />
+    <activity
         android:id="@+id/othersActivity"
         android:name="com.example.fishknowconnect.ui.others.OthersActivity"
         android:label="OthersActivity" />
+    <fragment
+        android:id="@+id/approvePostRequestFragment"
+        android:name="com.example.fishknowconnect.ui.fish.ApprovePostRequestFragment"
+        android:label="ApprovePostRequestFragment" />
+
+
 </navigation>

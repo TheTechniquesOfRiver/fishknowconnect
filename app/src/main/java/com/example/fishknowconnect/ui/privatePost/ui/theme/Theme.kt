@@ -1,5 +1,4 @@
-package com.example.fishknowconnect.ui.newPost.ui.theme
-
+package com.example.fishknowconnect.ui.privatePost.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -23,7 +22,7 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Blue,
+    primary = Purple40,
     secondary = PurpleGrey40,
     tertiary = Pink40
 

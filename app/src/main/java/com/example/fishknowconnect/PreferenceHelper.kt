@@ -5,35 +5,50 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 
 
-object PreferenceHelper {
-    const val PREF_LOGGEDIN_USER_USERNAME = "logged_in_Username"
-    const val PREF_USER_LOGGEDIN_STATUS = "logged_in_status"
-    fun getSharedPreferences(ctx: Context): SharedPreferences {
-        return PreferenceManager.getDefaultSharedPreferences(ctx)
+class PreferenceHelper private constructor() {
+    val PREF_LOGGEDIN_USER_USERNAME = "logged_in_Username"
+    val PREF_USER_LOGGEDIN_STATUS = "logged_in_status"
+    companion object {
+        @Volatile
+        private var instance: PreferenceHelper? = null
+        lateinit var sharedPreference: SharedPreferences
+
+        fun getInstance(ctx: Context): PreferenceHelper {
+            if (instance == null) {
+                synchronized(this) {
+                    if (instance == null) {
+                        instance = PreferenceHelper()
+                         sharedPreference = PreferenceManager.getDefaultSharedPreferences(ctx)
+                    }
+                }
+            }
+            return instance!!
+        }
     }
 
-    fun setLoggedInUserUsername(ctx: Context, username: String?) {
-        val editor = getSharedPreferences(ctx).edit()
+
+    fun setLoggedInUserUsername(username: String?) {
+        val editor = sharedPreference.edit()
         editor.putString(PREF_LOGGEDIN_USER_USERNAME, username)
         editor.commit()
     }
 
-    fun getLoggedInUsernameUser(ctx: Context): String? {
-        return getSharedPreferences(ctx).getString(PREF_LOGGEDIN_USER_USERNAME, "")
+    fun getLoggedInUsernameUser(): String{
+        return sharedPreference.getString(PREF_LOGGEDIN_USER_USERNAME, "") ?: ""
     }
 
-    fun setUserLoggedInStatus(ctx: Context, status: Boolean) {
-        val editor = getSharedPreferences(ctx).edit()
+    fun setUserLoggedInStatus(status: Boolean) {
+        val editor = sharedPreference.edit()
         editor.putBoolean(PREF_USER_LOGGEDIN_STATUS, status)
         editor.commit()
     }
 
-    fun getUserLoggedInStatus(ctx: Context): Boolean {
-        return getSharedPreferences(ctx).getBoolean(PREF_USER_LOGGEDIN_STATUS, false)
+    fun getUserLoggedInStatus(): Boolean {
+        return sharedPreference.getBoolean(PREF_USER_LOGGEDIN_STATUS, false)
     }
 
-    fun clearLoggedInUsername(ctx: Context) {
-        val editor = getSharedPreferences(ctx).edit()
+    fun clearLoggedInUsername() {
+        val editor = sharedPreference.edit()
         editor.remove(PREF_LOGGEDIN_USER_USERNAME)
         editor.remove(PREF_USER_LOGGEDIN_STATUS)
         editor.commit()

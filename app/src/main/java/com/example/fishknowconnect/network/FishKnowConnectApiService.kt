@@ -3,6 +3,9 @@ package com.example.fishknowconnect.network
 import com.example.fishknowconnect.ui.fish.GetAllPostResponse
 import com.example.fishknowconnect.ui.login.LoginResponse
 import com.example.fishknowconnect.ui.newPost.NewPostResponse
+import com.example.fishknowconnect.ui.privatePost.GetPrivatePostAccessResponse
+import com.example.fishknowconnect.ui.privatePost.GetPrivatePostResponse
+import com.example.fishknowconnect.ui.profile.ProfileResponse
 import com.example.fishknowconnect.ui.register.RegisterResponse
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -17,8 +20,10 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Query
 
 private const val BASE_URL = "http://13.236.94.194:3000/"
+
 //private const val BASE_URL = "http://127.0.0.1:3000/"
 //private const val BASE_URL = "http://10.0.2.2:3000/"
 private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -50,11 +55,31 @@ interface FishKnowConnectApiService {
         @Part("type") type: RequestBody,
         @Part("content") content: RequestBody,
         @Part file: MultipartBody.Part?,
-        @Part("fileType") fileType: RequestBody
-    ): Response<NewPostResponse>
+        @Part("fileType") fileType: RequestBody,
+        @Part("access") access: RequestBody,
+        @Part("author") author: RequestBody,
+        ): Response<NewPostResponse>
 
     @GET("get_all_posts")
     suspend fun getAllPost(): Response<List<GetAllPostResponse>>
+
+    @GET("get_public_posts")
+    suspend fun getAllPublicPost(): Response<List<GetAllPostResponse>>
+
+    @GET("get_private_posts")
+    suspend fun getAllPrivatePost(): Response<List<GetPrivatePostResponse>>
+
+    @GET("get_private_posts")
+    suspend fun getAllProfilePostList(): Response<List<GetAllPostResponse>>
+    @POST("send_access_request")
+    suspend fun sendPostAccessRequest(
+        @Field("_id") _id: String
+    ): Response<GetPrivatePostAccessResponse>
+
+    @GET("get_profile?")
+    suspend fun getProfileInfo(
+        @Query("username") username: String
+    ): Response<ProfileResponse>
 }
 
 object FishKnowConnectApi {
