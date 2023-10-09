@@ -16,11 +16,11 @@ def register():
     # check user name exists or not
     existing_user = mydb.users.find_one({'username': username})
     if existing_user:
-        return jsonify({'message': 'Username already exist'}), 409
+        return jsonify({'message': 'Username already exist'}), 401
     if not username:
-        return jsonify({'message': 'Enter Username'}), 409
+        return jsonify({'message': 'Enter Username'}), 401
     if not password:
-        return jsonify({'message': 'Enter Password'}), 409
+        return jsonify({'message': 'Enter Password'}), 401
     
     # Created hased password 
     hashed_password = generate_password_hash(password)
@@ -48,9 +48,9 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
     if not username:
-        return jsonify({'message': 'Enter Username'}), 409
+        return jsonify({'message': 'Enter Username'}), 401
     if not password:
-        return jsonify({'message': 'Enter Password'}), 409
+        return jsonify({'message': 'Enter Password'}), 401
 
     #check username and password 
     try:
