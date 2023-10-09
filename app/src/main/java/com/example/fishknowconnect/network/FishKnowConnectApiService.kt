@@ -69,6 +69,8 @@ interface FishKnowConnectApiService {
     @GET("get_private_posts")
     suspend fun getAllPrivatePost(): Response<List<GetPrivatePostResponse>>
 
+    @GET("get_private_posts")
+    suspend fun getAllProfilePostList(): Response<List<GetAllPostResponse>>
     @POST("send_access_request")
     suspend fun sendPostAccessRequest(
         @Field("_id") _id: String

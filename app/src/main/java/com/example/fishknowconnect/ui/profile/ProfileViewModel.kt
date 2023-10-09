@@ -19,7 +19,10 @@ class ProfileViewModel(
     preferenceHelper: PreferenceHelper, private val retrofitService: FishKnowConnectApiService
 ) : ViewModel() {
     private val mutableState = MutableStateFlow<ProfileState>(ProfileState.None)
+    private val mutableStateProfilePost =
+        MutableStateFlow<ProfilePostListPostState>(ProfilePostListPostState.None)
     val state = mutableState.asStateFlow()
+    val stateProfile = mutableStateProfilePost.asStateFlow()
     var username = preferenceHelper.getLoggedInUsernameUser()
 
     /**
@@ -48,6 +51,37 @@ class ProfileViewModel(
             } catch (_: ProtocolException) {
 
             }
+        }
+    }
+
+    /**
+     * fetch all profile post list data
+     */
+    fun getAllProfilePostContent() {
+        viewModelScope.launch(Dispatchers.Main) {
+            mutableStateProfilePost.value = ProfilePostListPostState.Loading
+            try {
+                val response = FishKnowConnectApi.retrofitService.getAllProfilePostList()
+                val profilePostResponse = response.body()
+                if (profilePostResponse.isNullOrEmpty()) {
+                    mutableStateProfilePost.value = ProfilePostListPostState.Failure("empty response")
+                } else {
+                    if (response.isSuccessful) {
+                        when (response.code()) {
+                            200 -> mutableStateProfilePost.value =
+                                ProfilePostListPostState.Success(profilePostResponse)
+                        }
+                    } else {
+                        when (response.code()) {
+//                            409 -> mutableStateProfilePost.value =
+//                                ProfilePostListPostState.Error(profilePostResponse)
+                        }
+                    }
+                }
+            } catch (_: ProtocolException) {
+
+            }
+
         }
     }
 }

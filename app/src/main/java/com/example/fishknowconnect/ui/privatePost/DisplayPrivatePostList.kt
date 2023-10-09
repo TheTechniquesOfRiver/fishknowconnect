@@ -48,7 +48,7 @@ fun ListItem(item: GetPrivatePostResponse, context: Activity?, viewModel: Privat
             .padding(16.dp)
     ) {
         Text(
-            item._id,
+            item.author,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier

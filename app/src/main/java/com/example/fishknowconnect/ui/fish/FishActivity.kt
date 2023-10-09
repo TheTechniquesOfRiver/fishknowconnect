@@ -62,7 +62,7 @@ class FishActivity : ComponentActivity() {
                         when (val responseValue = viewModel.state.collectAsState().value) {
                             FishState.Loading -> IndeterminateCircularIndicator()
                             is FishState.Success -> responseValue.response?.let {
-                                DisplayList(it, context)
+                                DisplayList(it)
                             }
 
                             is FishState.Error -> ShowErrorMessage()
