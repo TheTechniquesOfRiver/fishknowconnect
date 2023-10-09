@@ -28,9 +28,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.fishknowconnect.ui.NavigationDrawerActivity
 import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.ui.MainActivity
 import com.example.fishknowconnect.ui.login.LoginActivity
 import com.example.fishknowconnect.ui.selectLanguage.ui.theme.FishKnowConnectTheme
 
@@ -46,7 +46,7 @@ class SelectLanguage : ComponentActivity() {
                 ) {
                    if(PreferenceHelper.getInstance(applicationContext).getUserLoggedInStatus()){
                        val activity = (LocalContext.current as? Activity)
-                       val intent = Intent(activity, NavigationDrawerActivity::class.java)
+                       val intent = Intent(activity, MainActivity::class.java)
                        activity?.startActivity(intent)
                        activity?.finish()
                    }else{
