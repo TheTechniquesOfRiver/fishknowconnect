@@ -1,6 +1,8 @@
 package com.example.fishknowconnect.ui.contentDetail
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
@@ -8,11 +10,11 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
@@ -20,13 +22,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.contentDetail.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.ShowAudioPlayer
@@ -37,11 +42,9 @@ var tts: TextToSpeech? = null
 var isListenEnable = false
 
 class ContentDetailActivity : ComponentActivity(), TextToSpeech.OnInitListener {
+    val viewModel: DeleteContentViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        val intentTitle = intent.getStringExtra("title")
-        val intentContent = intent.getStringExtra("content")
-        val intentFileUrl = intent.getStringExtra("file_url")
-        val intentFileType = intent.getStringExtra("fileType")
         super.onCreate(savedInstanceState)
         setContent {
             FishKnowConnectTheme {
@@ -53,14 +56,37 @@ class ContentDetailActivity : ComponentActivity(), TextToSpeech.OnInitListener {
                     tts = TextToSpeech(this@ContentDetailActivity, this)
                     Column {
                         ToolBarLayout(resources.getString(R.string.text_content_details))
-                        ListItemDetailScreen(
-                            intentTitle, intentContent, intentFileUrl, intentFileType
-                        )
+                        ListItemDetailScreen(intent, viewModel)
+                        when (val responseValue = viewModel.state.collectAsState().value) {
+                            DeleteContentState.Loading -> IndeterminateCircularIndicator()
+                            is DeleteContentState.Success -> responseValue.response?.let {
+                                Toast.makeText(
+                                    applicationContext,
+                                    responseValue.response.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                finish()
+                            }
+
+                            is DeleteContentState.Error -> ShowDeleteErrorMessage(responseValue.response.message)
+                            else -> {
+                            }
+                        }
                     }
                 }
             }
         }
     }
+
+    /**
+     * shows error dialog
+     */
+    @Composable
+    fun ShowDeleteErrorMessage(message: String) {
+        val context = LocalContext.current as? Activity
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
 
     /**
      * locale attach
@@ -94,65 +120,80 @@ class ContentDetailActivity : ComponentActivity(), TextToSpeech.OnInitListener {
 
 @Composable
 fun ListItemDetailScreen(
-    title: String?,
-    content: String?,
-    fileUrl: String?,
-    fileType: String?,
-    modifier: Modifier = Modifier
+    intent: Intent, viewModel: DeleteContentViewModel
 ) {
+    val context = LocalContext.current
+    //get extras from intent
+    val intentTitle = intent.getStringExtra("title")
+    val intentContent = intent.getStringExtra("content")
+    val intentFileUrl = intent.getStringExtra("file_url")
+    val intentFileType = intent.getStringExtra("fileType")
+    val intentId = intent.getStringExtra("_id")
+    //for delete
+    Button(onClick = {
+        if (intentId != null) {
+            viewModel.deleteContent(intentId)
+        } else {
+            Toast.makeText(context, "Id not found", Toast.LENGTH_SHORT).show()
+        }
+    }) {
+        Text(
+            text = stringResource(id = R.string.text_delete), textAlign = TextAlign.End
+        )
+    }
     //title
     Row(modifier = Modifier.padding(10.dp)) {
         Text(
             text = stringResource(id = R.string.text_title),
             fontWeight = FontWeight.Bold,
-            modifier = modifier
+            modifier = Modifier
                 .size(30.dp)
                 .weight(1f)
         )
         Button(onClick = {
             if (isListenEnable) {
-                tts!!.speak(title, TextToSpeech.QUEUE_FLUSH, null, "")
+                tts!!.speak(intentTitle, TextToSpeech.QUEUE_FLUSH, null, "")
             }
         }) {
             Text(
-                text = stringResource(id = R.string.text_listen),
-                modifier = modifier,
-                textAlign = TextAlign.End
+                text = stringResource(id = R.string.text_listen), textAlign = TextAlign.End
             )
         }
+
     }
-    if (!title.isNullOrEmpty()) {
-        Text(text = title, modifier = Modifier.padding(10.dp))
+    if (!intentTitle.isNullOrEmpty()) {
+        Text(text = intentTitle, modifier = Modifier.padding(10.dp))
     }
     //content
     Row(modifier = Modifier.padding(10.dp)) {
         Text(
             text = stringResource(id = R.string.text_content),
             fontWeight = FontWeight.Bold,
-            modifier = modifier
+            modifier = Modifier
                 .size(30.dp)
                 .weight(1f)
         )
         Button(onClick = {
             if (isListenEnable) {
-                tts!!.speak(content, TextToSpeech.QUEUE_FLUSH, null, "")
+                tts!!.speak(intentContent, TextToSpeech.QUEUE_FLUSH, null, "")
             }
         }) {
-            Text(text = stringResource(id = R.string.text_listen), modifier = modifier)
+            Text(text = stringResource(id = R.string.text_listen))
         }
     }
-    if (!content.isNullOrEmpty()) {
-        Text(text = content, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 0.dp))
+    if (!intentContent.isNullOrEmpty()) {
+        Text(text = intentContent, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 0.dp))
     }
-    if (!fileUrl.isNullOrEmpty()) {
-        when (fileType) {
-            "audio" -> ShowAudioPlayer(fileUrl)
+    if (!intentFileUrl.isNullOrEmpty()) {
+        when (intentFileType) {
+            "audio" -> ShowAudioPlayer(intentFileUrl)
             "image" -> Image(
                 modifier = Modifier.padding(16.dp, 8.dp),
-                painter = rememberAsyncImagePainter(fileUrl),
+                painter = rememberAsyncImagePainter(intentFileUrl),
                 contentDescription = null
             )
-            "video" -> ShowVideoPlayer(videoUri = Uri.parse(fileUrl))
+
+            "video" -> ShowVideoPlayer(videoUri = Uri.parse(intentFileUrl))
         }
     }
 }

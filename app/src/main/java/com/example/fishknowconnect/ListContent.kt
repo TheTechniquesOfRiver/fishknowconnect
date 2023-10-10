@@ -3,6 +3,7 @@ package com.example.fishknowconnect
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -98,11 +99,13 @@ fun ListItem(item: GetAllPostResponse, context: Context) {
  * Open detail screen with each item
  */
 fun openItemDetailScreen(item: GetAllPostResponse, context: Context) {
+    Log.d("id", "id"+item._id)
     val intent = Intent(context, ContentDetailActivity::class.java).apply {
         putExtra("title", item.title)
         putExtra("content", item.content)
         putExtra("file_url", item.file_url)
         putExtra("fileType", item.fileType)
+        putExtra("_id", item._id)
     }
     context.startActivity(intent)
 }

@@ -58,14 +58,12 @@ class FishActivity : ComponentActivity() {
                     Column {
                         ToolBarLayout(this@FishActivity.getString(R.string.textview_fish))
                         FishScreen(this@FishActivity.getString(R.string.textview_fish), viewModel)
-                        val context = LocalContext.current as? Activity
                         when (val responseValue = viewModel.state.collectAsState().value) {
                             FishState.Loading -> IndeterminateCircularIndicator()
                             is FishState.Success -> responseValue.response?.let {
                                 DisplayList(it)
                             }
-
-                            is FishState.Error -> ShowErrorMessage()
+                            is FishState.Error -> ShowFishErrorMessage()
                             else -> {
                             }
                         }
@@ -95,7 +93,7 @@ class FishActivity : ComponentActivity() {
  * shows error dialog
  */
 @Composable
-fun ShowErrorMessage() {
+fun ShowFishErrorMessage() {
     val context = LocalContext.current as? Activity
     Toast.makeText(
         context, stringResource(id = R.string.text_something_went_wrong), Toast.LENGTH_SHORT
@@ -138,7 +136,7 @@ fun FishScreen(name: String, viewModel: FishViewModel) {
         Button(modifier = Modifier.padding(vertical = 25.dp), onClick = {
             //start new post screen
             val intent = Intent(activity, NewPostActivity::class.java).apply {
-                putExtra("type", name)
+                putExtra("type", "Fish")
             }
             activity?.startActivity(intent)
         }) {

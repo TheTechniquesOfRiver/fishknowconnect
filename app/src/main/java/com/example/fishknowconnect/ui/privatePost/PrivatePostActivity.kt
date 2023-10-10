@@ -35,7 +35,13 @@ class PrivatePostActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     Column {
-                        ToolBarLayout(getString(R.string.textview_fish))
+                        val intentType = intent.getStringExtra("type")
+
+                        if (intentType != null) {
+                            ToolBarLayout(intentType)
+                        }else{
+                            ToolBarLayout("")
+                        }
                         LaunchedEffect(Unit, block = {
                             viewModel.getAllPrivatePostContent()
                         })

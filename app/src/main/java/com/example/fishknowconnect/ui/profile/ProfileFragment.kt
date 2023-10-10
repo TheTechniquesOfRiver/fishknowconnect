@@ -46,6 +46,8 @@ class ProfileFragment : Fragment() {
     lateinit var profileViewModelFactory: ProfileViewModelFactory
     private var _binding: FragmentProfileBinding? = null
     lateinit var preferenceHelper: PreferenceHelper
+    val profileViewModel: ProfileViewModel by viewModels(factoryProducer = { profileViewModelFactory })
+
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -56,12 +58,10 @@ class ProfileFragment : Fragment() {
         profileViewModelFactory = ProfileViewModelFactory(
             preferenceHelper, FishKnowConnectApi.retrofitService
         )
-        val profileViewModel: ProfileViewModel by viewModels(factoryProducer = { profileViewModelFactory })
         binding.composeViewProfile.apply {
             setContent {
                 LaunchedEffect(Unit, block = {
                     profileViewModel.getProfileInfo()
-                    profileViewModel.getAllProfilePostContent()
 
                 })
                 //title text
@@ -114,6 +114,12 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        profileViewModel.getAllProfilePostContent()
+
     }
 }
 

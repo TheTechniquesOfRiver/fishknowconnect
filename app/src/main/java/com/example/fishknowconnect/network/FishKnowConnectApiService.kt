@@ -14,12 +14,14 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 private const val BASE_URL = "http://13.236.94.194:3000/"
@@ -71,6 +73,9 @@ interface FishKnowConnectApiService {
 
     @GET("get_private_posts")
     suspend fun getAllProfilePostList(): Response<List<GetAllPostResponse>>
+
+    @DELETE("delete_post/{id}")
+    suspend fun deletePost(@Path("id") id:String): Response<LoginResponse>
     @POST("send_access_request")
     suspend fun sendPostAccessRequest(
         @Field("_id") _id: String
