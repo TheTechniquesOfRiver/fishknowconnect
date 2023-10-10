@@ -51,6 +51,7 @@
     <string name="text_listen">Listen</string>
     <string name="text_title">Title</string>
     <string name="text_content">Content</string>
+    <string name="text_delete">Delete post</string>
     //recording
     <string name="text_record_voice">Record voice</string>
     <string name="button_upload">Upload</string>
