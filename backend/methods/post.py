@@ -279,3 +279,43 @@ def grant_access(post_id):
 
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
+
+@post_module.route('/get_granted_posts', methods=['GET'])
+def get_granted_posts():
+    try:
+        filter_query = {}
+        filters = []
+
+        granted = request.args.get('user') 
+        filters.append({"access": 'public'})
+        filters.append({"author": granted})
+        granted = granted + ','
+        filters.append({"granted": {"$regex": granted, "$options": "i"}})
+
+        # Use the $or operator to combine filter conditions
+        if filters:
+            filter_query["$or"] = filters
+
+        # Fetch posts from the 'posts' collection based on the filter
+        posts = list(mydb.posts.find(filter_query))
+
+        # If there are no posts, return an empty list
+        if not posts:
+            return jsonify([])
+
+        # Serialize the posts to JSON format
+        serialized_posts = []
+
+        for post in posts:
+            serialized_post = {}
+            for key, value in post.items():
+                if key == '_id':
+                    value = str(post['_id'])
+                serialized_post[key] = value
+            serialized_posts.append(serialized_post)
+
+        return jsonify(serialized_posts), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
