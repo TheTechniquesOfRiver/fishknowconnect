@@ -169,20 +169,33 @@ def get_post_by_id(post_id):
             return jsonify({'error': str(e)}), 500
     
 
-@post_module.route('/get_public_posts', methods=['GET'])
-def get_public_posts():
+@post_module.route('/get_posts', methods=['GET'])
+def get_posts():
     try:
-        # Fetch a from the 'posts' collection
-        posts = list(mydb.posts.find({"access": "public"}))
+        # Get the filter parameter from the URL query string
+        access_filter = request.args.get('access')
+        type_filter = request.args.get('type')
+        author_filter = request.args.get('author')
 
-        # If there is no posts, return nothing
+        # Define filters to fetch posts based on the parameters
+        filters = {}
+        if access_filter:
+            filters["access"] = access_filter
+        if type_filter:
+            filters["type"] = type_filter
+        if author_filter:
+            filters["author"] = author_filter
+
+        # Fetch posts from the 'posts' collection based on the filter
+        posts = list(mydb.posts.find(filters))
+
+        # If there are no posts, return an empty list
         if not posts:
             return jsonify([])
 
-        # Serialize the post to JSON format
+        # Serialize the posts to JSON format
         serialized_posts = []
-        
-        serialized_post = {}
+
         for post in posts:
             serialized_post = {}
             for key, value in post.items():
@@ -194,32 +207,75 @@ def get_public_posts():
         return jsonify(serialized_posts), 200
 
     except Exception as e:
-            return jsonify({'error': str(e)}), 500
+        return jsonify({'error': str(e)}), 500
     
+
+@post_module.route('/request_access/<string:post_id>', methods=['PUT'])
+def request_access(post_id):
+    # Get post data from the request JSON
+    post_data = request.form.to_dict()
     
-@post_module.route('/get_private_posts', methods=['GET'])
-def get_private_posts():
+    # Ensure that at least one field to update is provided
+    if not post_data:
+        return jsonify({'error': 'No users requested access'}), 400
+
+    # Update the post in the 'posts' collection based on the post_id
     try:
-        # Fetch a from the 'posts' collection
-        posts = list(mydb.posts.find({"access": "private"}))
+        target_id = ObjectId(post_id)
+        post = mydb.posts.find_one({"_id": target_id})
 
-        # If there is no posts, return nothing
-        if not posts:
-            return jsonify([])
+        if 'requested' in post:
+            requests = post_data['requested'] + ','
+            if requests not in post['requested']:
+                post_data['requested'] = post['requested'] + post_data['requested'] + ',' 
+            else:
+                post_data['requested'] = post['requested']
+        else:
+            post_data['requested'] = post_data['requested'] + ','        
+        result = mydb.posts.update_one({'_id': target_id}, {'$set': post_data})
 
-        # Serialize the post to JSON format
-        serialized_posts = []
-        
-        serialized_post = {}
-        for post in posts:
-            serialized_post = {}
-            for key, value in post.items():
-                if key == '_id':
-                    value = str(post['_id'])
-                serialized_post[key] = value
-            serialized_posts.append(serialized_post)
-            
-        return jsonify(serialized_posts), 200
+        if result.modified_count > 0:
+            return jsonify({'message': 'Access requested from the author'}), 200
+        else:
+            return jsonify({'message': 'No matching post found for update'}), 404
 
     except Exception as e:
-            return jsonify({'error': str(e)}), 500
+        return jsonify({'error': str(e)}), 400
+
+
+@post_module.route('/grant_access/<string:post_id>', methods=['PUT'])
+def grant_access(post_id):
+    # Get post data from the request JSON
+    post_data = request.form.to_dict()
+    
+    # Ensure that at least one field to update is provided
+    if not post_data:
+        return jsonify({'error': 'No users requested access'}), 400
+
+    # Update the post in the 'posts' collection based on the post_id
+    try:
+        target_id = ObjectId(post_id)
+        post = mydb.posts.find_one({"_id": target_id})
+
+        grants = post_data['granted'] + ','
+        if 'granted' in post:
+            if grants not in post['granted']:
+                post_data['granted'] = post['granted'] + post_data['granted'] + ',' 
+            else:
+                post_data['granted'] = post['granted']
+        else:
+            post_data['granted'] = post_data['granted'] + ','  
+
+        if 'requested' in post:
+            if grants in post['requested']:
+                post_data['requested'] = post['requested'].replace(grants, "")
+
+        result = mydb.posts.update_one({'_id': target_id}, {'$set': post_data})
+
+        if result.modified_count > 0:
+            return jsonify({'message': 'Access granted'}), 200
+        else:
+            return jsonify({'message': 'No matching post found for update'}), 404
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
