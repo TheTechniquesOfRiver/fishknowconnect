@@ -18,16 +18,26 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.fragment.app.viewModels
+import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.network.FishKnowConnectApi
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.privatePost.ui.theme.FishKnowConnectTheme
+import com.example.fishknowconnect.ui.profile.ProfileViewModel
+import com.example.fishknowconnect.ui.profile.ProfileViewModelFactory
 
 class PrivatePostActivity : ComponentActivity() {
-    private val viewModel: PrivatePostViewModel by viewModels()
-
+    lateinit var privatePostViewModelFactory: PrivatePostViewModelFactory
+    lateinit var preferenceHelper: PreferenceHelper
+    val viewModel: PrivatePostViewModel by viewModels(factoryProducer = { privatePostViewModelFactory })
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preferenceHelper = PreferenceHelper.getInstance(this)
+        privatePostViewModelFactory = PrivatePostViewModelFactory(
+            preferenceHelper, FishKnowConnectApi.retrofitService
+        )
         setContent {
             FishKnowConnectTheme {
                 // A surface container using the 'background' color from the theme
@@ -78,6 +88,19 @@ fun PrivatePostScreen(name: String, viewModel: PrivatePostViewModel,  modifier: 
         PrivatePostState.Loading -> IndeterminateCircularIndicator()
         is PrivatePostState.Success -> responseValue.response?.let {
             DisplayPrivateList(it, context, viewModel)
+        }
+        is PrivatePostState.Error -> ShowErrorMessage()
+        else -> {
+        }
+    }
+
+    when (val responseValue = viewModel.state.collectAsState().value) {
+        PrivatePostState.Loading -> IndeterminateCircularIndicator()
+        is PrivatePostState.SuccessAccess -> responseValue.message?.let {
+        Toast.makeText(
+                    context, responseValue.message, Toast.LENGTH_SHORT
+            ).show()
+            context?.finish()
         }
         is PrivatePostState.Error -> ShowErrorMessage()
         else -> {
