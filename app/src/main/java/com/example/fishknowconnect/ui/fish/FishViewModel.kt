@@ -17,12 +17,12 @@ class FishViewModel : ViewModel() {
     /**
      * fetch all content data
      */
-    fun getAllContents() {
+    fun getAllFishContents() {
         viewModelScope.launch(Dispatchers.Main) {
             mutableState.value = FishState.Loading
             try {
                 val response =
-                    FishKnowConnectApi.retrofitService.getAllPublicPost()
+                    FishKnowConnectApi.retrofitService.getPostsByType("Fish")
                 val fishResponse = response.body()
                 if (fishResponse.isNullOrEmpty()) {
                     mutableState.value = FishState.Failure("empty response")

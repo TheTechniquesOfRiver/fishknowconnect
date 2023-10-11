@@ -84,7 +84,7 @@ class FishActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getAllContents()
+        viewModel.getAllFishContents()
     }
 }
 

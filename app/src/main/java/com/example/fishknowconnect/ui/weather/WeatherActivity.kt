@@ -1,25 +1,30 @@
 package com.example.fishknowconnect.ui.weather
 
+import LocaleHelper
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -31,81 +36,141 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.fishknowconnect.DisplayList
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ToolBarLayout
+import com.example.fishknowconnect.ui.fish.FishState
 import com.example.fishknowconnect.ui.fish.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
+import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
 
 class WeatherActivity : ComponentActivity() {
+    val viewModel: WeatherViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            setContent {
-                FishKnowConnectTheme {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        Column {
-                           ToolBarLayout("Weather")
-                            WeatherScreen("Weather")
+            FishKnowConnectTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+                ) {
+                    Column {
+                        ToolBarLayout(this@WeatherActivity.getString(R.string.textview_weather))
+                        WeatherScreen(this@WeatherActivity.getString(R.string.textview_weather), viewModel)
+                        when (val responseValue = viewModel.state.collectAsState().value) {
+                            FishState.Loading -> IndeterminateCircularIndicator()
+                            is FishState.Success -> responseValue.response?.let {
+                                DisplayList(it)
+                            }
+                            is FishState.Error -> ShowWeatherErrorMessage()
+                            else -> {
+                            }
                         }
                     }
                 }
             }
         }
     }
+
+
+    /**
+     * locale attach
+     */
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase))
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAllWeatherContents()
+    }
 }
 
+
 /**
- * Fish screen view
+ * shows error dialog
  */
 @Composable
-fun WeatherScreen(name: String, modifier: Modifier = Modifier) {
+fun ShowWeatherErrorMessage() {
+    val context = LocalContext.current as? Activity
+    Toast.makeText(
+        context, stringResource(id = R.string.text_something_went_wrong), Toast.LENGTH_SHORT
+    ).show()
+}
+
+
+/**
+ * Weather screen view
+ */
+@Composable
+fun WeatherScreen(name: String, viewModel: WeatherViewModel) {
     val activity = (LocalContext.current as? Activity)
-    //create new post button
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(PaddingValues(horizontal = 16.dp, vertical = 0.dp)),
-        horizontalAlignment = Alignment.End,
-    ) {
+    Row() {
+        //private post button
         Button(modifier = Modifier.padding(vertical = 25.dp), onClick = {
             //start new post screen
-            val intent = Intent(activity, NewPostActivity::class.java)
+            val intent = Intent(activity, PrivatePostActivity::class.java).apply {
+                putExtra("type", "Weather")
+            }
+            activity?.startActivity(intent)
+        }) {
+            Text(
+                text = stringResource(id = R.string.button_private_post),
+                textAlign = TextAlign.Left,
+                style = TextStyle(
+                    fontSize = 20.sp, color = Color.White, fontFamily = FontFamily.SansSerif
+                )
+            )
+            Icon(
+                imageVector = Icons.Default.List,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(40.dp)
+                    .padding(start = 5.dp)
+            )
+
+        }
+        //create new post button
+        Button(modifier = Modifier.padding(vertical = 25.dp), onClick = {
+            //start new post screen
+            val intent = Intent(activity, NewPostActivity::class.java).apply {
+                putExtra("type", "Weather")
+            }
             activity?.startActivity(intent)
         }) {
             Text(
                 text = stringResource(id = R.string.button_new_post),
                 textAlign = TextAlign.Right,
-                style = TextStyle(fontSize = 20.sp, color = Color.White, fontFamily = FontFamily.SansSerif)
+                style = TextStyle(
+                    fontSize = 20.sp, color = Color.White, fontFamily = FontFamily.SansSerif
+                )
             )
             Icon(
                 imageVector = Icons.Default.AddCircle,
                 contentDescription = null,
-                modifier = Modifier.size(40.dp).padding(start = 5.dp)
+                modifier = Modifier
+                    .size(40.dp)
+                    .padding(start = 5.dp)
             )
         }
     }
+
     //title
     Text(
-        text = "LATEST POSTS...",
-        style = TextStyle(
-            fontSize = 20.sp,
-            fontFamily = FontFamily.SansSerif,
-            fontWeight = FontWeight.Bold
-        ),
-        modifier = Modifier
+        text = stringResource(id = R.string.text_latest_post), style = TextStyle(
+            fontSize = 20.sp, fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.Bold
+        ), modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp, 0.dp)
     )
-
 }
 
 @Preview(showBackground = true)
 @Composable
-fun FishScreenPreview() {
+fun WeatherScreenPreview() {
     FishKnowConnectTheme {
-        WeatherScreen("Weatherscreen")
+        val viewModel = WeatherViewModel()
+        WeatherScreen("WeatherScreen", viewModel)
     }
 }

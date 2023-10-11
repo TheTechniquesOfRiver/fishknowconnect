@@ -14,12 +14,14 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -68,17 +70,24 @@ interface FishKnowConnectApiService {
     @GET("get_public_posts")
     suspend fun getAllPublicPost(): Response<List<GetAllPostResponse>>
 
-    @GET("get_private_posts")
-    suspend fun getAllPrivatePost(): Response<List<GetPrivatePostResponse>>
+    //private post
+    @GET("get_not_granted_posts")
+    suspend fun getAllPrivatePost(@Query("user") type: String): Response<List<GetPrivatePostResponse>>
 
-    @GET("get_private_posts")
-    suspend fun getAllProfilePostList(): Response<List<GetAllPostResponse>>
+    //all post by type
+    @GET("get_posts")
+    suspend fun getPostsByType(@Query("type") type: String): Response<List<GetAllPostResponse>>
+    // all profile posts
+    @GET("get_posts")
+    suspend fun getProfilePosts(@Query("author") username: String): Response<List<GetAllPostResponse>>
 
     @DELETE("delete_post/{id}")
     suspend fun deletePost(@Path("id") id:String): Response<LoginResponse>
-    @POST("send_access_request")
+    @Multipart
+    @PUT("request_access/{id}")
     suspend fun sendPostAccessRequest(
-        @Field("_id") _id: String
+        @Path("id") id:String,
+        @Part("requested") requested: RequestBody
     ): Response<GetPrivatePostAccessResponse>
 
     @GET("get_profile?")
