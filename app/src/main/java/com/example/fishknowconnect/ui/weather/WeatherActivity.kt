@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -39,8 +38,9 @@ import androidx.compose.ui.unit.sp
 import com.example.fishknowconnect.DisplayList
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
+import com.example.fishknowconnect.ui.ShowErrorMessage
 import com.example.fishknowconnect.ui.ToolBarLayout
-import com.example.fishknowconnect.ui.fish.FishState
+import com.example.fishknowconnect.ui.TypeState
 import com.example.fishknowconnect.ui.fish.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
@@ -58,11 +58,11 @@ class WeatherActivity : ComponentActivity() {
                         ToolBarLayout(this@WeatherActivity.getString(R.string.textview_weather))
                         WeatherScreen(this@WeatherActivity.getString(R.string.textview_weather), viewModel)
                         when (val responseValue = viewModel.state.collectAsState().value) {
-                            FishState.Loading -> IndeterminateCircularIndicator()
-                            is FishState.Success -> responseValue.response?.let {
+                            TypeState.Loading -> IndeterminateCircularIndicator()
+                            is TypeState.Success -> responseValue.response?.let {
                                 DisplayList(it)
                             }
-                            is FishState.Error -> ShowWeatherErrorMessage()
+                            is TypeState.Error -> ShowErrorMessage()
                             else -> {
                             }
                         }
@@ -85,18 +85,6 @@ class WeatherActivity : ComponentActivity() {
         super.onResume()
         viewModel.getAllWeatherContents()
     }
-}
-
-
-/**
- * shows error dialog
- */
-@Composable
-fun ShowWeatherErrorMessage() {
-    val context = LocalContext.current as? Activity
-    Toast.makeText(
-        context, stringResource(id = R.string.text_something_went_wrong), Toast.LENGTH_SHORT
-    ).show()
 }
 
 

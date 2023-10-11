@@ -23,6 +23,7 @@ import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.network.FishKnowConnectApi
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
+import com.example.fishknowconnect.ui.ShowErrorMessage
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.privatePost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.profile.ProfileViewModel
@@ -46,7 +47,6 @@ class PrivatePostActivity : ComponentActivity() {
                 ) {
                     Column {
                         val intentType = intent.getStringExtra("type")
-
                         if (intentType != null) {
                             ToolBarLayout(intentType)
                         }else{
@@ -68,17 +68,6 @@ class PrivatePostActivity : ComponentActivity() {
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(LocaleHelper.onAttach(newBase))
     }
-}
-
-/**
- * shows error dialog
- */
-@Composable
-fun ShowErrorMessage() {
-    val context = LocalContext.current as? Activity
-    Toast.makeText(
-        context, stringResource(id = R.string.text_something_went_wrong), Toast.LENGTH_SHORT
-    ).show()
 }
 
 @Composable
@@ -103,6 +92,7 @@ fun PrivatePostScreen(name: String, viewModel: PrivatePostViewModel,  modifier: 
             context?.finish()
         }
         is PrivatePostState.Error -> ShowErrorMessage()
+        is PrivatePostState.Failure -> ShowErrorMessage()
         else -> {
         }
     }

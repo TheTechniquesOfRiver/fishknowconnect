@@ -1,6 +1,6 @@
 package com.example.fishknowconnect.network
 
-import com.example.fishknowconnect.ui.fish.GetAllPostResponse
+import com.example.fishknowconnect.ui.GetPostTypeResponse
 import com.example.fishknowconnect.ui.login.LoginResponse
 import com.example.fishknowconnect.ui.newPost.NewPostResponse
 import com.example.fishknowconnect.ui.privatePost.GetPrivatePostAccessResponse
@@ -14,7 +14,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -65,10 +64,10 @@ interface FishKnowConnectApiService {
         ): Response<NewPostResponse>
 
     @GET("get_all_posts")
-    suspend fun getAllPost(): Response<List<GetAllPostResponse>>
+    suspend fun getAllPost(): Response<List<GetPostTypeResponse>>
 
     @GET("get_public_posts")
-    suspend fun getAllPublicPost(): Response<List<GetAllPostResponse>>
+    suspend fun getAllPublicPost(): Response<List<GetPostTypeResponse>>
 
     //private post
     @GET("get_not_granted_posts")
@@ -76,10 +75,10 @@ interface FishKnowConnectApiService {
 
     //all post by type
     @GET("get_posts")
-    suspend fun getPostsByType(@Query("type") type: String): Response<List<GetAllPostResponse>>
+    suspend fun getPostsByType(@Query("type") type: String): Response<List<GetPostTypeResponse>>
     // all profile posts
     @GET("get_posts")
-    suspend fun getProfilePosts(@Query("author") username: String): Response<List<GetAllPostResponse>>
+    suspend fun getProfilePosts(@Query("author") username: String): Response<List<GetPostTypeResponse>>
 
     @DELETE("delete_post/{id}")
     suspend fun deletePost(@Path("id") id:String): Response<LoginResponse>
