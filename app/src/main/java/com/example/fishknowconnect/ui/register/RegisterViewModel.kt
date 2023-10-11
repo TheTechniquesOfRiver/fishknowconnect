@@ -54,11 +54,6 @@ class RegisterViewModel : ViewModel() {
         location = input
     }
 
-    private val _errorText = MutableLiveData<String>().apply {
-        value = ""
-    }
-    val errorText: LiveData<String> = _errorText
-
     /**
      * fetch registration data
      */
@@ -69,24 +64,15 @@ class RegisterViewModel : ViewModel() {
                 FishKnowConnectApi.retrofitService.register(username, password, age, location)
             if (response.isSuccessful) {
                 val registerResponse = response.body()
-                when (response.code()) {
-                    200 -> if (registerResponse != null) {
-                        mutableState.value = RegistrationState.Success(registerResponse.message)
+                if (registerResponse != null) {
+                    when (response.code()) {
+                        200 -> mutableState.value =
+                            RegistrationState.Success(registerResponse.message)
+                        201 -> mutableState.value =
+                            RegistrationState.Error(registerResponse.message)
                     }
                 }
-            } else {
-                val responseError = response.errorBody()
-                try {
-                    val jObjError = JSONObject(responseError.toString())
-                    val errorMessage = jObjError.getJSONObject("error").getString("message")
-                    Log.d("errorMessage", errorMessage)
-
-                } catch (e: Exception) {
-                    Log.d("errorMessage", e.toString())
-                }
-
             }
-
         }
     }
 }
