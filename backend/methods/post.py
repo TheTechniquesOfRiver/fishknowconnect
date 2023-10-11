@@ -96,31 +96,6 @@ def update_post(post_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-@post_module.route('/get_all_posts', methods=['GET'])
-def get_all_posts():
-    try:
-        # Fetch all posts from the 'posts' collection
-        posts = list(mydb.posts.find({}).sort("timestamp", pymongo.DESCENDING))
-
-        # If there are no posts, return an empty list
-        if not posts:
-            return jsonify([])
-
-        # Serialize the posts to JSON format
-        serialized_posts = []
-        for post in posts:
-            serialized_post = {}
-            for key, value in post.items():
-                if key == '_id':
-                    value = str(post['_id'])
-                serialized_post[key] = value
-            serialized_posts.append(serialized_post)
-
-        return jsonify(serialized_posts), 200
-
-    except Exception as e:
-            return jsonify({'error': str(e)}), 500
-
 @post_module.route('/delete_post/<string:post_id>', methods=['DELETE'])
 def delete_post_by_id(post_id):
     try:
@@ -187,7 +162,7 @@ def get_posts():
             filters["author"] = author_filter
 
         # Fetch posts from the 'posts' collection based on the filter
-        posts = list(mydb.posts.find(filters))
+        posts = list(mydb.posts.find(filters).sort("timestamp", pymongo.DESCENDING))
 
         # If there are no posts, return an empty list
         if not posts:
@@ -297,8 +272,11 @@ def get_granted_posts():
         if filters:
             filter_query["$or"] = filters
 
+
+        filter_query["type"]= request.args.get('type')
+        print(filter_query)
         # Fetch posts from the 'posts' collection based on the filter
-        posts = list(mydb.posts.find(filter_query))
+        posts = list(mydb.posts.find(filter_query).sort("timestamp", pymongo.DESCENDING))
 
         # If there are no posts, return an empty list
         if not posts:
@@ -325,15 +303,18 @@ def get_granted_posts():
 def get_not_granted_posts():
     try:
         # Get the filter parameter from the URL query string
-        user = request.args.get('user') + ','
+        user = request.args.get('user')
 
         # Define filters to fetch posts based on the parameters
         filters = {}
         filters["access"] = 'private'
+        filters["author"] = {"$ne": user}
+        user = request.args.get('user') + ','
+        filters["type"] = request.args.get('type')
         filters["granted"] = {"$not": {"$regex": user, "$options": "i"}}
 
         # Fetch posts from the 'posts' collection based on the filter
-        posts = list(mydb.posts.find(filters))
+        posts = list(mydb.posts.find(filters).sort("timestamp", pymongo.DESCENDING))
 
         # If there are no posts, return an empty list
         if not posts:
