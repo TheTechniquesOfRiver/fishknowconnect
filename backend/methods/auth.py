@@ -16,11 +16,11 @@ def register():
     # check user name exists or not
     existing_user = mydb.users.find_one({'username': username})
     if existing_user:
-        return jsonify({'message': 'Username already exist'}), 409
+        return jsonify({'message': 'Username already exist'}), 401
     if not username:
-        return jsonify({'message': 'Enter Username'}), 409
+        return jsonify({'message': 'Enter Username'}), 401
     if not password:
-        return jsonify({'message': 'Enter Password'}), 409
+        return jsonify({'message': 'Enter Password'}), 401
     
     # Created hased password 
     hashed_password = generate_password_hash(password)
@@ -48,9 +48,9 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
     if not username:
-        return jsonify({'message': 'Enter Username'}), 409
+        return jsonify({'message': 'Enter Username'}), 401
     if not password:
-        return jsonify({'message': 'Enter Password'}), 409
+        return jsonify({'message': 'Enter Password'}), 401
 
     #check username and password 
     try:
@@ -89,12 +89,11 @@ def get_all_users():
     except Exception as e:
             return jsonify({'error': str(e)}), 500
     
-@auth_module.route('/get_user_by_id/<string:user_id>', methods=['GET'])
-def get_user_by_id(user_id):
+@auth_module.route('/get_user_by_id/<string:username>', methods=['GET'])
+def get_user_by_id(username):
     try:
         # Fetch a from the 'users' collection
-        target_id = ObjectId(user_id)
-        user = mydb.users.find_one({"_id": target_id})
+        user = mydb.users.find_one({"username": username})
 
         # If there is no users, return nothing
         if not user:
