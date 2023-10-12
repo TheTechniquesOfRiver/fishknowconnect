@@ -1,5 +1,6 @@
 package com.example.fishknowconnect.ui.fish
 
+import LocaleHelper
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -35,19 +36,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.fishknowconnect.DisplayList
+import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.network.FishKnowConnectApi
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ShowErrorMessage
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.TypeState
+import com.example.fishknowconnect.ui.boat.BoatViewModel
+import com.example.fishknowconnect.ui.boat.BoatViewModelFactory
 import com.example.fishknowconnect.ui.fish.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
 
 class FishActivity : ComponentActivity() {
-    val viewModel: FishViewModel by viewModels()
+    lateinit var fishViewModelFactory: FishViewModelFactory
+    lateinit var preferenceHelper: PreferenceHelper
+    val viewModel: FishViewModel by viewModels(factoryProducer = { fishViewModelFactory })
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preferenceHelper = PreferenceHelper.getInstance(this)
+        fishViewModelFactory = FishViewModelFactory(
+            preferenceHelper, FishKnowConnectApi.retrofitService
+        )
         setContent {
             FishKnowConnectTheme {
                 Surface(
@@ -159,11 +170,3 @@ fun FishScreen(name: String, viewModel: FishViewModel) {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun FishScreenPreview() {
-    FishKnowConnectTheme {
-        val viewModel = FishViewModel()
-        FishScreen("Fishscreen", viewModel)
-    }
-}

@@ -36,19 +36,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.fishknowconnect.DisplayList
+import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.network.FishKnowConnectApi
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ShowErrorMessage
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.TypeState
+import com.example.fishknowconnect.ui.boat.BoatViewModel
 import com.example.fishknowconnect.ui.fish.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
+import com.example.fishknowconnect.ui.others.OthersViewModelFactory
 import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
 
 class WaterActivity : ComponentActivity() {
-    val viewModel: WaterViewModel by viewModels()
+    lateinit var waterViewModelFactory: WaterViewModelFactory
+    lateinit var preferenceHelper: PreferenceHelper
+    val viewModel: WaterViewModel by viewModels(factoryProducer = { waterViewModelFactory })
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preferenceHelper = PreferenceHelper.getInstance(this)
+        waterViewModelFactory = WaterViewModelFactory(
+            preferenceHelper, FishKnowConnectApi.retrofitService
+        )
         setContent {
             FishKnowConnectTheme {
                 Surface(
@@ -154,11 +164,3 @@ fun WaterScreen(name: String, viewModel: WaterViewModel) {
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun WaterScreenPreview() {
-    FishKnowConnectTheme {
-        val viewModel = WaterViewModel()
-        WaterScreen(" WaterScreen", viewModel)
-    }
-}

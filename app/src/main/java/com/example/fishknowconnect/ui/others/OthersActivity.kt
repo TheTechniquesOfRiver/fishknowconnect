@@ -36,21 +36,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.fishknowconnect.DisplayList
+import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.network.FishKnowConnectApi
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ShowErrorMessage
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.TypeState
 import com.example.fishknowconnect.ui.boat.BoatViewModel
+import com.example.fishknowconnect.ui.fish.FishViewModelFactory
 import com.example.fishknowconnect.ui.fish.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
 
 class OthersActivity : ComponentActivity() {
 
-    val viewModel: OthersViewModel by viewModels()
+    lateinit var othersViewModelFactory: OthersViewModelFactory
+    lateinit var preferenceHelper: PreferenceHelper
+    val viewModel: OthersViewModel by viewModels(factoryProducer = { othersViewModelFactory })
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preferenceHelper = PreferenceHelper.getInstance(this)
+        othersViewModelFactory = OthersViewModelFactory(
+            preferenceHelper, FishKnowConnectApi.retrofitService
+        )
         setContent {
             FishKnowConnectTheme {
                 Surface(
@@ -154,13 +163,4 @@ fun OthersScreen(name: String, viewModel: OthersViewModel) {
             .fillMaxWidth()
             .padding(16.dp, 0.dp)
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun OthersScreenPreview() {
-    FishKnowConnectTheme {
-        val viewModel = OthersViewModel()
-        OthersScreen("OthersScreen", viewModel)
-    }
 }
