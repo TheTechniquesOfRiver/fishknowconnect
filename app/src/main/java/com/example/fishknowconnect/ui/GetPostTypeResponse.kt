@@ -9,5 +9,6 @@ data class GetPostTypeResponse(
     val fileType: String,
     val _id: String,
     val title:String,
-    val type: String
+    val type: String,
+    val author: String
 )

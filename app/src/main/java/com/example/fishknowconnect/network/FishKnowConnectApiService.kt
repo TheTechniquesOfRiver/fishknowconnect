@@ -70,8 +70,8 @@ interface FishKnowConnectApiService {
     suspend fun getAllPublicPost(): Response<List<GetPostTypeResponse>>
 
     //private post
-    @GET("get_not_granted_posts")
-    suspend fun getAllPrivatePost(@Query("user") type: String): Response<List<GetPrivatePostResponse>>
+    @GET("get_granted_posts")
+    suspend fun getAllPrivatePost(@Query("user") username: String,@Query("type") type: String): Response<List<GetPrivatePostResponse>>
 
     //all post by type
     @GET("get_posts")

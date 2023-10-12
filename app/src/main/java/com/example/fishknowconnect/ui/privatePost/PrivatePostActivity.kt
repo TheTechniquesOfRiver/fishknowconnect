@@ -49,13 +49,18 @@ class PrivatePostActivity : ComponentActivity() {
                         val intentType = intent.getStringExtra("type")
                         if (intentType != null) {
                             ToolBarLayout(intentType)
+                            LaunchedEffect(Unit, block = {
+                                viewModel.getAllPrivatePostContent(intentType)
+                            })
+                            PrivatePostScreen(intentType, viewModel)
                         }else{
                             ToolBarLayout("")
+                            Toast.makeText(
+                                this@PrivatePostActivity, "type not found", Toast.LENGTH_SHORT
+                            ).show()
+                            finish()
                         }
-                        LaunchedEffect(Unit, block = {
-                            viewModel.getAllPrivatePostContent()
-                        })
-                        PrivatePostScreen("Fish", viewModel)
+
                     }
                 }
             }

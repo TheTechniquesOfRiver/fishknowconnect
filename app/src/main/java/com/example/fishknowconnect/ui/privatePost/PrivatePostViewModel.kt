@@ -23,11 +23,11 @@ class PrivatePostViewModel(
     /**
      * fetch all content data
      */
-    fun getAllPrivatePostContent() {
+    fun getAllPrivatePostContent(type: String) {
         viewModelScope.launch(Dispatchers.Main) {
             mutableState.value = PrivatePostState.Loading
             try {
-                val response = retrofitService.getAllPrivatePost(username)
+                val response = retrofitService.getAllPrivatePost(username,type)
                 val privatePostResponse = response.body()
                 if (privatePostResponse.isNullOrEmpty()) {
                     mutableState.value = PrivatePostState.Failure("empty response")
