@@ -106,6 +106,7 @@ fun openItemDetailScreen(item: GetPostTypeResponse, context: Context) {
         putExtra("file_url", item.file_url)
         putExtra("fileType", item.fileType)
         putExtra("_id", item._id)
+        putExtra("author", item.author)
     }
     context.startActivity(intent)
 }
