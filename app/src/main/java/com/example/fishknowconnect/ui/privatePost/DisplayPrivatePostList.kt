@@ -13,6 +13,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -24,9 +28,7 @@ import com.example.fishknowconnect.R
  */
 @Composable
 fun DisplayPrivateList(
-    list: List<GetPrivatePostResponse>,
-    context: Activity?,
-    viewModel: PrivatePostViewModel
+    list: List<GetPrivatePostResponse>, context: Activity?, viewModel: PrivatePostViewModel
 ) {
     Column(modifier = Modifier.padding(16.dp)) {
         LazyColumn(modifier = Modifier.fillMaxHeight()) {
@@ -42,6 +44,7 @@ fun DisplayPrivateList(
  */
 @Composable
 fun ListItem(item: GetPrivatePostResponse, context: Activity?, viewModel: PrivatePostViewModel) {
+    var textRequestAccess by remember { mutableStateOf("Request Access") }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,9 +69,10 @@ fun ListItem(item: GetPrivatePostResponse, context: Activity?, viewModel: Privat
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
+            //hit api to send request access
             viewModel.sendRequestToAccessPost(item._id)
         }) {
-            Text(text = stringResource(id = R.string.text_request_access))
+            Text(text = stringResource(id = R.string.text_sent_request))
         }
     }
     Divider()

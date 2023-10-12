@@ -51,7 +51,7 @@ import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
 import com.example.fishknowconnect.ui.water.WaterViewModelFactory
 
-class WeatherActivity(preferenceHelper: PreferenceHelper, private val retrofitService: FishKnowConnectApiService) : ComponentActivity() {
+class WeatherActivity() : ComponentActivity() {
     lateinit var weatherViewModelFactory: WeatherViewModelFactory
     lateinit var preferenceHelper: PreferenceHelper
     val viewModel: WeatherViewModel by viewModels(factoryProducer = { weatherViewModelFactory })
@@ -68,7 +68,7 @@ class WeatherActivity(preferenceHelper: PreferenceHelper, private val retrofitSe
                 ) {
                     Column {
                         ToolBarLayout(this@WeatherActivity.getString(R.string.textview_weather))
-                        WeatherScreen(this@WeatherActivity.getString(R.string.textview_weather), viewModel)
+                        WeatherScreen()
                         when (val responseValue = viewModel.state.collectAsState().value) {
                             TypeState.Loading -> IndeterminateCircularIndicator()
                             is TypeState.Success -> responseValue.response?.let {
@@ -104,12 +104,12 @@ class WeatherActivity(preferenceHelper: PreferenceHelper, private val retrofitSe
  * Weather screen view
  */
 @Composable
-fun WeatherScreen(name: String, viewModel: WeatherViewModel) {
+fun WeatherScreen() {
     val activity = (LocalContext.current as? Activity)
     Row() {
         //private post button
         Button(modifier = Modifier.padding(vertical = 25.dp), onClick = {
-            //start new post screen
+            //start private post screen
             val intent = Intent(activity, PrivatePostActivity::class.java).apply {
                 putExtra("type", "Weather")
             }

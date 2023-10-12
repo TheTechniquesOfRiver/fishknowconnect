@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_navigation_home_to_othersActivity"
             app:destination="@id/othersActivity" />
+        <action
+            android:id="@+id/action_navigation_home_to_approvePostRequestActivity"
+            app:destination="@id/approvePostRequestActivity" />
     </fragment>
     <activity
         android:id="@+id/fishActivity"
@@ -68,6 +71,10 @@
         android:id="@+id/approvePostRequestFragment"
         android:name="com.example.fishknowconnect.ui.fish.ApprovePostRequestFragment"
         android:label="ApprovePostRequestFragment" />
+    <activity
+        android:id="@+id/approvePostRequestActivity"
+        android:name="com.example.fishknowconnect.ui.approvePostRequest.ApprovePostRequestActivity"
+        android:label="ApprovePostRequestActivity" />
 
 
 </navigation>

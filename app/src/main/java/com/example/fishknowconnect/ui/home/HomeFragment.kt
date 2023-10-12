@@ -58,7 +58,7 @@ class HomeFragment : Fragment(), OnClickListener {
                     navController?.navigate(R.id.action_navigation_home_to_othersActivity)
                 }
                 R.id.imageButton -> {
-                    navController?.navigate(R.id.action_navigation_home_to_approvePostRequestFragment)
+                    navController?.navigate(R.id.action_navigation_home_to_approvePostRequestActivity)
                 }
             }
         }

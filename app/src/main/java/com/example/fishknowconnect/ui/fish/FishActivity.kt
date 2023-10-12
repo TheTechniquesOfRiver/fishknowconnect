@@ -66,7 +66,7 @@ class FishActivity : ComponentActivity() {
                 ) {
                     Column {
                         ToolBarLayout(this@FishActivity.getString(R.string.textview_fish))
-                        FishScreen(this@FishActivity.getString(R.string.textview_fish), viewModel)
+                        FishScreen()
                         when (val responseValue = viewModel.state.collectAsState().value) {
                             TypeState.Loading -> IndeterminateCircularIndicator()
                             is TypeState.Success -> responseValue.response?.let {
@@ -98,20 +98,16 @@ class FishActivity : ComponentActivity() {
 }
 
 
-
-
-
 /**
  * Fish screen view
  */
 @Composable
-fun FishScreen(name: String, viewModel: FishViewModel) {
-
+fun FishScreen() {
     val activity = (LocalContext.current as? Activity)
-    Row() {
+    Row{
         //private post button
         Button(modifier = Modifier.padding(vertical = 25.dp), onClick = {
-            //start new post screen
+            //start private post screen
             val intent = Intent(activity, PrivatePostActivity::class.java).apply {
                 putExtra("type", "Fish")
             }
@@ -131,10 +127,8 @@ fun FishScreen(name: String, viewModel: FishViewModel) {
                     .size(40.dp)
                     .padding(start = 5.dp)
             )
-
         }
         //create new post button
-
         Button(modifier = Modifier.padding(vertical = 25.dp), onClick = {
             //start new post screen
             val intent = Intent(activity, NewPostActivity::class.java).apply {

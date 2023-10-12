@@ -34,6 +34,11 @@
             android:label="@string/title_activity_private_post"
             android:theme="@style/Theme.FishKnowConnect" />
         <activity
+            android:name=".ui.approvePostRequest.ApprovePostRequestActivity"
+            android:exported="false"
+            android:label="@string/title_activity_approve_post_request"
+            android:theme="@style/Theme.FishKnowConnect" />
+        <activity
             android:name=".ui.fish.FishActivity"
             android:exported="false"
             android:label="@string/title_activity_record_voice"

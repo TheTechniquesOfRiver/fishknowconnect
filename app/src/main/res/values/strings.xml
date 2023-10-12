@@ -29,7 +29,7 @@
     <string name="textview_water">Water</string>
     <string name="textview_boat">Boat</string>
     <string name="textview_others">Others</string>
-    <string name="textview_approve_post_request">7 Approve Post Request</string>
+    <string name="textview_approve_post_request">Approve Post Request</string>
     <string name="welcome">Welcome to Technique Of River\n</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_select_language">SelectLanguage</string>
@@ -73,12 +73,14 @@
     <string name="text_password_required">Password required</string>
     <string name="text_welcome">Welcome</string>
     <string name="title_activity_private_post">PrivatePostActivity</string>
+    <string name="title_activity_approve_post_request">ApprovePostRequestActivity</string>
     //privatepost
-    <string name="text_request_access">Request access</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-
+    //request access
+    <string name="text_sent_request">Sent request</string>
+    <string name="text_request_access">Request access</string>
 
 </resources>
