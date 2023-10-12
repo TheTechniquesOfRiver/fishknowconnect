@@ -23,6 +23,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -30,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ToolBarLayout
@@ -123,63 +128,76 @@ fun ListItemDetailScreen(
     intent: Intent, viewModel: DeleteContentViewModel
 ) {
     val context = LocalContext.current
+    var isDeleteVisible by remember { mutableStateOf(true) }
     //get extras from intent
     val intentTitle = intent.getStringExtra("title")
     val intentContent = intent.getStringExtra("content")
     val intentFileUrl = intent.getStringExtra("file_url")
     val intentFileType = intent.getStringExtra("fileType")
     val intentId = intent.getStringExtra("_id")
-    //for delete
-    Button(onClick = {
-        if (intentId != null) {
-            viewModel.deleteContent(intentId)
-        } else {
-            Toast.makeText(context, "Id not found", Toast.LENGTH_SHORT).show()
-        }
-    }) {
-        Text(
-            text = stringResource(id = R.string.text_delete), textAlign = TextAlign.End
-        )
+    val intentAuthor = intent.getStringExtra("author")
+    if (intentAuthor != null) {
+        isDeleteVisible =
+            intentAuthor == PreferenceHelper.getInstance(context).getLoggedInUsernameUser()
+    } else {
+        Toast.makeText(context, "Author not found", Toast.LENGTH_SHORT).show()
     }
-    //title
-    Row(modifier = Modifier.padding(10.dp)) {
-        Text(
-            text = stringResource(id = R.string.text_title),
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .size(30.dp)
-                .weight(1f)
-        )
+    if (isDeleteVisible) {
         Button(onClick = {
-            if (isListenEnable) {
-                tts!!.speak(intentTitle, TextToSpeech.QUEUE_FLUSH, null, "")
+            if (intentId != null) {
+                viewModel.deleteContent(intentId)
+            } else {
+                Toast.makeText(context, "Id not found", Toast.LENGTH_SHORT).show()
             }
         }) {
             Text(
-                text = stringResource(id = R.string.text_listen), textAlign = TextAlign.End
+                text = stringResource(id = R.string.text_delete), textAlign = TextAlign.End
             )
         }
-
     }
+    //title
     if (!intentTitle.isNullOrEmpty()) {
-        Text(text = intentTitle, modifier = Modifier.padding(10.dp))
+        Row(modifier = Modifier.padding(10.dp)) {
+            Text(
+                text = stringResource(id = R.string.text_title),
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .size(30.dp)
+                    .weight(1f)
+            )
+            Button(onClick = {
+                if (isListenEnable) {
+                    tts!!.speak(intentTitle, TextToSpeech.QUEUE_FLUSH, null, "")
+                }
+            }) {
+                Text(
+                    text = stringResource(id = R.string.text_listen), textAlign = TextAlign.End
+                )
+            }
+        }
+        Text(text = intentTitle, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 0.dp))
     }
     //content
-    Row(modifier = Modifier.padding(10.dp)) {
-        Text(
-            text = stringResource(id = R.string.text_content),
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .size(30.dp)
-                .weight(1f)
-        )
-        Button(onClick = {
-            if (isListenEnable) {
-                tts!!.speak(intentContent, TextToSpeech.QUEUE_FLUSH, null, "")
+    if (!intentContent.isNullOrEmpty()) {
+        Row(modifier = Modifier.padding(10.dp)) {
+            Text(
+                text = stringResource(id = R.string.text_content),
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .size(30.dp)
+                    .weight(1f)
+            )
+            Button(onClick = {
+                if (isListenEnable) {
+                    tts!!.speak(intentContent, TextToSpeech.QUEUE_FLUSH, null, "")
+                }
+            }) {
+                Text(
+                    text = stringResource(id = R.string.text_listen), textAlign = TextAlign.End
+                )
             }
-        }) {
-            Text(text = stringResource(id = R.string.text_listen))
         }
+        Text(text = intentContent, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 0.dp))
     }
     if (!intentContent.isNullOrEmpty()) {
         Text(text = intentContent, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 0.dp))
@@ -192,7 +210,6 @@ fun ListItemDetailScreen(
                 painter = rememberAsyncImagePainter(intentFileUrl),
                 contentDescription = null
             )
-
             "video" -> ShowVideoPlayer(videoUri = Uri.parse(intentFileUrl))
         }
     }
