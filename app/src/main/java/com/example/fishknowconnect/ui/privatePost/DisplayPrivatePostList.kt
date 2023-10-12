@@ -66,7 +66,7 @@ fun ListItem(item: GetPrivatePostResponse, context: Activity?, viewModel: Privat
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-//            viewModel.sendRequestToAccessPost(item._id)
+            viewModel.sendRequestToAccessPost(item._id)
         }) {
             Text(text = stringResource(id = R.string.text_request_access))
         }

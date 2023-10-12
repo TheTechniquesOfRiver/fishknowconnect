@@ -4,12 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,9 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -41,7 +37,9 @@ import androidx.compose.ui.unit.sp
 import com.example.fishknowconnect.DisplayList
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
+import com.example.fishknowconnect.ui.ShowErrorMessage
 import com.example.fishknowconnect.ui.ToolBarLayout
+import com.example.fishknowconnect.ui.TypeState
 import com.example.fishknowconnect.ui.fish.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
@@ -58,14 +56,12 @@ class FishActivity : ComponentActivity() {
                     Column {
                         ToolBarLayout(this@FishActivity.getString(R.string.textview_fish))
                         FishScreen(this@FishActivity.getString(R.string.textview_fish), viewModel)
-                        val context = LocalContext.current as? Activity
                         when (val responseValue = viewModel.state.collectAsState().value) {
-                            FishState.Loading -> IndeterminateCircularIndicator()
-                            is FishState.Success -> responseValue.response?.let {
+                            TypeState.Loading -> IndeterminateCircularIndicator()
+                            is TypeState.Success -> responseValue.response?.let {
                                 DisplayList(it)
                             }
-
-                            is FishState.Error -> ShowErrorMessage()
+                            is TypeState.Error -> ShowErrorMessage()
                             else -> {
                             }
                         }
@@ -86,21 +82,12 @@ class FishActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getAllContents()
+        viewModel.getAllFishContents()
     }
 }
 
 
-/**
- * shows error dialog
- */
-@Composable
-fun ShowErrorMessage() {
-    val context = LocalContext.current as? Activity
-    Toast.makeText(
-        context, stringResource(id = R.string.text_something_went_wrong), Toast.LENGTH_SHORT
-    ).show()
-}
+
 
 
 /**
@@ -114,7 +101,9 @@ fun FishScreen(name: String, viewModel: FishViewModel) {
         //private post button
         Button(modifier = Modifier.padding(vertical = 25.dp), onClick = {
             //start new post screen
-            val intent = Intent(activity, PrivatePostActivity::class.java).apply {}
+            val intent = Intent(activity, PrivatePostActivity::class.java).apply {
+                putExtra("type", "Fish")
+            }
             activity?.startActivity(intent)
         }) {
             Text(
@@ -138,7 +127,7 @@ fun FishScreen(name: String, viewModel: FishViewModel) {
         Button(modifier = Modifier.padding(vertical = 25.dp), onClick = {
             //start new post screen
             val intent = Intent(activity, NewPostActivity::class.java).apply {
-                putExtra("type", name)
+                putExtra("type", "Fish")
             }
             activity?.startActivity(intent)
         }) {

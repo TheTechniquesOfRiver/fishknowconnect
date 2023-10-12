@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,8 +13,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -23,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -46,6 +42,8 @@ class ProfileFragment : Fragment() {
     lateinit var profileViewModelFactory: ProfileViewModelFactory
     private var _binding: FragmentProfileBinding? = null
     lateinit var preferenceHelper: PreferenceHelper
+    val profileViewModel: ProfileViewModel by viewModels(factoryProducer = { profileViewModelFactory })
+
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -56,12 +54,10 @@ class ProfileFragment : Fragment() {
         profileViewModelFactory = ProfileViewModelFactory(
             preferenceHelper, FishKnowConnectApi.retrofitService
         )
-        val profileViewModel: ProfileViewModel by viewModels(factoryProducer = { profileViewModelFactory })
         binding.composeViewProfile.apply {
             setContent {
                 LaunchedEffect(Unit, block = {
                     profileViewModel.getProfileInfo()
-                    profileViewModel.getAllProfilePostContent()
 
                 })
                 //title text
@@ -114,6 +110,12 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        profileViewModel.getProfilePosts()
+
     }
 }
 

@@ -3,6 +3,7 @@ package com.example.fishknowconnect
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.fishknowconnect.ui.contentDetail.ContentDetailActivity
-import com.example.fishknowconnect.ui.fish.GetAllPostResponse
+import com.example.fishknowconnect.ui.GetPostTypeResponse
 import com.example.fishknowconnect.ui.newPost.ShowAudioPlayer
 import com.example.fishknowconnect.ui.newPost.ShowVideoPlayer
 
@@ -32,7 +33,7 @@ import com.example.fishknowconnect.ui.newPost.ShowVideoPlayer
  * Display all list
  */
 @Composable
-fun DisplayList(list: List<GetAllPostResponse>) {
+fun DisplayList(list: List<GetPostTypeResponse>) {
     val context = LocalContext.current
     Column(modifier = Modifier.padding(16.dp)) {
         LazyColumn(modifier = Modifier.fillMaxHeight()) {
@@ -47,7 +48,7 @@ fun DisplayList(list: List<GetAllPostResponse>) {
  * Each list item
  */
 @Composable
-fun ListItem(item: GetAllPostResponse, context: Context) {
+fun ListItem(item: GetPostTypeResponse, context: Context) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -97,12 +98,15 @@ fun ListItem(item: GetAllPostResponse, context: Context) {
 /**
  * Open detail screen with each item
  */
-fun openItemDetailScreen(item: GetAllPostResponse, context: Context) {
+fun openItemDetailScreen(item: GetPostTypeResponse, context: Context) {
+    Log.d("id", "id"+item._id)
     val intent = Intent(context, ContentDetailActivity::class.java).apply {
         putExtra("title", item.title)
         putExtra("content", item.content)
         putExtra("file_url", item.file_url)
         putExtra("fileType", item.fileType)
+        putExtra("_id", item._id)
+        putExtra("author", item.author)
     }
     context.startActivity(intent)
 }

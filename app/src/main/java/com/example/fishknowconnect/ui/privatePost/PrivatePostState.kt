@@ -6,5 +6,5 @@ sealed class PrivatePostState {
     data class Success(val response: List<GetPrivatePostResponse>?) : PrivatePostState()
     data class Error(val response: List<GetPrivatePostResponse>?) : PrivatePostState()
     data class Failure(val string: String) : PrivatePostState()
-
+    data class SuccessAccess(val message: String) : PrivatePostState()
 }

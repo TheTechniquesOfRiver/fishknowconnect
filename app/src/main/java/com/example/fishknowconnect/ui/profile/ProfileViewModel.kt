@@ -1,9 +1,5 @@
 package com.example.fishknowconnect.ui.profile
 
-import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fishknowconnect.PreferenceHelper
@@ -57,11 +53,11 @@ class ProfileViewModel(
     /**
      * fetch all profile post list data
      */
-    fun getAllProfilePostContent() {
+    fun getProfilePosts() {
         viewModelScope.launch(Dispatchers.Main) {
             mutableStateProfilePost.value = ProfilePostListPostState.Loading
             try {
-                val response = FishKnowConnectApi.retrofitService.getAllProfilePostList()
+                val response = FishKnowConnectApi.retrofitService.getProfilePosts(username)
                 val profilePostResponse = response.body()
                 if (profilePostResponse.isNullOrEmpty()) {
                     mutableStateProfilePost.value = ProfilePostListPostState.Failure("empty response")

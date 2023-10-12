@@ -1,9 +1,9 @@
 package com.example.fishknowconnect.ui.fish
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fishknowconnect.network.FishKnowConnectApi
+import com.example.fishknowconnect.ui.TypeState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,29 +11,29 @@ import kotlinx.coroutines.launch
 import java.net.ProtocolException
 
 class FishViewModel : ViewModel() {
-    private val mutableState = MutableStateFlow<FishState>(FishState.None)
+    private val mutableState = MutableStateFlow<TypeState>(TypeState.None)
     val state = mutableState.asStateFlow()
 
     /**
      * fetch all content data
      */
-    fun getAllContents() {
+    fun getAllFishContents() {
         viewModelScope.launch(Dispatchers.Main) {
-            mutableState.value = FishState.Loading
+            mutableState.value = TypeState.Loading
             try {
                 val response =
-                    FishKnowConnectApi.retrofitService.getAllPublicPost()
+                    FishKnowConnectApi.retrofitService.getPostsByType("Fish")
                 val fishResponse = response.body()
                 if (fishResponse.isNullOrEmpty()) {
-                    mutableState.value = FishState.Failure("empty response")
+                    mutableState.value = TypeState.Failure("empty response")
                 } else {
                     if (response.isSuccessful) {
                         when (response.code()) {
-                            200  -> mutableState.value = FishState.Success(fishResponse)
+                            200  -> mutableState.value = TypeState.Success(fishResponse)
                         }
                     } else {
                         when (response.code()) {
-                            409 -> mutableState.value = FishState.Error(fishResponse)
+                            409 -> mutableState.value = TypeState.Error(fishResponse)
                         }
                     }
                 }
