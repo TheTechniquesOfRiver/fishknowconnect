@@ -232,7 +232,6 @@ class HomeNewPostActivity : ComponentActivity() {
                 .fillMaxHeight(),
         ) {
             if (imageVisibility && capturedImageUri.path?.isNotEmpty() == true) {
-
                 Image(
                     modifier = Modifier
                         .padding(16.dp, 8.dp)
@@ -240,11 +239,11 @@ class HomeNewPostActivity : ComponentActivity() {
                     painter = rememberAsyncImagePainter(capturedImageUri),
                     contentDescription = null
                 )
-
             }
             if (videoVisibility && capturedVideoUri.path?.isNotEmpty() == true) {
                 ShowVideoPlayer(videoUri = capturedVideoUri)
             }
+            //show drop down
             ShowDropDown(viewModel)
             OutlinedTextField(
                 value = viewModel.postTitle,
@@ -356,6 +355,9 @@ class HomeNewPostActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * shows drop down for list of types
+     */
     @Composable
     private fun ShowDropDown(viewModel: NewPostViewModel) {
         var mExpanded by remember { mutableStateOf(false) }
@@ -384,9 +386,6 @@ class HomeNewPostActivity : ComponentActivity() {
                 trailingIcon = {
                     Icon(icon, "contentDescription", Modifier.clickable { mExpanded = !mExpanded })
                 })
-
-            // Create a drop-down menu with list of cities,
-            // when clicked, set the Text Field text as the city selected
             DropdownMenu(
                 expanded = mExpanded,
                 onDismissRequest = { mExpanded = false },
