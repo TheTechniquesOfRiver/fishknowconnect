@@ -9,7 +9,6 @@ import android.media.MediaRecorder
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.ui.ToolBarLayout
-import com.example.fishknowconnect.ui.fish.ui.theme.FishKnowConnectTheme
+import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import java.io.IOException
 

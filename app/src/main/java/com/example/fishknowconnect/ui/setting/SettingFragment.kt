@@ -39,12 +39,14 @@ class SettingFragment : Fragment() {
         buttonBangala.setOnClickListener {
             LocaleHelper.setLocale(this.requireContext(), "bn");
             val i = Intent(this.requireContext(), MainActivity::class.java)
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(i)
         }
         // change into english language
         buttonEnglish.setOnClickListener {
             LocaleHelper.setLocale(this.requireContext(), "en");
             val i = Intent(this.requireContext(), MainActivity::class.java)
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(i)
         }
         return root

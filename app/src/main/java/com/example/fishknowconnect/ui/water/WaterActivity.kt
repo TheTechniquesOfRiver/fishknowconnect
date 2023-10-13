@@ -27,28 +27,36 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.fishknowconnect.DisplayList
+import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.network.FishKnowConnectApi
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ShowErrorMessage
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.TypeState
-import com.example.fishknowconnect.ui.fish.ui.theme.FishKnowConnectTheme
+import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
 
 class WaterActivity : ComponentActivity() {
-    val viewModel: WaterViewModel by viewModels()
+    lateinit var waterViewModelFactory: WaterViewModelFactory
+    lateinit var preferenceHelper: PreferenceHelper
+    val viewModel: WaterViewModel by viewModels(factoryProducer = { waterViewModelFactory })
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preferenceHelper = PreferenceHelper.getInstance(this)
+        waterViewModelFactory = WaterViewModelFactory(
+            preferenceHelper, FishKnowConnectApi.retrofitService
+        )
         setContent {
             FishKnowConnectTheme {
                 Surface(
@@ -94,33 +102,9 @@ class WaterActivity : ComponentActivity() {
 @Composable
 fun WaterScreen(name: String, viewModel: WaterViewModel) {
     val activity = (LocalContext.current as? Activity)
-    Row() {
-        //private post button
-        Button(modifier = Modifier.padding(vertical = 25.dp), onClick = {
-            //start new post screen
-            val intent = Intent(activity, PrivatePostActivity::class.java).apply {
-                putExtra("type", "Water")
-            }
-            activity?.startActivity(intent)
-        }) {
-            Text(
-                text = stringResource(id = R.string.button_private_post),
-                textAlign = TextAlign.Left,
-                style = TextStyle(
-                    fontSize = 20.sp, color = Color.White, fontFamily = FontFamily.SansSerif
-                )
-            )
-            Icon(
-                imageVector = Icons.Default.List,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(40.dp)
-                    .padding(start = 5.dp)
-            )
-
-        }
+    Column(modifier = Modifier.padding(10.dp)) {
         //create new post button
-        Button(modifier = Modifier.padding(vertical = 25.dp), onClick = {
+        Button(modifier = Modifier.padding(10.dp).fillMaxWidth(), onClick = {
             //start new post screen
             val intent = Intent(activity, NewPostActivity::class.java).apply {
                 putExtra("type", "Water")
@@ -142,23 +126,31 @@ fun WaterScreen(name: String, viewModel: WaterViewModel) {
                     .padding(start = 5.dp)
             )
         }
-    }
+        //private post button
+        Button(modifier = Modifier.padding(10.dp).fillMaxWidth(), onClick = {
+            //start new post screen
+            val intent = Intent(activity, PrivatePostActivity::class.java).apply {
+                putExtra("type", "Water")
+            }
+            activity?.startActivity(intent)
+        }) {
+            Text(
+                text = stringResource(id = R.string.button_private_post),
+                textAlign = TextAlign.Left,
+                style = TextStyle(
+                    fontSize = 20.sp, color = Color.White, fontFamily = FontFamily.SansSerif
+                )
+            )
+            Icon(
+                painter = painterResource(R.drawable.view),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(40.dp)
+                    .padding(start = 5.dp)
+            )
 
-    //title
-    Text(
-        text = stringResource(id = R.string.text_latest_post), style = TextStyle(
-            fontSize = 20.sp, fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.Bold
-        ), modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 0.dp)
-    )
-}
+        }
 
-@Preview(showBackground = true)
-@Composable
-fun WaterScreenPreview() {
-    FishKnowConnectTheme {
-        val viewModel = WaterViewModel()
-        WaterScreen(" WaterScreen", viewModel)
     }
-}
+ }
+
