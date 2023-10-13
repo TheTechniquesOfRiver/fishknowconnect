@@ -1,4 +1,4 @@
-package com.example.fishknowconnect.ui.newPost
+package com.example.fishknowconnect.ui
 
 import LocaleHelper
 import android.Manifest
@@ -16,6 +16,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,9 +25,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -42,7 +48,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
@@ -51,14 +60,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.rememberAsyncImagePainter
 import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.network.FishKnowConnectApi
-import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
-import com.example.fishknowconnect.ui.ToolBarLayout
+import com.example.fishknowconnect.ui.newPost.NewPostState
+import com.example.fishknowconnect.ui.newPost.NewPostViewModel
+import com.example.fishknowconnect.ui.newPost.NewPostViewModelFactory
+import com.example.fishknowconnect.ui.newPost.ShowAudioPlayer
+import com.example.fishknowconnect.ui.newPost.ShowVideoPlayer
+import com.example.fishknowconnect.ui.newPost.createImageFile
+import com.example.fishknowconnect.ui.newPost.createVideoFile
 import com.example.fishknowconnect.ui.newPost.ui.theme.DrawScrollableView
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.ui.theme.iconPhotoCamera
@@ -69,7 +84,7 @@ import com.example.fishknowconnect.ui.recordVoice.RecordVoiceActivity
 import java.io.File
 import java.util.Objects
 
-class NewPostActivity : ComponentActivity() {
+class HomeNewPostActivity : ComponentActivity() {
     lateinit var newPostViewModelFactory: NewPostViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -230,16 +245,17 @@ class NewPostActivity : ComponentActivity() {
             if (videoVisibility && capturedVideoUri.path?.isNotEmpty() == true) {
                 ShowVideoPlayer(videoUri = capturedVideoUri)
             }
+            ShowDropDown(viewModel)
             OutlinedTextField(
                 value = viewModel.postTitle,
-                modifier = Modifier.padding(all = 16.dp).fillMaxWidth(),
+                modifier = Modifier.padding(all = 16.dp) .fillMaxWidth(),
                 onValueChange = { title -> viewModel.updateTitle(title) },
                 label = { Text(text = stringResource(R.string.textview_post_title)) },
                 minLines = 2
             )
             OutlinedTextField(
                 value = viewModel.content,
-                modifier = Modifier.padding(all = 16.dp).fillMaxWidth(),
+                modifier = Modifier.padding(all = 16.dp) .fillMaxWidth(),
                 onValueChange = { content -> viewModel.updateContent(content) },
                 label = { Text(text = stringResource(R.string.textview_text_post)) },
                 minLines = 5
@@ -326,10 +342,6 @@ class NewPostActivity : ComponentActivity() {
                 }
             }
             Button(onClick = {
-                val intentType = intent.getStringExtra("type")
-                if (intentType != null) {
-                    viewModel.type(intentType)
-                }
                 viewModel.uploadPictureToServer("")
             }) {
                 Icon(imageVector = iconUpload(), contentDescription = "Upload")
@@ -340,6 +352,54 @@ class NewPostActivity : ComponentActivity() {
                         fontSize = 20.sp, fontFamily = FontFamily.SansSerif
                     )
                 )
+            }
+        }
+    }
+
+    @Composable
+    private fun ShowDropDown(viewModel: NewPostViewModel) {
+        var mExpanded by remember { mutableStateOf(false) }
+        val types = listOf(
+            getString(R.string.textview_fish),
+            getString(R.string.textview_weather),
+            getString(R.string.textview_water),
+            getString(R.string.textview_boat),
+            getString(R.string.textview_others)
+        )
+        var mSelectedText by remember { mutableStateOf("") }
+        var mTextFieldSize by remember { mutableStateOf(Size.Zero) }
+        // Up Icon when expanded and down icon when collapsed
+        val icon = if (mExpanded) Icons.Filled.KeyboardArrowUp
+        else Icons.Filled.KeyboardArrowDown
+
+        Column(Modifier.padding(20.dp)) {
+            OutlinedTextField(value = mSelectedText,
+                onValueChange = { mSelectedText = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onGloballyPositioned { coordinates ->
+                        mTextFieldSize = coordinates.size.toSize()
+                    },
+                label = { Text("Type") },
+                trailingIcon = {
+                    Icon(icon, "contentDescription", Modifier.clickable { mExpanded = !mExpanded })
+                })
+
+            // Create a drop-down menu with list of cities,
+            // when clicked, set the Text Field text as the city selected
+            DropdownMenu(
+                expanded = mExpanded,
+                onDismissRequest = { mExpanded = false },
+                modifier = Modifier.width(with(LocalDensity.current) { mTextFieldSize.width.toDp() })
+            ) {
+                types.forEach { label ->
+                    DropdownMenuItem(text = { Text(text = label) }, onClick = {
+                        mSelectedText = label
+                        mExpanded = false
+                        viewModel.type(label)
+                    })
+
+                }
             }
         }
     }
