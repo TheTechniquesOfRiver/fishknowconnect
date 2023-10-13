@@ -43,7 +43,7 @@
     <string name="textview_post_title">Title</string>
     <string name="text_something_went_wrong">Something went wrong..</string>
     <string name="text_content_details">Content details</string>
-    <string name="text_latest_post">Latest post</string>
+    <string name="text_latest_post">LATEST POSTS</string>
     <string name="text_radio_private">Share privately</string>
     <string name="text_radio_public">Share with everyone</string>
     <string name="text_who_can_see">Who can see?</string>
@@ -55,8 +55,8 @@
     //recording
     <string name="text_record_voice">Record voice</string>
     <string name="button_upload">Upload</string>
-    <string name="button_new_post">New Post</string>
-    <string name="button_private_post">Private Post</string>
+    <string name="button_new_post">Create New Post</string>
+    <string name="button_private_post">View Private Post</string>
     <string name="title_activity_fish">FishActivity</string>
     <string name="title_activity_weather">WeatherActivity</string>
     <string name="title_activity_water">WaterActivity</string>

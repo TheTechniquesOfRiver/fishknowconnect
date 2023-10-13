@@ -33,7 +33,7 @@ import com.example.fishknowconnect.network.FishKnowConnectApi
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ShowErrorMessage
 import com.example.fishknowconnect.ui.ToolBarLayout
-import com.example.fishknowconnect.ui.fish.ui.theme.FishKnowConnectTheme
+import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import java.util.Arrays
 
 
