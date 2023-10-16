@@ -15,3 +15,4 @@ data class GetPrivatePostAccessResponse(
 //    "title": "private",
 //    "type": "Fish"
 //}
+

@@ -6,6 +6,7 @@ package com.example.fishknowconnect.ui.privatePost
 data class GetPrivatePostResponse(
     val author:String,
     val title: String,
+    val _id: String
 )
 //"_id": "651f9015b1f4dfb5eaabd380",
 //"access": "private",

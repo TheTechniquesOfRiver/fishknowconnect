@@ -1,13 +1,14 @@
-package com.example.fishknowconnect.ui.fish
+package com.example.fishknowconnect.ui
 
 /**
  * Response data for get all post
  */
-data class GetAllPostResponse(
+data class GetPostTypeResponse(
     val content: String,
     val file_url: String,
     val fileType: String,
-    val id: String,
+    val _id: String,
     val title:String,
-    val type: String
+    val type: String,
+    val author: String
 )

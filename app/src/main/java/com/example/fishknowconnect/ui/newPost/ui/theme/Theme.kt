@@ -1,6 +1,5 @@
 package com.example.fishknowconnect.ui.newPost.ui.theme
 
-
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -17,7 +16,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
+    primary =Purple80,
     secondary = PurpleGrey80,
     tertiary = Pink80
 )
@@ -65,7 +64,7 @@ fun FishKnowConnectTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = com.example.fishknowconnect.ui.fish.ui.theme.Typography,
         content = content
     )
 }

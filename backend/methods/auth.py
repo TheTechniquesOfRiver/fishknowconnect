@@ -61,4 +61,59 @@ def login():
             return jsonify({'message': 'Successfully Login'}), 200
         return jsonify({'message': 'Invalid username or password'}), 201
     except Exception as e:
+<<<<<<< HEAD
         return jsonify({'error': str(e)}), 400   
+=======
+        return jsonify({'message': str(e)}), 400   
+
+
+@auth_module.route('/get_all_users', methods=['GET'])
+def get_all_users():
+    try:
+        # Fetch all users from the 'users' collection
+        users = list(mydb.users.find({}))
+
+        # If there are no users, return an empty list
+        if not users:
+            return jsonify([])
+
+        # Serialize the users to JSON format
+        serialized_users = []
+        for user in users:
+            serialized_user = {}
+            for key, value in user.items():
+                if key == '_id':
+                    value = str(user['_id'])
+                serialized_user[key] = value
+            serialized_users.append(serialized_user)
+
+        return jsonify(serialized_users), 200
+
+    except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    
+@auth_module.route('/get_user_by_id/<string:username>', methods=['GET'])
+def get_user_by_id(username):
+    try:
+        # Fetch a from the 'users' collection
+        user = mydb.users.find_one({"username": username})
+
+        # If there is no users, return nothing
+        if not user:
+            return jsonify([])
+
+        # Serialize the user to JSON format
+        serialized_users = []
+        
+        serialized_user = {}
+        for key, value in user.items():
+            if key == '_id':
+                value = str(user['_id'])
+            serialized_user[key] = value
+        serialized_users.append(serialized_user)
+
+        return jsonify(serialized_user), 200
+
+    except Exception as e:
+            return jsonify({'error': str(e)}), 500
+>>>>>>> 649c315c8e9735a559fa92af1ef6b40182a2ab67

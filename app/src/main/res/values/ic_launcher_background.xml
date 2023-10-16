@@ -3,4 +3,5 @@
     <color name="ic_launcher_background">#FFFFFF</color>
     <color name="app_color">#70ced3</color>
     <color name="app_status_bar">#68BBC0</color>
+    <color name="app_status_bar_light">#DDECEC</color>
 </resources>

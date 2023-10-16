@@ -64,7 +64,7 @@ fun FishKnowConnectTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = com.example.fishknowconnect.ui.fish.ui.theme.Typography,
         content = content
     )
 }
