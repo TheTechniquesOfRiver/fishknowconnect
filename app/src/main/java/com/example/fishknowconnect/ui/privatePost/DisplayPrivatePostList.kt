@@ -19,8 +19,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.fishknowconnect.R
 
 /**
@@ -44,7 +46,6 @@ fun DisplayPrivateList(
  */
 @Composable
 fun ListItem(item: GetPrivatePostResponse, context: Activity?, viewModel: PrivatePostViewModel) {
-    var textRequestAccess by remember { mutableStateOf("Request Access") }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -53,6 +54,8 @@ fun ListItem(item: GetPrivatePostResponse, context: Activity?, viewModel: Privat
         Text(
             item.author,
             maxLines = 1,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .fillMaxWidth()
@@ -62,6 +65,8 @@ fun ListItem(item: GetPrivatePostResponse, context: Activity?, viewModel: Privat
         Text(
             item.title,
             maxLines = 1,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Medium,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .fillMaxWidth()

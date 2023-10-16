@@ -136,25 +136,7 @@ fun ListItemDetailScreen(
     val intentFileType = intent.getStringExtra("fileType")
     val intentId = intent.getStringExtra("_id")
     val intentAuthor = intent.getStringExtra("author")
-    if (intentAuthor != null) {
-        isDeleteVisible =
-            intentAuthor == PreferenceHelper.getInstance(context).getLoggedInUsernameUser()
-    } else {
-        Toast.makeText(context, "Author not found", Toast.LENGTH_SHORT).show()
-    }
-    if (isDeleteVisible) {
-        Button(onClick = {
-            if (intentId != null) {
-                viewModel.deleteContent(intentId)
-            } else {
-                Toast.makeText(context, "Id not found", Toast.LENGTH_SHORT).show()
-            }
-        }) {
-            Text(
-                text = stringResource(id = R.string.text_delete), textAlign = TextAlign.End
-            )
-        }
-    }
+
     //title
     if (!intentTitle.isNullOrEmpty()) {
         Row(modifier = Modifier.padding(10.dp)) {
@@ -211,6 +193,25 @@ fun ListItemDetailScreen(
                 contentDescription = null
             )
             "video" -> ShowVideoPlayer(videoUri = Uri.parse(intentFileUrl))
+        }
+    }
+    if (intentAuthor != null) {
+        isDeleteVisible =
+            intentAuthor == PreferenceHelper.getInstance(context).getLoggedInUsernameUser()
+    } else {
+        Toast.makeText(context, "Author not found", Toast.LENGTH_SHORT).show()
+    }
+    if (isDeleteVisible) {
+        Button(onClick = {
+            if (intentId != null) {
+                viewModel.deleteContent(intentId)
+            } else {
+                Toast.makeText(context, "Id not found", Toast.LENGTH_SHORT).show()
+            }
+        }) {
+            Text(
+                text = stringResource(id = R.string.text_delete), textAlign = TextAlign.End
+            )
         }
     }
 }

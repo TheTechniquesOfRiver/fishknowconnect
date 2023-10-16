@@ -179,6 +179,7 @@ fun showDialog(message: String) {
 @Composable
 fun OpenLoginScreen() {
     val activity = (LocalContext.current as? Activity)
+    Toast.makeText(LocalContext.current.applicationContext, stringResource(id = R.string.text_succesful_register), Toast.LENGTH_SHORT).show();
     val intent = Intent(activity, LoginActivity::class.java)
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
     activity?.startActivity(intent)

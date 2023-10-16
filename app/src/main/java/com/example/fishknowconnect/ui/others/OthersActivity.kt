@@ -69,7 +69,7 @@ class OthersActivity : ComponentActivity() {
                         when (val responseValue = viewModel.state.collectAsState().value) {
                             TypeState.Loading -> IndeterminateCircularIndicator()
                             is TypeState.Success -> responseValue.response?.let {
-                                DisplayList(it)
+                                DisplayList(it, stringResource(id = R.string.text_latest_post))
                             }
                             is TypeState.Error -> ShowErrorMessage()
                             else -> {
@@ -149,10 +149,6 @@ fun OthersScreen() {
                     .size(40.dp)
                     .padding(start = 5.dp)
             )
-
         }
-
     }
-
-
 }

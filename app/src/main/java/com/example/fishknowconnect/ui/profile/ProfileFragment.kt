@@ -67,9 +67,10 @@ class ProfileFragment : Fragment() {
                             .fillMaxWidth()
                             .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween) {
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
                         Text(
-                            text = stringResource(id = R.string.text_welcome) + profileViewModel.username,
+                            text = profileViewModel.username,
                             style = TextStyle(
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold,
@@ -78,7 +79,7 @@ class ProfileFragment : Fragment() {
                                 .padding(horizontal = 10.dp, 7.dp)
                                 .weight(8f),
                         )
-                        Spacer(modifier =Modifier.weight(1f))
+                        Spacer(modifier = Modifier.weight(1f))
                         //logout button
                         IconButton(onClick = { performLogout() }) {
                             Icon(
@@ -130,18 +131,11 @@ fun ProfileScreen(profileViewModel: ProfileViewModel) {
         else -> {
         }
     }
-    Text(
-        text = stringResource(id = R.string.text_my_post), style = TextStyle(
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-        ), modifier = Modifier.padding(horizontal = 10.dp, 7.dp)
-    )
-
     //for profile post list
     when (val responseValue = profileViewModel.stateProfile.collectAsState().value) {
         ProfilePostListPostState.Loading -> IndeterminateCircularIndicator()
         is ProfilePostListPostState.Success -> responseValue.response?.let {
-            DisplayList(it)
+            DisplayList(it, stringResource(id = R.string.text_my_post))
         }
 
         is ProfilePostListPostState.Failure -> showDialog(responseValue.response)
@@ -166,13 +160,53 @@ fun showDialog(message: String) {
 @Composable
 fun SetProfileInfo(response: ProfileState.Success) {
     Column {
-        Row() {
-            Text(text = "Age")
-            Text(text = response.age)
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp, 0.dp, 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = stringResource(id = R.string.text_age), style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                ), modifier = Modifier.padding(horizontal = 10.dp, 7.dp)
+            )
+            Text(
+                text = response.age,
+                style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                ),
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, 7.dp)
+                    .weight(8f),
+            )
         }
-        Row() {
-            Text(text = "Location")
-            Text(text = response.location)
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp, 0.dp, 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = stringResource(id = R.string.text_location), style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                ), modifier = Modifier.padding(horizontal = 10.dp, 7.dp)
+            )
+            Text(
+                text = response.location,
+                style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                ),
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, 7.dp)
+                    .weight(8f),
+            )
         }
     }
 }

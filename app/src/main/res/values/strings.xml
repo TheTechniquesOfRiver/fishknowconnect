@@ -19,7 +19,7 @@
     <string name="text_location">Location</string>
     <string name="text_username">Username</string>
     <string name="text_password">Password</string>
-    <string name="text_my_post">My posts</string>
+    <string name="text_my_post">MY POSTS</string>
     //login
     <string name="button_login">Login</string>
     <string name="text_or">OR</string>
@@ -63,6 +63,10 @@
     <string name="title_activity_boat">BoatActivity</string>
     <string name="title_activity_others">OthersActivity</string>
     //registerorlogin
+    <string name="text_login_successful">Login successful</string>
+    <string name="text_succesful_register">Successfully registered</string>
+    //createPost
+    <string name="text_succesful_post_create">Post created successfully</string>
     //content description
     <string name="contentfish">contentFish</string>
     <string name="contentothers">contentOthers</string>
@@ -81,6 +85,11 @@
     <string name="title_notifications">Notifications</string>
     //request access
     <string name="text_sent_request">Sent request</string>
+    <string name="text_send_request_for_access">Send request for access</string>
     <string name="text_request_access">Request access</string>
+    //approve request
+    <string name="text_approve_access">Approve request for </string>
+    <string name="text_request_approved">Request aapproved </string>
+
 
 </resources>

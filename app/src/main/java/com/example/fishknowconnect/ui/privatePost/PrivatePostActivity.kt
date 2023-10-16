@@ -91,8 +91,11 @@ fun PrivatePostScreen(name: String, viewModel: PrivatePostViewModel,  modifier: 
     when (val responseValue = viewModel.state.collectAsState().value) {
         PrivatePostState.Loading -> IndeterminateCircularIndicator()
         is PrivatePostState.SuccessAccess -> responseValue.message?.let {
-        Toast.makeText(
-                    context, responseValue.message, Toast.LENGTH_SHORT
+//        Toast.makeText(
+//                    context, responseValue.message, Toast.LENGTH_SHORT
+//            ).show()
+            Toast.makeText(
+                    context, stringResource(id = R.string.text_send_request_for_access), Toast.LENGTH_SHORT
             ).show()
             context?.finish()
         }

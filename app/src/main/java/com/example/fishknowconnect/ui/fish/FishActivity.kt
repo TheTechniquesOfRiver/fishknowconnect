@@ -68,7 +68,7 @@ class FishActivity : ComponentActivity() {
                         when (val responseValue = viewModel.state.collectAsState().value) {
                             TypeState.Loading -> IndeterminateCircularIndicator()
                             is TypeState.Success -> responseValue.response?.let {
-                                DisplayList(it)
+                                DisplayList(it, stringResource(id = R.string.text_latest_post))
                             }
                             is TypeState.Error -> ShowErrorMessage()
                             else -> {
@@ -104,7 +104,9 @@ fun FishScreen() {
     val activity = (LocalContext.current as? Activity)
     Column(modifier = Modifier.padding(10.dp)) {
         //create new post button
-        Button(modifier = Modifier.padding(10.dp).fillMaxWidth(), onClick = {
+        Button(modifier = Modifier
+            .padding(10.dp)
+            .fillMaxWidth(), onClick = {
             //start new post screen
             val intent = Intent(activity, NewPostActivity::class.java).apply {
                 putExtra("type", "Fish")
@@ -127,7 +129,9 @@ fun FishScreen() {
             )
         }
         //private post button
-        Button(modifier = Modifier.padding(10.dp).fillMaxWidth(), onClick = {
+        Button(modifier = Modifier
+            .padding(10.dp)
+            .fillMaxWidth(), onClick = {
             //start private post screen
             val intent = Intent(activity, PrivatePostActivity::class.java).apply {
                 putExtra("type", "Fish")

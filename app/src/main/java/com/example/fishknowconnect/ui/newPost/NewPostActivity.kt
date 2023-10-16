@@ -112,7 +112,10 @@ class NewPostActivity : ComponentActivity() {
     @Composable
     private fun ShowSuccessMessage(message: String) {
         val activity = (LocalContext.current as? Activity)
-        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            activity, stringResource(id = R.string.text_succesful_post_create), Toast.LENGTH_SHORT
+        ).show()
         activity?.finish()
     }
 
@@ -232,14 +235,18 @@ class NewPostActivity : ComponentActivity() {
             }
             OutlinedTextField(
                 value = viewModel.postTitle,
-                modifier = Modifier.padding(all = 16.dp).fillMaxWidth(),
+                modifier = Modifier
+                    .padding(all = 16.dp)
+                    .fillMaxWidth(),
                 onValueChange = { title -> viewModel.updateTitle(title) },
                 label = { Text(text = stringResource(R.string.textview_post_title)) },
                 minLines = 2
             )
             OutlinedTextField(
                 value = viewModel.content,
-                modifier = Modifier.padding(all = 16.dp).fillMaxWidth(),
+                modifier = Modifier
+                    .padding(all = 16.dp)
+                    .fillMaxWidth(),
                 onValueChange = { content -> viewModel.updateContent(content) },
                 label = { Text(text = stringResource(R.string.textview_text_post)) },
                 minLines = 5

@@ -44,11 +44,11 @@ import com.example.fishknowconnect.ui.newPost.ShowVideoPlayer
  * Display all list
  */
 @Composable
-fun DisplayList(list: List<GetPostTypeResponse>) {
+fun DisplayList(list: List<GetPostTypeResponse>, title: String) {
     val context = LocalContext.current
     //title
     Text(
-        text = stringResource(id = R.string.text_latest_post), style = TextStyle(
+        text = title, style = TextStyle(
             fontSize = 20.sp, fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.Bold
         ), modifier = Modifier
             .fillMaxWidth()

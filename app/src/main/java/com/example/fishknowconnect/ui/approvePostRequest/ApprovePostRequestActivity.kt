@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.fishknowconnect.PreferenceHelper
@@ -68,8 +69,11 @@ class ApprovePostRequestActivity : ComponentActivity() {
                         when (val responseValue = viewModel.state.collectAsState().value) {
                             ApproveState.Loading -> IndeterminateCircularIndicator()
                             is ApproveState.SuccessGrant -> responseValue.response?.let {
+//                                Toast.makeText(
+//                                    context, responseValue.response.message, Toast.LENGTH_SHORT
+//                                ).show()
                                 Toast.makeText(
-                                    context, responseValue.response.message, Toast.LENGTH_SHORT
+                                    context, stringResource(id = R.string.text_request_approved), Toast.LENGTH_SHORT
                                 ).show()
                                 finish()
                             }
@@ -128,7 +132,7 @@ fun ListItem(item: GetApprovalResponse, viewModel: ApprovePostRequestViewModel) 
             //hit api to send post approval
             viewModel.sendPostApproval(item._id, approvalRequestUser)
         }) {
-            Text(text = "Approve request for$approvalRequestUser")
+            Text(text = stringResource(id = R.string.text_approve_access)+ approvalRequestUser)
             Spacer(modifier = Modifier.height(16.dp))
         }
     }

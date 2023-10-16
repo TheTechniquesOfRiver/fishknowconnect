@@ -16,6 +16,7 @@
     <string name="text_age">বয়স </string>
     <string name="text_location">স্থান</string>
     <string name="text_password">পাস ওয়ার্ড</string>
+    <string name="title_home">হোম</string>
 
     <string name="menu_home">হোম</string>
     <string name="menu_profile">প্রোফাইল</string>
@@ -30,6 +31,8 @@
     <string name="textview_others">অন্যান্য </string>
     <string name="textview_approve_post_request">অনুমতি দিন  </string>
     <string name="welcome">স্বাগতম নদীর কৌশল\n</string>
+    //record
+    <string name="text_record_voice">কণ্ঠ রেকর্ড করুণ </string>
 
 
     //selectlanguage
@@ -45,6 +48,7 @@
     <string name="text_content_details">বিস্তারিত </string>
     //content details
     <string name="text_listen">শুনুন </string>
+    <string name="text_welcome">স্বাগতম</string>
 
     <string name="button_upload">আপ লোড </string>
     <string name="button_new_post">নতুন পোস্ট তৈরি করুণ </string>
