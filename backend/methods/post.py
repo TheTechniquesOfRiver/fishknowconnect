@@ -312,6 +312,7 @@ def get_not_granted_posts():
         user = request.args.get('user') + ','
         filters["type"] = request.args.get('type')
         filters["granted"] = {"$not": {"$regex": user, "$options": "i"}}
+        filters["requested"] = {"$not": {"$regex": user, "$options": "i"}}
 
         # Fetch posts from the 'posts' collection based on the filter
         posts = list(mydb.posts.find(filters).sort("timestamp", pymongo.DESCENDING))
@@ -368,6 +369,39 @@ def get_approvals():
             serialized_posts.append(serialized_post)
 
         return jsonify(serialized_posts), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+
+@post_module.route('/get_approval_count', methods=['GET'])
+def get_approval_count():
+    try:
+        # Get the filter parameter from the URL query string
+        user = request.args.get('user')
+
+        # Define filters to fetch posts based on the parameters
+        filters = {}
+        filters["access"] = 'private'
+        filters["author"] = user
+        filters["requested"] = {"$exists": True, "$ne": ""}
+
+        # Fetch posts from the 'posts' collection based on the filter
+        posts = list(mydb.posts.find(filters))
+
+        # If there are no posts, return an empty list
+        if not posts:
+            return jsonify([])
+
+        # Serialize the posts to JSON format
+        count = []
+
+        for post in posts:
+            print(post["requested"])
+            count.extend(filter(lambda x: x.strip() != "", post["requested"].split(',')))
+
+        response = {"total_requests": len(count)}
+        return jsonify(response), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
