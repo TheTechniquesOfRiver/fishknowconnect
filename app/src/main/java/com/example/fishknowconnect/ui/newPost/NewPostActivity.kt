@@ -15,6 +15,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,12 +25,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -42,7 +42,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
@@ -59,12 +61,9 @@ import com.example.fishknowconnect.R
 import com.example.fishknowconnect.network.FishKnowConnectApi
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ToolBarLayout
+import com.example.fishknowconnect.ui.newPost.ui.theme.Blue
 import com.example.fishknowconnect.ui.newPost.ui.theme.DrawScrollableView
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
-import com.example.fishknowconnect.ui.newPost.ui.theme.iconPhotoCamera
-import com.example.fishknowconnect.ui.newPost.ui.theme.iconRecordVoiceOver
-import com.example.fishknowconnect.ui.newPost.ui.theme.iconUpload
-import com.example.fishknowconnect.ui.newPost.ui.theme.iconVideoCameraBack
 import com.example.fishknowconnect.ui.recordVoice.RecordVoiceActivity
 import java.io.File
 import java.util.Objects
@@ -77,7 +76,6 @@ class NewPostActivity : ComponentActivity() {
             PreferenceHelper.getInstance(applicationContext), FishKnowConnectApi.retrofitService
         )
         val viewModel: NewPostViewModel by viewModels(factoryProducer = { newPostViewModelFactory })
-
         super.onCreate(savedInstanceState)
         setContent {
             FishKnowConnectTheme {
@@ -132,6 +130,9 @@ class NewPostActivity : ComponentActivity() {
      */
     private fun showDialog() {
         Log.d("result", "error")
+        Toast.makeText(
+            this, resources.getString(R.string.text_something_went_wrong), Toast.LENGTH_SHORT
+        ).show()
     }
 
     @Composable
@@ -142,7 +143,6 @@ class NewPostActivity : ComponentActivity() {
         )
         val (selectedOption, onOptionSelected) = remember { mutableStateOf("") }
         val intentRecordFile = intent.getStringExtra("recordFile")
-
         //get image file
         val imageFile = context.createImageFile()
         //get video file
@@ -163,14 +163,12 @@ class NewPostActivity : ComponentActivity() {
         var imageVisibility by remember {
             mutableStateOf(false)
         }
-
         var videoVisibility by remember {
             mutableStateOf(false)
         }
         var audioVisibility by remember {
             mutableStateOf(false)
         }
-
         val cameraLauncher =
             rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) {
                 capturedImageUri = imageUri
@@ -220,7 +218,6 @@ class NewPostActivity : ComponentActivity() {
                 .fillMaxHeight(),
         ) {
             if (imageVisibility && capturedImageUri.path?.isNotEmpty() == true) {
-
                 Image(
                     modifier = Modifier
                         .padding(16.dp, 8.dp)
@@ -228,7 +225,6 @@ class NewPostActivity : ComponentActivity() {
                     painter = rememberAsyncImagePainter(capturedImageUri),
                     contentDescription = null
                 )
-
             }
             if (videoVisibility && capturedVideoUri.path?.isNotEmpty() == true) {
                 ShowVideoPlayer(videoUri = capturedVideoUri)
@@ -236,7 +232,7 @@ class NewPostActivity : ComponentActivity() {
             OutlinedTextField(
                 value = viewModel.postTitle,
                 modifier = Modifier
-                    .padding(all = 16.dp)
+                    .padding(16.dp, 4.dp)
                     .fillMaxWidth(),
                 onValueChange = { title -> viewModel.updateTitle(title) },
                 label = { Text(text = stringResource(R.string.textview_post_title)) },
@@ -245,56 +241,40 @@ class NewPostActivity : ComponentActivity() {
             OutlinedTextField(
                 value = viewModel.content,
                 modifier = Modifier
-                    .padding(all = 16.dp)
+                    .padding(16.dp, 4.dp)
                     .fillMaxWidth(),
                 onValueChange = { content -> viewModel.updateContent(content) },
                 label = { Text(text = stringResource(R.string.textview_text_post)) },
                 minLines = 5
             )
-            Text(
-                text = stringResource(id = R.string.text_who_can_see), style = TextStyle(
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                ), modifier = Modifier.padding(horizontal = 10.dp, 7.dp)
-            )
-            languageOptions.forEach { text ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically, modifier = Modifier
-                        .selectable(
-                            selected = (text == selectedOption), onClick = {
-                                onOptionSelected(text)
-                                //set access
-                                if (text == "Share privately") {
-                                    viewModel.updateAccess("private")
-                                } else {
-                                    viewModel.updateAccess("public")
-                                }
-                            }, role = Role.RadioButton
-                        )
-                        .padding(horizontal = 16.dp)
-                ) {
-                    RadioButton(
-                        selected = (text == selectedOption), onClick = null,
-                    )
-                    Log.d("new post", "selectedOption$selectedOption")
-                    Text(
-                        text = text, style = TextStyle(
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold,
-                        ), modifier = Modifier.padding(horizontal = 10.dp, 7.dp)
-                    )
-                }
-            }
             Row(
-                modifier = Modifier.padding(all = 8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp)
             ) {
-                IconButton(onClick = {
+                IconButton(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .weight(1f)
+                    .padding(horizontal = 5.dp), onClick = {
                     recordVoice()
                     Toast.makeText(context, "Record voice", Toast.LENGTH_SHORT).show()
                 }) {
-                    Icon(imageVector = iconRecordVoiceOver(), contentDescription = "Audio")
+//                    Icon(imageVector = iconRecordVoiceOver(), contentDescription = "Audio")
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
+                        painter = painterResource(id = R.drawable.icon_voice),
+                        contentDescription = "Audio"
+
+                    )
                 }
-                IconButton(onClick = {
+                IconButton(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .weight(1f)
+                    .padding(horizontal = 5.dp), onClick = {
                     // Check permission
                     when (PackageManager.PERMISSION_GRANTED) {
                         ContextCompat.checkSelfPermission(
@@ -310,9 +290,19 @@ class NewPostActivity : ComponentActivity() {
                         }
                     }
                 }) {
-                    Icon(imageVector = iconPhotoCamera(), contentDescription = "Images")
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
+                        painter = painterResource(id = R.drawable.icon_camera),
+                        contentDescription = "Images"
+                    )
                 }
-                IconButton(onClick = {
+                IconButton(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .weight(1f)
+                    .padding(horizontal = 5.dp), onClick = {
                     Toast.makeText(context, "Capture video", Toast.LENGTH_SHORT).show()
                     // Check permission
                     when (PackageManager.PERMISSION_GRANTED) {
@@ -329,23 +319,79 @@ class NewPostActivity : ComponentActivity() {
                         }
                     }
                 }) {
-                    Icon(imageVector = iconVideoCameraBack(), contentDescription = "Video")
+
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
+                        painter = painterResource(id = R.drawable.icon_video),
+                        contentDescription = "Video"
+                    )
                 }
             }
-            Button(onClick = {
-                val intentType = intent.getStringExtra("type")
-                if (intentType != null) {
-                    viewModel.type(intentType)
+            Text(
+                text = stringResource(id = R.string.text_who_can_see), style = TextStyle(
+                    fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Blue
+                ), modifier = Modifier
+                    .padding(30.dp, 10.dp)
+                    .align(Alignment.Start)
+            )
+            languageOptions.forEach { text ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(26.dp, 4.dp)
+                        .selectable(
+                            selected = (text == selectedOption), onClick = {
+                                onOptionSelected(text)
+                                //set access
+                                if (text == "Share privately") {
+                                    viewModel.updateAccess("private")
+                                } else {
+                                    viewModel.updateAccess("public")
+                                }
+                            }, role = Role.RadioButton
+                        )
+                ) {
+                    RadioButton(
+                        selected = (text == selectedOption), onClick = null,
+                    )
+                    Log.d("new post", "selectedOption$selectedOption")
+                    Text(
+                        text = text, style = TextStyle(
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Medium,
+                        ), modifier = Modifier.padding(horizontal = 7.dp, 7.dp)
+                    )
                 }
-                viewModel.uploadPictureToServer("")
-            }) {
-                Icon(imageVector = iconUpload(), contentDescription = "Upload")
+            }
+
+            OutlinedButton(modifier = Modifier.padding(10.dp),
+                border = BorderStroke(2.dp, Color.Black),
+                onClick = {
+                    val intentType = intent.getStringExtra("type")
+                    if (intentType != null) {
+                        viewModel.type(intentType)
+                    }
+                    viewModel.uploadPictureToServer("")
+                }) {
                 Text(
                     text = stringResource(id = R.string.button_upload),
-                    Modifier.padding(start = 10.dp),
+                    Modifier
+                        .padding(start = 10.dp)
+                        .height(30.dp),
                     style = TextStyle(
-                        fontSize = 20.sp, fontFamily = FontFamily.SansSerif
+                        fontSize = 18.sp, fontFamily = FontFamily.SansSerif, color = Color.Black
                     )
+                )
+                Image(
+                    modifier = Modifier
+                        .width(56.dp)
+                        .height(26.dp)
+                        .padding(2.dp),
+                    painter = painterResource(id = R.drawable.icon_upload),
+                    contentDescription = "Upload"
                 )
             }
         }

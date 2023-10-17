@@ -70,9 +70,9 @@ fun DisplayList(list: List<GetPostTypeResponse>, title: String) {
 fun ListItem(item: GetPostTypeResponse, context: Context) {
     Card(
         modifier = Modifier.padding(10.dp),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 10.dp
+            defaultElevation = 2.dp
         ),
         colors = CardDefaults.cardColors(
             containerColor = colorResource(id = R.color.app_status_bar_light),

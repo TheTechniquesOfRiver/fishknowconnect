@@ -42,8 +42,7 @@ class HomeFragment : Fragment(), OnClickListener {
         view.findViewById<ImageView>(R.id.imageViewBoat).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.imageViewWater).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.imageViewOthers).setOnClickListener(this)
-        view.findViewById<ImageView>(R.id.imageButton).setOnClickListener(this)
-        view.findViewById<ImageView>(R.id.imageButton).setOnClickListener(this)
+        view.findViewById<ImageView>(R.id.imageViewApprovePost).setOnClickListener(this)
         view.findViewById<TextView>(R.id.textViewCreateNewPostHome).setOnClickListener(this)
     }
 
@@ -68,7 +67,7 @@ class HomeFragment : Fragment(), OnClickListener {
                 R.id.imageViewOthers -> {
                     navController?.navigate(R.id.action_navigation_home_to_othersActivity)
                 }
-                R.id.imageButton -> {
+                R.id.imageViewApprovePost -> {
                     navController?.navigate(R.id.action_navigation_home_to_approvePostRequestActivity)
                 }
                 R.id.textViewCreateNewPostHome -> {
