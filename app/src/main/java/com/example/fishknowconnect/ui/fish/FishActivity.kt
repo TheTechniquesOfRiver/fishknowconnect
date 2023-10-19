@@ -110,68 +110,24 @@ class FishActivity : ComponentActivity() {
 fun FishScreen() {
     val activity = (LocalContext.current as? Activity)
     Column(modifier = Modifier.padding(10.dp)) {
-        //create new post button
-        OutlinedButton(modifier = Modifier
-            .padding(10.dp)
-            .fillMaxWidth(),
-            border = BorderStroke(2.dp, Color.Black), onClick = {
-                //start new post screen
-                val intent = Intent(activity, NewPostActivity::class.java).apply {
-                    putExtra("type", "Fish")
-                }
-                activity?.startActivity(intent)
-            }) {
-            Text(
-                text = stringResource(id = R.string.button_new_post),
-                Modifier
-                    .padding(start = 10.dp)
-                    .height(40.dp),
-                style = TextStyle(
-                    fontSize = 18.sp, fontFamily = FontFamily.SansSerif, color = Color.Black
-                )
-            )
-            Image(
-                modifier = Modifier
-                    .width(56.dp)
-                    .height(26.dp)
-                    .padding(2.dp),
-                painter = painterResource(id = R.drawable.plus),
-                contentDescription = "createpost")
+        CustomFullWidthIconButton(
+            label = stringResource(id = R.string.button_new_post), icon = R.drawable.plus
+        ) {
+            //start new post screen
+            val intent = Intent(activity, NewPostActivity::class.java).apply {
+                putExtra("type", "Fish")
+            }
+            activity?.startActivity(intent)
         }
-        CustomFullWidthIconButton(label = "view pirvate post", icon = R.drawable.icon_voice, onClick = {
-
+        CustomFullWidthIconButton(
+            label = stringResource(id = R.string.button_private_post), icon = R.drawable.view
+        ) {
             //start private post screen
             val intent = Intent(activity, PrivatePostActivity::class.java).apply {
                 putExtra("type", "Fish")
             }
             activity?.startActivity(intent)
-        })
-        //private post button
-        Button(modifier = Modifier
-            .padding(10.dp)
-            .fillMaxWidth(), onClick = {
-            //start private post screen
-            val intent = Intent(activity, PrivatePostActivity::class.java).apply {
-                putExtra("type", "Fish")
-            }
-            activity?.startActivity(intent)
-        }) {
-            Text(
-                text = stringResource(id = R.string.button_private_post),
-                textAlign = TextAlign.Left,
-                style = TextStyle(
-                    fontSize = 20.sp, color = Color.White, fontFamily = FontFamily.SansSerif
-                )
-            )
-            Icon(
-                painter = painterResource(R.drawable.view),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(40.dp)
-                    .padding(start = 5.dp)
-            )
         }
-
     }
 }
 

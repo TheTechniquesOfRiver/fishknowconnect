@@ -39,6 +39,7 @@ import com.example.fishknowconnect.DisplayList
 import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.network.FishKnowConnectApi
+import com.example.fishknowconnect.ui.CustomFullWidthIconButton
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ShowErrorMessage
 import com.example.fishknowconnect.ui.ToolBarLayout
@@ -104,54 +105,23 @@ class WeatherActivity() : ComponentActivity() {
 fun WeatherScreen() {
     val activity = (LocalContext.current as? Activity)
     Column(modifier = Modifier.padding(10.dp)) {
-        //create new post button
-        Button(modifier = Modifier.padding(10.dp).fillMaxWidth(), onClick = {
+        CustomFullWidthIconButton(
+            label = stringResource(id = R.string.button_new_post), icon = R.drawable.plus
+        ) {
             //start new post screen
             val intent = Intent(activity, NewPostActivity::class.java).apply {
                 putExtra("type", "Weather")
             }
             activity?.startActivity(intent)
-        }) {
-            Text(
-                text = stringResource(id = R.string.button_new_post),
-                textAlign = TextAlign.Right,
-                style = TextStyle(
-                    fontSize = 20.sp, color = Color.White, fontFamily = FontFamily.SansSerif
-                )
-            )
-            Icon(
-                imageVector = Icons.Default.AddCircle,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(40.dp)
-                    .padding(start = 5.dp)
-            )
         }
-        //private post button
-        Button(modifier = Modifier.padding(10.dp).fillMaxWidth(), onClick = {
+        CustomFullWidthIconButton(
+            label = stringResource(id = R.string.button_private_post), icon = R.drawable.view
+        ) {
             //start private post screen
             val intent = Intent(activity, PrivatePostActivity::class.java).apply {
                 putExtra("type", "Weather")
             }
             activity?.startActivity(intent)
-        }) {
-            Text(
-                text = stringResource(id = R.string.button_private_post),
-                textAlign = TextAlign.Left,
-                style = TextStyle(
-                    fontSize = 20.sp, color = Color.White, fontFamily = FontFamily.SansSerif
-                )
-            )
-            Icon(
-                painter = painterResource(R.drawable.view),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(40.dp)
-                    .padding(start = 5.dp)
-            )
-
         }
-
     }
-
 }
