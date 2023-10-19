@@ -15,7 +15,7 @@ def ageUpdate():
             for user in users:
                 for key, value in user.items():
                     if key == 'age':
-                        value = int(str(decrypt(user['age'])).lstrip("b'").rstrip("'")) + 1
+                        value = int(decrypt(user['age'])) + 1
                         print(value)
                         encryptedValue = encrypt(str(value))
                         #update Value and store into database

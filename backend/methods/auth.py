@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 auth_module = Blueprint('auth', __name__)
 @auth_module.route('/register', methods=['POST'])
 def register():
+
     # Get registration data from request headers or body
     username = request.form.get('username')
     password = request.form.get('password') 
@@ -24,6 +25,7 @@ def register():
     
     # Created hased password 
     hashed_password = generate_password_hash(password)
+
     # Encrypt age and location
     if age:
         encrypt_age = encrypt(age)
@@ -34,7 +36,8 @@ def register():
     else:
         encrypt_location = None
     try:
-        # Create a new user object
+
+        # Create a new user object for mongodb
         mydb.users.insert_one({"username": username, "password": hashed_password, "age": encrypt_age,"location": encrypt_location })
         return jsonify({'message': 'Successfully registered'}), 200
 
