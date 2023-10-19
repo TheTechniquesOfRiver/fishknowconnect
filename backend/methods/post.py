@@ -391,16 +391,16 @@ def get_approval_count():
 
         # If there are no posts, return an empty list
         if not posts:
-            return jsonify([])
+            response = {"total_requests": 0 }
+            return jsonify(response)
 
         # Serialize the posts to JSON format
         count = []
 
         for post in posts:
-            print(post["requested"])
             count.extend(filter(lambda x: x.strip() != "", post["requested"].split(',')))
 
-        response = {"total_requests": len(count)}
+        response = {"total_requests": len(count) }
         return jsonify(response), 200
 
     except Exception as e:
