@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -98,7 +101,6 @@ fun ToolBarLayout(title: String) {
         }
     })
 }
-//horizontalArrangement = Arrangement.SpaceBetween,
 
 /**
  *common button design
@@ -129,7 +131,8 @@ fun CustomFullWidthIconButton(
                 color = Color.Black
             )
         )
-        Spacer(modifier = Modifier.width(30.dp).weight(1f))
+        Spacer(modifier = Modifier
+            .weight(1f))
         Image(
             modifier = Modifier
                 .width(76.dp)
@@ -140,5 +143,44 @@ fun CustomFullWidthIconButton(
             contentDescription = ""
         )
     }
+  }
 
+/**
+ *common button design
+ */
+@Composable
+fun CustomWrapWidthIconButton(
+    label: String, icon: Int, onClick: () -> Unit
+) {
+
+    OutlinedButton(
+        onClick = onClick, // Handle click using the onClick parameter
+        modifier = Modifier
+            .padding(8.dp)
+            .height(50.dp)
+            .width(IntrinsicSize.Min)
+        ) {
+        Text(
+            text = label,
+            Modifier
+                .align(Alignment.CenterVertically)
+                .padding(start = 10.dp)
+                .height(30.dp),
+            style = TextStyle(
+                fontSize = 18.sp,
+                fontFamily = FontFamily.SansSerif,
+                textAlign = TextAlign.Center,
+                color = Color.Black
+            )
+        )
+        Spacer(modifier = Modifier)
+        Image(
+            modifier = Modifier
+                .width(56.dp)
+                .height(26.dp)
+                .padding(2.dp),
+            painter = painterResource(icon),
+            contentDescription = ""
+        )
+    }
 }

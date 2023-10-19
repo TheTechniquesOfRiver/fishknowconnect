@@ -2,6 +2,7 @@ package com.example.fishknowconnect.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,6 +42,8 @@ import com.example.fishknowconnect.R
 import com.example.fishknowconnect.databinding.FragmentProfileBinding
 import com.example.fishknowconnect.network.FishKnowConnectApi
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
+import com.example.fishknowconnect.ui.contentDetail.isListenEnable
+import com.example.fishknowconnect.ui.contentDetail.tts
 import com.example.fishknowconnect.ui.login.LoginActivity
 
 class ProfileFragment : Fragment() {
@@ -84,14 +89,15 @@ class ProfileFragment : Fragment() {
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         //logout button
-                        IconButton(onClick = { performLogout() }) {
+                        OutlinedButton(onClick = {
+                            performLogout()
+                        }) {
                             Image(
                                 modifier = Modifier
-                                    .width(76.dp)
-                                    .height(46.dp)
-                                    .padding(2.dp),
+                                    .width(IntrinsicSize.Min)
+                                    .height(IntrinsicSize.Min),
                                 painter = painterResource(R.drawable.exit),
-                                contentDescription = "exit"
+                                contentDescription = ""
                             )
                         }
                     }
@@ -177,19 +183,19 @@ fun SetProfileInfo(response: ProfileState.Success) {
                 text = response.age,
                 style = TextStyle(
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold),modifier = Modifier.padding(horizontal = 2.dp)
+                    fontWeight = FontWeight.Normal),modifier = Modifier.padding(horizontal = 2.dp)
             )
             Text(
                 text = stringResource(id = R.string.text_years),
                 style = TextStyle(
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold),modifier = Modifier.padding(horizontal = 2.dp)
+                    fontWeight = FontWeight.Normal),modifier = Modifier.padding(horizontal = 2.dp)
             )
             Text(
                 text = response.location,
                 style = TextStyle(
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
+                    fontWeight = FontWeight.Normal,
                 ),modifier = Modifier.padding(horizontal = 2.dp)
             )
 //            Text(

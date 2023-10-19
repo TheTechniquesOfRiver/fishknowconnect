@@ -12,13 +12,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,15 +36,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.ui.CustomWrapWidthIconButton
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.contentDetail.ui.theme.FishKnowConnectTheme
@@ -139,50 +152,55 @@ fun ListItemDetailScreen(
 
     //title
     if (!intentTitle.isNullOrEmpty()) {
-        Row(modifier = Modifier.padding(10.dp)) {
+        Row(modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp),  verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween) {
             Text(
                 text = stringResource(id = R.string.text_title),
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .size(30.dp)
-                    .weight(1f)
-            )
-            Button(onClick = {
+                modifier = Modifier.padding(horizontal = 10.dp))
+            OutlinedButton( modifier = Modifier
+                ,onClick = {
                 if (isListenEnable) {
                     tts!!.speak(intentTitle, TextToSpeech.QUEUE_FLUSH, null, "")
                 }
             }) {
-                Text(
-                    text = stringResource(id = R.string.text_listen), textAlign = TextAlign.End
+                Image(
+                    modifier = Modifier
+                        .width(IntrinsicSize.Min)
+                        .height(IntrinsicSize.Min),
+                    painter = painterResource(R.drawable.icon_listen),
+                    contentDescription = ""
                 )
             }
         }
-        Text(text = intentTitle, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 0.dp))
+        Text(text = intentTitle, modifier = Modifier.padding(20.dp, 0.dp, 10.dp, 0.dp))
     }
     //content
     if (!intentContent.isNullOrEmpty()) {
-        Row(modifier = Modifier.padding(10.dp)) {
+        Row(modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp),  verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween) {
             Text(
                 text = stringResource(id = R.string.text_content),
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .size(30.dp)
-                    .weight(1f)
-            )
-            Button(onClick = {
+                modifier = Modifier.padding(horizontal = 10.dp))
+            OutlinedButton(onClick = {
                 if (isListenEnable) {
                     tts!!.speak(intentContent, TextToSpeech.QUEUE_FLUSH, null, "")
                 }
             }) {
-                Text(
-                    text = stringResource(id = R.string.text_listen), textAlign = TextAlign.End
+                Image(
+                    modifier = Modifier
+                        .width(IntrinsicSize.Min)
+                        .height(IntrinsicSize.Min),
+                    painter = painterResource(R.drawable.icon_listen),
+                    contentDescription = ""
                 )
             }
+
         }
-        Text(text = intentContent, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 0.dp))
     }
     if (!intentContent.isNullOrEmpty()) {
-        Text(text = intentContent, modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 0.dp))
+        Text(text = intentContent, modifier = Modifier.padding(20.dp, 0.dp, 10.dp, 0.dp))
     }
     if (!intentFileUrl.isNullOrEmpty()) {
         when (intentFileType) {
@@ -192,6 +210,7 @@ fun ListItemDetailScreen(
                 painter = rememberAsyncImagePainter(intentFileUrl),
                 contentDescription = null
             )
+
             "video" -> ShowVideoPlayer(videoUri = Uri.parse(intentFileUrl))
         }
     }
@@ -202,16 +221,23 @@ fun ListItemDetailScreen(
         Toast.makeText(context, "Author not found", Toast.LENGTH_SHORT).show()
     }
     if (isDeleteVisible) {
-        Button(onClick = {
-            if (intentId != null) {
-                viewModel.deleteContent(intentId)
-            } else {
-                Toast.makeText(context, "Id not found", Toast.LENGTH_SHORT).show()
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+        ) {
+            CustomWrapWidthIconButton(
+                label = stringResource(id = R.string.text_delete), icon = R.drawable.icon_delete
+            ) {
+                if (intentId != null) {
+                    viewModel.deleteContent(intentId)
+                } else {
+                    Toast.makeText(context, "Id not found", Toast.LENGTH_SHORT).show()
+                }
             }
-        }) {
-            Text(
-                text = stringResource(id = R.string.text_delete), textAlign = TextAlign.End
-            )
         }
+
     }
 }
