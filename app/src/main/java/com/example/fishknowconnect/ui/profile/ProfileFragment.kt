@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -76,16 +79,19 @@ class ProfileFragment : Fragment() {
                                 fontWeight = FontWeight.Bold,
                             ),
                             modifier = Modifier
-                                .padding(horizontal = 10.dp, 7.dp)
-                                .weight(8f),
+                                .padding(horizontal = 10.dp)
+                                .weight(7f),
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         //logout button
                         IconButton(onClick = { performLogout() }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.exit),
-                                contentDescription = "exit",
-                                modifier = Modifier.weight(1f),
+                            Image(
+                                modifier = Modifier
+                                    .width(76.dp)
+                                    .height(46.dp)
+                                    .padding(2.dp),
+                                painter = painterResource(R.drawable.exit),
+                                contentDescription = "exit"
                             )
                         }
                     }
@@ -163,50 +169,69 @@ fun SetProfileInfo(response: ProfileState.Success) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 0.dp, 0.dp, 8.dp),
+                .padding(18.dp, 0.dp, 4.dp, 0.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = stringResource(id = R.string.text_age), style = TextStyle(
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                ), modifier = Modifier.padding(horizontal = 10.dp, 7.dp)
-            )
+
             Text(
                 text = response.age,
                 style = TextStyle(
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                ),
-                modifier = Modifier
-                    .padding(horizontal = 10.dp, 7.dp)
-                    .weight(8f),
+                    fontWeight = FontWeight.SemiBold),modifier = Modifier.padding(horizontal = 2.dp)
             )
-        }
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp, 0.dp, 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
             Text(
-                text = stringResource(id = R.string.text_location), style = TextStyle(
+                text = stringResource(id = R.string.text_years),
+                style = TextStyle(
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                ), modifier = Modifier.padding(horizontal = 10.dp, 7.dp)
+                    fontWeight = FontWeight.SemiBold),modifier = Modifier.padding(horizontal = 2.dp)
             )
             Text(
                 text = response.location,
                 style = TextStyle(
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
-                ),
-                modifier = Modifier
-                    .padding(horizontal = 10.dp, 7.dp)
-                    .weight(8f),
+                ),modifier = Modifier.padding(horizontal = 2.dp)
             )
+//            Text(
+//                text = stringResource(id = R.string.text_age), style = TextStyle(
+//                    fontSize = 20.sp,
+//                    fontWeight = FontWeight.Bold,
+//                ), modifier = Modifier.padding(horizontal = 10.dp)
+//            )
+//            Text(
+//                text = response.age,
+//                style = TextStyle(
+//                    fontSize = 20.sp,
+//                    fontWeight = FontWeight.SemiBold,
+//                ),
+//                modifier = Modifier
+//                    .padding(horizontal = 10.dp)
+//                    .weight(8f),
+//            )
+//        }
+//        Row(
+//            Modifier
+//                .fillMaxWidth()
+//                .padding(16.dp, 0.dp, 0.dp, 8.dp),
+//            verticalAlignment = Alignment.CenterVertically,
+//            horizontalArrangement = Arrangement.SpaceBetween
+//        ) {
+//            Text(
+//                text = stringResource(id = R.string.text_location), style = TextStyle(
+//                    fontSize = 20.sp,
+//                    fontWeight = FontWeight.Bold,
+//                ), modifier = Modifier.padding(horizontal = 10.dp)
+//            )
+//            Text(
+//                text = response.location,
+//                style = TextStyle(
+//                    fontSize = 20.sp,
+//                    fontWeight = FontWeight.SemiBold,
+//                ),
+//                modifier = Modifier
+//                    .padding(horizontal = 10.dp)
+//                    .weight(8f),
+//            )
         }
     }
 }

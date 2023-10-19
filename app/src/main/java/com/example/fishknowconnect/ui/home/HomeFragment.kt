@@ -70,7 +70,11 @@ class HomeFragment : Fragment(), OnClickListener {
         //get count
         homeApprovalCountViewModel.getApprovalCount()
         homeApprovalCountViewModel.onSuccess.observe(this) { onSuccess ->
-            textViewCount.setText(onSuccess)
+            if(onSuccess == "0"){
+                textViewCount.visibility = View.GONE
+            }else{
+                textViewCount.setText(onSuccess)
+            }
         }
         homeApprovalCountViewModel.onFailure.observe(this) { onFailure ->
             textViewCount.setText(onFailure)

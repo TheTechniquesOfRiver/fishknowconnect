@@ -98,6 +98,7 @@ fun ToolBarLayout(title: String) {
         }
     })
 }
+//horizontalArrangement = Arrangement.SpaceBetween,
 
 /**
  *common button design
@@ -113,12 +114,14 @@ fun CustomFullWidthIconButton(
             .height(50.dp)
             .fillMaxWidth(),
 
-    ) {
+        ) {
         Text(
             text = label,
             Modifier
                 .align(Alignment.CenterVertically)
-                .padding(start = 10.dp),
+                .padding(start = 10.dp)
+                .weight(6f),
+
             style = TextStyle(
                 fontSize = 18.sp,
                 fontFamily = FontFamily.SansSerif,
@@ -126,12 +129,13 @@ fun CustomFullWidthIconButton(
                 color = Color.Black
             )
         )
-        Spacer(modifier = Modifier.width(30.dp))
+        Spacer(modifier = Modifier.width(30.dp).weight(1f))
         Image(
             modifier = Modifier
                 .width(76.dp)
                 .height(46.dp)
-                .padding(2.dp),
+                .padding(2.dp)
+                .weight(1f),
             painter = painterResource(icon),
             contentDescription = ""
         )
