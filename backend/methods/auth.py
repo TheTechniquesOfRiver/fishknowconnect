@@ -61,9 +61,6 @@ def login():
             return jsonify({'message': 'Successfully Login'}), 200
         return jsonify({'message': 'Invalid username or password'}), 201
     except Exception as e:
-<<<<<<< HEAD
-        return jsonify({'error': str(e)}), 400   
-=======
         return jsonify({'message': str(e)}), 400   
 
 
@@ -116,4 +113,3 @@ def get_user_by_id(username):
 
     except Exception as e:
             return jsonify({'error': str(e)}), 500
->>>>>>> 649c315c8e9735a559fa92af1ef6b40182a2ab67
