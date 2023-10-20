@@ -25,7 +25,7 @@ import com.example.fishknowconnect.R
 import com.example.fishknowconnect.network.FishKnowConnectApi
 import com.example.fishknowconnect.ui.CustomFullWidthIconButton
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
-import com.example.fishknowconnect.ui.ShowErrorMessage
+import com.example.fishknowconnect.ui.showError
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.TypeState
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
@@ -57,7 +57,7 @@ class OthersActivity : ComponentActivity() {
                                 DisplayList(it, stringResource(id = R.string.text_latest_post))
                             }
 
-                            is TypeState.Error -> ShowErrorMessage()
+                            is TypeState.Error -> showError()
                             else -> {
                             }
                         }

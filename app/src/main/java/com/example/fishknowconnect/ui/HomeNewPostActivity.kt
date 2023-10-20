@@ -15,7 +15,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,8 +36,8 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -59,7 +58,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -250,7 +248,7 @@ class HomeNewPostActivity : ComponentActivity() {
                 value = viewModel.postTitle,
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
-                    .padding(16.dp,4.dp)
+                    .padding(16.dp, 4.dp)
                     .fillMaxWidth(),
                 onValueChange = { title -> viewModel.updateTitle(title) },
                 label = { Text(text = stringResource(R.string.textview_post_title)) },
@@ -261,7 +259,7 @@ class HomeNewPostActivity : ComponentActivity() {
                 value = viewModel.content,
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
-                    .padding(16.dp,4.dp)
+                    .padding(16.dp, 4.dp)
                     .fillMaxWidth(),
                 onValueChange = { content -> viewModel.updateContent(content) },
                 label = { Text(text = stringResource(R.string.textview_text_post)) },
@@ -303,6 +301,7 @@ class HomeNewPostActivity : ComponentActivity() {
                             // Launch camera
                             cameraLauncher.launch(imageUri)
                         }
+
                         else -> {
                             // Asking for permission
                             launcher.launch((Manifest.permission.CAMERA))
@@ -331,6 +330,7 @@ class HomeNewPostActivity : ComponentActivity() {
                             // Launch camera
                             videoLauncher.launch(videoUri)
                         }
+
                         else -> {
                             // Asking for permission
                             launcher.launch((Manifest.permission.CAMERA))
@@ -383,28 +383,10 @@ class HomeNewPostActivity : ComponentActivity() {
                     )
                 }
             }
-            OutlinedButton(modifier = Modifier.padding(10.dp),
-                border = BorderStroke(2.dp, Color.Black),
-                onClick = {
-                    viewModel.uploadPictureToServer("")
-                }) {
-                Text(
-                    text = stringResource(id = R.string.button_upload),
-                    Modifier
-                        .padding(start = 10.dp)
-                        .height(30.dp),
-                    style = TextStyle(
-                        fontSize = 18.sp, fontFamily = FontFamily.SansSerif, color = Color.Black
-                    )
-                )
-                Image(
-                    modifier = Modifier
-                        .width(56.dp)
-                        .height(26.dp)
-                        .padding(2.dp),
-                    painter = painterResource(id = R.drawable.icon_upload),
-                    contentDescription = "Upload"
-                )
+            CustomWrapWidthIconButton(
+                label = stringResource(id = R.string.button_upload), icon = R.drawable.icon_upload
+            ) {
+                viewModel.uploadPictureToServer("")
             }
         }
     }
@@ -427,13 +409,26 @@ class HomeNewPostActivity : ComponentActivity() {
         // Up Icon when expanded and down icon when collapsed
         val icon = if (mExpanded) Icons.Filled.KeyboardArrowUp
         else Icons.Filled.KeyboardArrowDown
-        Column(Modifier.padding(16.dp,4.dp)
+        Column(
+            Modifier.padding(16.dp, 4.dp)
         ) {
-            OutlinedTextField(value = mSelectedText,
+            OutlinedTextField(
+                value = mSelectedText,
                 shape = RoundedCornerShape(10.dp),
-                onValueChange = { mSelectedText = it },
+                onValueChange = { mSelectedText = it },enabled = false,
+                colors = OutlinedTextFieldDefaults.colors(
+                    disabledTextColor = Color.DarkGray,
+                    disabledBorderColor = Color.DarkGray,
+                    disabledLabelColor  = Color.DarkGray,
+                    disabledLeadingIconColor    = Color.DarkGray,
+                    disabledTrailingIconColor     = Color.DarkGray,
+                ),
+
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clickable {
+                        mExpanded = !mExpanded
+                    }
                     .onGloballyPositioned { coordinates ->
                         mTextFieldSize = coordinates.size.toSize()
                     },
@@ -441,7 +436,8 @@ class HomeNewPostActivity : ComponentActivity() {
                 trailingIcon = {
                     Icon(icon, "contentDescription", Modifier.clickable { mExpanded = !mExpanded })
                 })
-            DropdownMenu(expanded = mExpanded,
+            DropdownMenu(
+                expanded = mExpanded,
                 onDismissRequest = { mExpanded = false },
                 modifier = Modifier.width(with(LocalDensity.current) { mTextFieldSize.width.toDp() })
             ) {

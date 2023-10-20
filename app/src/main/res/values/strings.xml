@@ -84,12 +84,13 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="text_no_post">No post found</string>
     //request access
-    <string name="text_sent_request">Sent request</string>
+    <string name="text_sent_request">Send request</string>
     <string name="text_send_request_for_access">Send request for access</string>
     <string name="text_request_access">Request access</string>
     //approve request
-    <string name="text_approve_access">Approve request for </string>
+    <string name="text_approve_access">Approve for </string>
     <string name="text_request_approved">Request aapproved </string>
 
 
