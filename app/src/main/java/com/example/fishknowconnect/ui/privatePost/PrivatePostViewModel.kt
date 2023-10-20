@@ -27,7 +27,7 @@ class PrivatePostViewModel(
         viewModelScope.launch(Dispatchers.Main) {
             mutableState.value = PrivatePostState.Loading
             try {
-                val response = retrofitService.getAllPrivatePost(username,type)
+                val response = retrofitService.getAllPrivatePost(username, type)
                 val privatePostResponse = response.body()
                 if (privatePostResponse.isNullOrEmpty()) {
                     mutableState.value = PrivatePostState.Failure("empty response")
@@ -57,26 +57,33 @@ class PrivatePostViewModel(
     fun sendRequestToAccessPost(id: String) {
         viewModelScope.launch(Dispatchers.Main) {
             mutableState.value = PrivatePostState.Loading
-            val response = retrofitService.sendPostAccessRequest(id, username.toRequestBody())
-            val accessResponse = response.body()
+            try {
+                val response = retrofitService.sendPostAccessRequest(id, username.toRequestBody())
+                val accessResponse = response.body()
 //            if (privatePostResponse.isNullOrEmpty()) {
 //                mutableState.value = PrivatePostState.Failure("empty response")
-            if (response.isSuccessful) {
-                when (response.code()) {
-                    200 -> if (accessResponse != null) {
-                        mutableState.value = PrivatePostState.SuccessAccess(accessResponse.message)
+                if (response.isSuccessful) {
+                    when (response.code()) {
+                        200 -> if (accessResponse != null) {
+                            mutableState.value =
+                                PrivatePostState.SuccessAccess(accessResponse.message)
+                        }
+
+                        204 -> if (accessResponse != null) {
+                            mutableState.value = PrivatePostState.Failure(accessResponse.message)
+                        }
                     }
-                    204 -> if (accessResponse != null) {
-                        mutableState.value = PrivatePostState.Failure(accessResponse.message)
+                } else {
+                    when (response.code()) {
+                        404 -> if (accessResponse != null) {
+                            mutableState.value = PrivatePostState.Failure(accessResponse.message)
+                        }
                     }
                 }
-            } else {
-                when (response.code()) {
-                    404 -> if (accessResponse != null) {
-                        mutableState.value = PrivatePostState.Failure(accessResponse.message)
-                    }
-                }
+            } catch (_: ProtocolException) {
+
             }
+
         }
     }
 }

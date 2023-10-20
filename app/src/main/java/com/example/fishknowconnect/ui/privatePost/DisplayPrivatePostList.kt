@@ -1,6 +1,7 @@
 package com.example.fishknowconnect.ui.privatePost
 
 import android.app.Activity
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -17,11 +18,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.ui.CustomFullWidthIconButton
+import com.example.fishknowconnect.ui.CustomWrapWidthIconButton
 
 /**
  * Display all private post list
@@ -44,15 +50,19 @@ fun DisplayPrivateList(
  */
 @Composable
 fun ListItem(item: GetPrivatePostResponse, context: Activity?, viewModel: PrivatePostViewModel) {
-    var textRequestAccess by remember { mutableStateOf("Request Access") }
     Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
-    ) {
+            .fillMaxHeight(),
+    )
+    {
         Text(
             item.author,
             maxLines = 1,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .fillMaxWidth()
@@ -62,17 +72,20 @@ fun ListItem(item: GetPrivatePostResponse, context: Activity?, viewModel: Privat
         Text(
             item.title,
             maxLines = 1,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Medium,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp, 0.dp, 16.dp, 0.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = {
+
+        CustomWrapWidthIconButton(
+            label = stringResource(id = R.string.text_sent_request), icon = R.drawable.icon_send
+        ) {
             //hit api to send request access
             viewModel.sendRequestToAccessPost(item._id)
-        }) {
-            Text(text = stringResource(id = R.string.text_sent_request))
         }
     }
     Divider()

@@ -18,16 +18,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.fragment.app.viewModels
 import com.example.fishknowconnect.PreferenceHelper
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.network.FishKnowConnectApi
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
-import com.example.fishknowconnect.ui.ShowErrorMessage
+import com.example.fishknowconnect.ui.showError
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.privatePost.ui.theme.FishKnowConnectTheme
-import com.example.fishknowconnect.ui.profile.ProfileViewModel
-import com.example.fishknowconnect.ui.profile.ProfileViewModelFactory
+import com.example.fishknowconnect.ui.showErrorMessage
 
 class PrivatePostActivity : ComponentActivity() {
     lateinit var privatePostViewModelFactory: PrivatePostViewModelFactory
@@ -53,7 +51,7 @@ class PrivatePostActivity : ComponentActivity() {
                                 viewModel.getAllPrivatePostContent(intentType)
                             })
                             PrivatePostScreen(intentType, viewModel)
-                        }else{
+                        } else {
                             ToolBarLayout("")
                             Toast.makeText(
                                 this@PrivatePostActivity, "type not found", Toast.LENGTH_SHORT
@@ -76,28 +74,38 @@ class PrivatePostActivity : ComponentActivity() {
 }
 
 @Composable
-fun PrivatePostScreen(name: String, viewModel: PrivatePostViewModel,  modifier: Modifier = Modifier) {
+fun PrivatePostScreen(
+    name: String, viewModel: PrivatePostViewModel, modifier: Modifier = Modifier
+) {
     val context = LocalContext.current as? Activity
+    //for displaying list
     when (val responseValue = viewModel.state.collectAsState().value) {
         PrivatePostState.Loading -> IndeterminateCircularIndicator()
         is PrivatePostState.Success -> responseValue.response?.let {
             DisplayPrivateList(it, context, viewModel)
         }
-        is PrivatePostState.Error -> ShowErrorMessage()
+
+        is PrivatePostState.Error -> showErrorMessage(stringResource(id = R.string.text_no_post))
         else -> {
         }
     }
-
+//for sending request
     when (val responseValue = viewModel.state.collectAsState().value) {
         PrivatePostState.Loading -> IndeterminateCircularIndicator()
         is PrivatePostState.SuccessAccess -> responseValue.message?.let {
-        Toast.makeText(
-                    context, responseValue.message, Toast.LENGTH_SHORT
+//        Toast.makeText(
+//                    context, responseValue.message, Toast.LENGTH_SHORT
+//            ).show()
+            Toast.makeText(
+                context,
+                stringResource(id = R.string.text_send_request_for_access),
+                Toast.LENGTH_SHORT
             ).show()
             context?.finish()
         }
-        is PrivatePostState.Error -> ShowErrorMessage()
-        is PrivatePostState.Failure -> ShowErrorMessage()
+
+        is PrivatePostState.Error -> showErrorMessage(stringResource(id = R.string.text_no_post))
+        is PrivatePostState.Failure -> showErrorMessage(stringResource(id = R.string.text_no_post))
         else -> {
         }
     }

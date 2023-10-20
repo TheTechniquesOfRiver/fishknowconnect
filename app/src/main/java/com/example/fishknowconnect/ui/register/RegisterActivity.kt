@@ -11,9 +11,11 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,13 +48,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import coil.ImageLoader
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import com.example.fishknowconnect.R
+import com.example.fishknowconnect.ui.CustomWrapWidthIconButton
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.login.LoginActivity
 import com.example.fishknowconnect.ui.register.ui.theme.FishKnowConnectTheme
+import pl.droidsonroids.gif.GifImageView
 
 
 class RegisterActivity : ComponentActivity() {
@@ -102,15 +109,14 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = stringResource(R.string.title_activity_register),
-            textAlign = TextAlign.Center,
-            style = TextStyle(
-                fontSize = 48.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.SansSerif,
-                textAlign = TextAlign.Center
-            )
+        AndroidView(
+            factory = { context ->
+                GifImageView(context).apply {
+                    setImageResource(R.drawable.register)
+                }
+            }, modifier = Modifier
+                .width(150.dp)
+                .height(200.dp)
         )
         OutlinedTextField(
             value = viewModel.username,
@@ -120,9 +126,7 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
             },
             label = { Text(text = stringResource(R.string.text_username)) },
         )
-        OutlinedTextField(value = viewModel.password,
-            maxLines = 1,
-            onValueChange = { password ->
+        OutlinedTextField(value = viewModel.password, maxLines = 1, onValueChange = { password ->
             viewModel.updatePassword(password)
         }, label = { Text(text = stringResource(R.string.text_password)) })
         OutlinedTextField(value = viewModel.age,
@@ -132,15 +136,14 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             label = { Text(text = stringResource(R.string.text_age)) })
-        OutlinedTextField(value = viewModel.location,
-            maxLines = 1,
-            onValueChange = { location ->
+        OutlinedTextField(value = viewModel.location, maxLines = 1, onValueChange = { location ->
             viewModel.updateLocation(location)
         }, label = { Text(text = stringResource(R.string.text_location)) })
-        Button(modifier = Modifier
-            .height(81.dp)
-            .width(287.dp)
-            .padding(0.dp, 10.dp), onClick = {
+        Spacer(modifier = Modifier.padding(vertical = 20.dp))
+        CustomWrapWidthIconButton(
+            label = stringResource(id = R.string.title_activity_register),
+            icon = R.drawable.icon_register
+        ) {
             //check validation
             if (viewModel.username.isEmpty() || viewModel.password.isEmpty() || viewModel.age.isEmpty() || viewModel.location.isEmpty()) {
                 Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
@@ -148,19 +151,8 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
                 //perform registration
                 viewModel.performRegistration()
             }
-
-
-        }) {
-            Text(
-                text = stringResource(R.string.title_activity_register), style = TextStyle(
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                    fontFamily = FontFamily.SansSerif
-                )
-            )
         }
-
+        Spacer(modifier = Modifier.padding(vertical = 20.dp))
     }
 }
 
@@ -179,6 +171,11 @@ fun showDialog(message: String) {
 @Composable
 fun OpenLoginScreen() {
     val activity = (LocalContext.current as? Activity)
+    Toast.makeText(
+        LocalContext.current.applicationContext,
+        stringResource(id = R.string.text_succesful_register),
+        Toast.LENGTH_SHORT
+    ).show();
     val intent = Intent(activity, LoginActivity::class.java)
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
     activity?.startActivity(intent)
