@@ -144,7 +144,7 @@ fun ListItem(item: GetApprovalResponse, viewModel: ApprovePostRequestViewModel) 
         }
         Spacer(modifier = Modifier.height(16.dp))
         CustomWrapWidthIconButton(
-            label = stringResource(id = R.string.text_reject_post)+ " $approvalRequestUser", icon = R.drawable.icon_approve
+            label = stringResource(id = R.string.text_reject_post)+ " $approvalRequestUser", icon = R.drawable.icon_reject
         ) {
             //hit api to send post approval
 //            viewModel.sendPostApproval(item._id, approvalRequestUser)
