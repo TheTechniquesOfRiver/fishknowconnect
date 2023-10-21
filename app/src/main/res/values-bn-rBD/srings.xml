@@ -49,6 +49,8 @@
     //content details
     <string name="text_listen">শুনুন </string>
     <string name="text_welcome">স্বাগতম</string>
+<!--    <string name="text_radio_private">sfs</string>-->
+<!--    <string name="text_radio_public">asdf</string>-->
 
     <string name="button_upload">আপ লোড </string>
     <string name="button_new_post">নতুন পোস্ট তৈরি করুণ </string>

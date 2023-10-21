@@ -25,6 +25,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -66,13 +69,18 @@ class ContentDetailActivity : ComponentActivity(), TextToSpeech.OnInitListener {
         super.onCreate(savedInstanceState)
         setContent {
             FishKnowConnectTheme {
+
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
                 ) {
                     // TextToSpeech(Context: this, OnInitListener: this)
                     tts = TextToSpeech(this@ContentDetailActivity, this)
-                    Column {
+                    Column(modifier = Modifier
+//                        .verticalScroll(rememberScrollState())
+                        .fillMaxHeight()
+                        .fillMaxSize()) {
                         ToolBarLayout(resources.getString(R.string.text_content_details))
                         ListItemDetailScreen(intent, viewModel)
                         when (val responseValue = viewModel.state.collectAsState().value) {
@@ -152,22 +160,26 @@ fun ListItemDetailScreen(
 
     //title
     if (!intentTitle.isNullOrEmpty()) {
-        Row(modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp),  verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween) {
+
+        Row(
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             Text(
                 text = stringResource(id = R.string.text_title),
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 10.dp))
-            OutlinedButton( modifier = Modifier
-                ,onClick = {
+                modifier = Modifier.padding(horizontal = 10.dp)
+            )
+            OutlinedButton(modifier = Modifier, onClick = {
                 if (isListenEnable) {
                     tts!!.speak(intentTitle, TextToSpeech.QUEUE_FLUSH, null, "")
                 }
             }) {
                 Image(
                     modifier = Modifier
-                        .width(IntrinsicSize.Min)
-                        .height(IntrinsicSize.Min),
+                        .width(26.dp)
+                        .height(20.dp),
                     painter = painterResource(R.drawable.icon_listen),
                     contentDescription = ""
                 )
@@ -177,12 +189,16 @@ fun ListItemDetailScreen(
     }
     //content
     if (!intentContent.isNullOrEmpty()) {
-        Row(modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp),  verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween) {
+        Row(
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             Text(
                 text = stringResource(id = R.string.text_content),
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 10.dp))
+                modifier = Modifier.padding(horizontal = 10.dp)
+            )
             OutlinedButton(onClick = {
                 if (isListenEnable) {
                     tts!!.speak(intentContent, TextToSpeech.QUEUE_FLUSH, null, "")
@@ -190,8 +206,8 @@ fun ListItemDetailScreen(
             }) {
                 Image(
                     modifier = Modifier
-                        .width(IntrinsicSize.Min)
-                        .height(IntrinsicSize.Min),
+                        .width(26.dp)
+                        .height(20.dp),
                     painter = painterResource(R.drawable.icon_listen),
                     contentDescription = ""
                 )
