@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -144,7 +145,6 @@ class NewPostActivity : ComponentActivity() {
         val languageOptions = listOf(
             stringResource(R.string.text_radio_private), stringResource(R.string.text_radio_public)
         )
-        val (selectedOption, onOptionSelected) = remember { mutableStateOf("") }
         val intentRecordFile = intent.getStringExtra("recordFile")
         //get image file
         val imageFile = context.createImageFile()
@@ -345,22 +345,25 @@ class NewPostActivity : ComponentActivity() {
                     modifier = Modifier
                         .align(Alignment.Start)
                         .padding(26.dp, 4.dp)
-                        .selectable(
-                            selected = (text == selectedOption), onClick = {
-                                onOptionSelected(text)
-                                //set access
-                                if (text == "Share privately") {
-                                    viewModel.updateAccess("private")
-                                } else {
-                                    viewModel.updateAccess("public")
-                                }
-                            }, role = Role.RadioButton
-                        )
+                        .clickable {
+                            //set access
+                            if (text == getString(R.string.text_radio_private)) {
+                                viewModel.updateAccess("private")
+                            } else {
+                                viewModel.updateAccess("public")
+                            }
+                        }
+
                 ) {
+                    val selectedAccess: String = if(viewModel.access == "private"){
+                        getString(R.string.text_radio_private)
+                    }else{
+                        getString(R.string.text_radio_public)
+
+                    }
                     RadioButton(
-                        selected = (text == selectedOption), onClick = null,
+                        selected = (text == selectedAccess), onClick = null,
                     )
-                    Log.d("new post", "selectedOption$selectedOption")
                     Text(
                         text = text, style = TextStyle(
                             fontSize = 18.sp,

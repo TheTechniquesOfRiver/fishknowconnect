@@ -94,8 +94,8 @@ class ProfileFragment : Fragment() {
                         }) {
                             Image(
                                 modifier = Modifier
-                                    .width(IntrinsicSize.Min)
-                                    .height(IntrinsicSize.Min),
+                                    .width(26.dp)
+                                    .height(20.dp),
                                 painter = painterResource(R.drawable.exit),
                                 contentDescription = ""
                             )

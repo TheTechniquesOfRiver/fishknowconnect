@@ -85,13 +85,17 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="text_no_post">No post found</string>
+    <string name="text_posted_by">Posted by </string>
+    <string name="text_date">Date </string>
     //request access
     <string name="text_sent_request">Send request</string>
     <string name="text_send_request_for_access">Send request for access</string>
     <string name="text_request_access">Request access</string>
     //approve request
     <string name="text_approve_access">Approve for </string>
-    <string name="text_request_approved">Request aapproved </string>
+    <string name="text_reject_post">Reject for </string>
+    <string name="text_request_approved">Request approved </string>
+    <string name="text_request_rejected">Request rejected </string>
 
 
 </resources>

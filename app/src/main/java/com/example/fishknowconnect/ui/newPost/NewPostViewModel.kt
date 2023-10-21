@@ -3,9 +3,11 @@ package com.example.fishknowconnect.ui.newPost
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fishknowconnect.PreferenceHelper
+import com.example.fishknowconnect.R
 import com.example.fishknowconnect.network.FishKnowConnectApi
 import com.example.fishknowconnect.network.FishKnowConnectApiService
 import kotlinx.coroutines.Dispatchers
@@ -64,7 +66,7 @@ class NewPostViewModel(
         fileType = type
     }
 
-    var access by mutableStateOf("")
+    var access by mutableStateOf("public")
         private set
 
     fun updateAccess(accessType: String) {
@@ -92,6 +94,8 @@ class NewPostViewModel(
     fun uploadPictureToServer(title: String) {
         viewModelScope.launch(Dispatchers.Main) {
             mutableState.value = NewPostState.Loading
+
+
             try {
                 val response = retrofitService.createPost(
                     postTitle.toRequestBody(),
