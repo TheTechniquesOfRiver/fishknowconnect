@@ -233,13 +233,7 @@ def grant_access(post_id):
         post = mydb.posts.find_one({"_id": target_id})
 
         grants = post_data['granted'] + ','
-        if 'granted' in post:
-            if grants not in post['granted']:
-                post_data['granted'] = post['granted'] + post_data['granted'] + ',' 
-            else:
-                post_data['granted'] = post['granted']
-        else:
-            post_data['granted'] = post_data['granted'] + ','  
+        csdv vd 
 
         if 'requested' in post:
             if grants in post['requested']:
@@ -405,3 +399,43 @@ def get_approval_count():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@post_module.route('/reject_access/<string:post_id>', methods=['PUT'])
+def reject_access(post_id):
+    # Get post data from the request JSON
+    post_data = request.form.to_dict()
+    
+    # Ensure that at least one field to update is provided
+    if not post_data:
+        return jsonify({'error': 'No users requested access'}), 400
+
+    # Update the post in the 'posts' collection based on the post_id
+    try:
+        target_id = ObjectId(post_id)
+        post = mydb.posts.find_one({"_id": target_id})
+
+        rejects = post_data['rejected'] + ','
+
+        if 'granted' in post:
+            if rejects not in post['rejected']:
+                post_data['rejected'] = post['rejected'] + post_data['rejected'] + ',' 
+            else:
+                post_data['rejected'] = post['rejected']
+        else:
+            post_data['rejected'] = post_data['rejected'] + ',' 
+
+        if 'requested' in post:
+            if rejects in post['requested']:
+                post_data['requested'] = post['requested'].replace(rejects, "")
+
+        result = mydb.posts.update_one({'_id': target_id}, {'$set': post_data})
+
+        if result.modified_count > 0:
+            return jsonify({'message': 'Access rejected'}), 200
+        else:
+            return jsonify({'message': 'No matching post found for update'}), 404
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
