@@ -233,6 +233,13 @@ def grant_access(post_id):
         post = mydb.posts.find_one({"_id": target_id})
 
         grants = post_data['granted'] + ','
+        if 'granted' in post:
+            if grants not in post['granted']:
+                post_data['granted'] = post['granted'] + post_data['granted'] + ',' 
+            else:
+                post_data['granted'] = post['granted']
+        else:
+            post_data['granted'] = post_data['granted'] + ','  
 
         if 'requested' in post:
             if grants in post['requested']:
@@ -416,7 +423,7 @@ def reject_access(post_id):
 
         rejects = post_data['rejected'] + ','
 
-        if 'granted' in post:
+        if 'rejected' in post:
             if rejects not in post['rejected']:
                 post_data['rejected'] = post['rejected'] + post_data['rejected'] + ',' 
             else:
