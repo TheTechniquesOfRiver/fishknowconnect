@@ -10,5 +10,6 @@ data class GetPostTypeResponse(
     val _id: String,
     val title:String,
     val type: String,
+    val timestamp: String,
     val author: String
 )
