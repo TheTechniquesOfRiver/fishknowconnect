@@ -233,7 +233,6 @@ def grant_access(post_id):
         post = mydb.posts.find_one({"_id": target_id})
 
         grants = post_data['granted'] + ','
-        csdv vd 
 
         if 'requested' in post:
             if grants in post['requested']:
