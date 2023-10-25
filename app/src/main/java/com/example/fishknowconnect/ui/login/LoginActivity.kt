@@ -20,8 +20,6 @@ class LoginActivity : AppCompatActivity() {
     lateinit var loginViewModel: LoginViewModel
     lateinit var loginViewModelFactory: LoginViewModelFactory
      lateinit var preferenceHelper: PreferenceHelper
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
@@ -31,8 +29,6 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel =
             ViewModelProvider(this, loginViewModelFactory).get(LoginViewModel::class.java);
         preferenceHelper = PreferenceHelper.getInstance(applicationContext)
-
-//        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         //intialization
         val buttonLogin = binding.buttonLogin
         val buttonRegister = binding.buttonRegister
@@ -65,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
                 if (onSuccessLogin) {
                     preferenceHelper.setUserLoggedInStatus(true)
                     preferenceHelper.setLoggedInUserUsername(username)
+                    Toast.makeText(this, resources.getString(R.string.text_login_successful), Toast.LENGTH_SHORT).show()
                     val i = Intent(this@LoginActivity, MainActivity::class.java)
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(i)
@@ -76,5 +73,4 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
 }

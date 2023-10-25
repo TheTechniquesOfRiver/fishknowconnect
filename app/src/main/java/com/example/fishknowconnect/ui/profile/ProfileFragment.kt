@@ -2,19 +2,25 @@ package com.example.fishknowconnect.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +42,8 @@ import com.example.fishknowconnect.R
 import com.example.fishknowconnect.databinding.FragmentProfileBinding
 import com.example.fishknowconnect.network.FishKnowConnectApi
 import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
+import com.example.fishknowconnect.ui.contentDetail.isListenEnable
+import com.example.fishknowconnect.ui.contentDetail.tts
 import com.example.fishknowconnect.ui.login.LoginActivity
 
 class ProfileFragment : Fragment() {
@@ -67,24 +75,29 @@ class ProfileFragment : Fragment() {
                             .fillMaxWidth()
                             .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween) {
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
                         Text(
-                            text = stringResource(id = R.string.text_welcome) + profileViewModel.username,
+                            text = profileViewModel.username,
                             style = TextStyle(
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold,
                             ),
                             modifier = Modifier
-                                .padding(horizontal = 10.dp, 7.dp)
-                                .weight(8f),
+                                .padding(horizontal = 10.dp)
+                                .weight(7f),
                         )
-                        Spacer(modifier =Modifier.weight(1f))
+                        Spacer(modifier = Modifier.weight(1f))
                         //logout button
-                        IconButton(onClick = { performLogout() }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.exit),
-                                contentDescription = "exit",
-                                modifier = Modifier.weight(1f),
+                        OutlinedButton(onClick = {
+                            performLogout()
+                        }) {
+                            Image(
+                                modifier = Modifier
+                                    .width(26.dp)
+                                    .height(20.dp),
+                                painter = painterResource(R.drawable.exit),
+                                contentDescription = ""
                             )
                         }
                     }
@@ -130,18 +143,11 @@ fun ProfileScreen(profileViewModel: ProfileViewModel) {
         else -> {
         }
     }
-    Text(
-        text = stringResource(id = R.string.text_my_post), style = TextStyle(
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-        ), modifier = Modifier.padding(horizontal = 10.dp, 7.dp)
-    )
-
     //for profile post list
     when (val responseValue = profileViewModel.stateProfile.collectAsState().value) {
         ProfilePostListPostState.Loading -> IndeterminateCircularIndicator()
         is ProfilePostListPostState.Success -> responseValue.response?.let {
-            DisplayList(it)
+            DisplayList(it, stringResource(id = R.string.text_my_post))
         }
 
         is ProfilePostListPostState.Failure -> showDialog(responseValue.response)
@@ -166,13 +172,72 @@ fun showDialog(message: String) {
 @Composable
 fun SetProfileInfo(response: ProfileState.Success) {
     Column {
-        Row() {
-            Text(text = "Age")
-            Text(text = response.age)
-        }
-        Row() {
-            Text(text = "Location")
-            Text(text = response.location)
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(18.dp, 0.dp, 4.dp, 0.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+
+            Text(
+                text = response.age,
+                style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Normal),modifier = Modifier.padding(horizontal = 2.dp)
+            )
+            Text(
+                text = stringResource(id = R.string.text_years),
+                style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Normal),modifier = Modifier.padding(horizontal = 2.dp)
+            )
+            Text(
+                text = response.location,
+                style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Normal,
+                ),modifier = Modifier.padding(horizontal = 2.dp)
+            )
+//            Text(
+//                text = stringResource(id = R.string.text_age), style = TextStyle(
+//                    fontSize = 20.sp,
+//                    fontWeight = FontWeight.Bold,
+//                ), modifier = Modifier.padding(horizontal = 10.dp)
+//            )
+//            Text(
+//                text = response.age,
+//                style = TextStyle(
+//                    fontSize = 20.sp,
+//                    fontWeight = FontWeight.SemiBold,
+//                ),
+//                modifier = Modifier
+//                    .padding(horizontal = 10.dp)
+//                    .weight(8f),
+//            )
+//        }
+//        Row(
+//            Modifier
+//                .fillMaxWidth()
+//                .padding(16.dp, 0.dp, 0.dp, 8.dp),
+//            verticalAlignment = Alignment.CenterVertically,
+//            horizontalArrangement = Arrangement.SpaceBetween
+//        ) {
+//            Text(
+//                text = stringResource(id = R.string.text_location), style = TextStyle(
+//                    fontSize = 20.sp,
+//                    fontWeight = FontWeight.Bold,
+//                ), modifier = Modifier.padding(horizontal = 10.dp)
+//            )
+//            Text(
+//                text = response.location,
+//                style = TextStyle(
+//                    fontSize = 20.sp,
+//                    fontWeight = FontWeight.SemiBold,
+//                ),
+//                modifier = Modifier
+//                    .padding(horizontal = 10.dp)
+//                    .weight(8f),
+//            )
         }
     }
 }

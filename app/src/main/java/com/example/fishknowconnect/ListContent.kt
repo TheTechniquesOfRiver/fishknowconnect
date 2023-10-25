@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,43 +19,47 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.example.fishknowconnect.ui.contentDetail.ContentDetailActivity
 import com.example.fishknowconnect.ui.GetPostTypeResponse
+import com.example.fishknowconnect.ui.contentDetail.ContentDetailActivity
 import com.example.fishknowconnect.ui.newPost.ShowAudioPlayer
 import com.example.fishknowconnect.ui.newPost.ShowVideoPlayer
+import com.example.fishknowconnect.util.getFormattedDate
 
 
 /**
  * Display all list
  */
 @Composable
-fun DisplayList(list: List<GetPostTypeResponse>) {
+fun DisplayList(list: List<GetPostTypeResponse>, title: String) {
     val context = LocalContext.current
     //title
     Text(
-        text = stringResource(id = R.string.text_latest_post), style = TextStyle(
+        text = title, style = TextStyle(
             fontSize = 20.sp, fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.Bold
         ), modifier = Modifier
             .fillMaxWidth()
-            .padding(20.dp,20.dp)
+            .padding(20.dp, 10.dp), textAlign = TextAlign.Center
     )
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+    ) {
         LazyColumn(modifier = Modifier.fillMaxHeight()) {
             items(list) { post ->
                 ListItem(post, context)
@@ -70,9 +75,9 @@ fun DisplayList(list: List<GetPostTypeResponse>) {
 fun ListItem(item: GetPostTypeResponse, context: Context) {
     Card(
         modifier = Modifier.padding(10.dp),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 10.dp
+            defaultElevation = 2.dp
         ),
         colors = CardDefaults.cardColors(
             containerColor = colorResource(id = R.color.app_status_bar_light),
@@ -100,7 +105,7 @@ fun ListItem(item: GetPostTypeResponse, context: Context) {
             Text(
                 item.content,
                 fontSize = 16.sp,
-                maxLines = 3,
+                maxLines = 2,
                 fontFamily = FontFamily.SansSerif,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
@@ -108,28 +113,55 @@ fun ListItem(item: GetPostTypeResponse, context: Context) {
                     .padding(0.dp, 0.dp, 16.dp, 0.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
-            when (item.fileType) {
-                "image" -> {
-                    Image(
-                        modifier = Modifier
-                            .padding(16.dp, 8.dp)
-                            .height(100.dp),
-                        painter = rememberAsyncImagePainter(item.file_url),
-                        contentDescription = null
-                    )
-                }
-
-                "video" -> {
-                    ShowVideoPlayer(videoUri = Uri.parse(item.file_url))
-                }
-
-                "audio" -> {
-                    ShowAudioPlayer(item.file_url)
-                }
-            }
+//            when (item.fileType) {
+//                "image" -> {
+//                    Image(
+//                        modifier = Modifier
+//                            .padding(16.dp, 8.dp)
+//                            .height(100.dp),
+//                        painter = rememberAsyncImagePainter(item.file_url),
+//                        contentDescription = null
+//                    )
+//                }
+//
+//                "video" -> {
+//                    ShowVideoPlayer(videoUri = Uri.parse(item.file_url))
+//                }
+//
+//                "audio" -> {
+//                    ShowAudioPlayer(item.file_url)
+//                }
+//            }
+//            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                stringResource(id = R.string.text_posted_by) + " " + item.author,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Light,
+               fontStyle = FontStyle.Italic,
+                maxLines = 1,
+                fontFamily = FontFamily.SansSerif,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp, 0.dp, 16.dp, 0.dp)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                getFormattedDate(item.timestamp),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Light,
+                fontStyle = FontStyle.Italic,
+                maxLines = 1,
+                fontFamily = FontFamily.SansSerif,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp, 0.dp, 16.dp, 0.dp)
+            )
         }
     }
 }
+
 
 /**
  * Open detail screen with each item

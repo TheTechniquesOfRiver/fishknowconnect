@@ -2,6 +2,7 @@ package com.example.fishknowconnect.network
 
 import com.example.fishknowconnect.ui.GetPostTypeResponse
 import com.example.fishknowconnect.ui.approvePostRequest.GetApprovalResponse
+import com.example.fishknowconnect.ui.home.HomeApprovalCountResponse
 import com.example.fishknowconnect.ui.login.LoginResponse
 import com.example.fishknowconnect.ui.newPost.NewPostResponse
 import com.example.fishknowconnect.ui.privatePost.GetPrivatePostAccessResponse
@@ -27,6 +28,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 private const val BASE_URL = "http://13.236.94.194:3000/"
+
 //private const val BASE_URL = "http://127.0.0.1:3000/"
 //private const val BASE_URL = "http://10.0.2.2:3000/"
 private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -64,7 +66,7 @@ interface FishKnowConnectApiService {
         @Part("fileType") fileType: RequestBody,
         @Part("access") access: RequestBody,
         @Part("author") author: RequestBody,
-        ): Response<NewPostResponse>
+    ): Response<NewPostResponse>
 
     @GET("get_all_posts")
     suspend fun getAllPost(): Response<List<GetPostTypeResponse>>
@@ -74,11 +76,17 @@ interface FishKnowConnectApiService {
 
     //private post
     @GET("get_not_granted_posts")
-    suspend fun getAllPrivatePost(@Query("user") username: String,@Query("type") type: String): Response<List<GetPrivatePostResponse>>
+    suspend fun getAllPrivatePost(
+        @Query("user") username: String,
+        @Query("type") type: String
+    ): Response<List<GetPrivatePostResponse>>
 
     //all post by type
     @GET("get_granted_posts")
-    suspend fun getPostsByType(@Query("user") username: String,@Query("type") type: String): Response<List<GetPostTypeResponse>>
+    suspend fun getPostsByType(
+        @Query("user") username: String,
+        @Query("type") type: String
+    ): Response<List<GetPostTypeResponse>>
 
     // all profile posts
     @GET("get_posts")
@@ -86,21 +94,29 @@ interface FishKnowConnectApiService {
 
     //delete post
     @DELETE("delete_post/{id}")
-    suspend fun deletePost(@Path("id") id:String): Response<LoginResponse>
+    suspend fun deletePost(@Path("id") id: String): Response<LoginResponse>
 
     //for requesting private post access
     @Multipart
     @PUT("request_access/{id}")
     suspend fun sendPostAccessRequest(
-        @Path("id") id:String,
+        @Path("id") id: String,
         @Part("requested") requested: RequestBody
+    ): Response<GetPrivatePostAccessResponse>
+
+    //for rejecting private post access
+    @Multipart
+    @PUT("reject_access/{id}")
+    suspend fun sendRejectApproval(
+        @Path("id") id: String,
+        @Part("rejected") requested: RequestBody
     ): Response<GetPrivatePostAccessResponse>
 
     //for granting private post access
     @Multipart
     @PUT("grant_access/{id}")
     suspend fun sendGrantAccess(
-        @Path("id") id:String,
+        @Path("id") id: String,
         @Part("granted") requested: RequestBody
     ): Response<GetPrivatePostAccessResponse>
 
@@ -108,7 +124,7 @@ interface FishKnowConnectApiService {
     //for getting all approval list
     @GET("get_approvals")
     suspend fun getApprovals(
-        @Query("user") users:String,
+        @Query("user") users: String,
     ): Response<List<GetApprovalResponse>>
 
     //get profile list
@@ -116,6 +132,12 @@ interface FishKnowConnectApiService {
     suspend fun getProfileInfo(
         @Query("username") username: String
     ): Response<ProfileResponse>
+
+    //get approval request count
+    @GET("get_approval_count")
+    suspend fun getApprovalRequestsCount(
+        @Query("user") username: String
+    ): Response<HomeApprovalCountResponse>
 }
 
 object FishKnowConnectApi {
