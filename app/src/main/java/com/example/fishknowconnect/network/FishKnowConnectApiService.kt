@@ -104,6 +104,14 @@ interface FishKnowConnectApiService {
         @Part("requested") requested: RequestBody
     ): Response<GetPrivatePostAccessResponse>
 
+    //for rejecting private post access
+    @Multipart
+    @PUT("reject_access/{id}")
+    suspend fun sendRejectApproval(
+        @Path("id") id: String,
+        @Part("rejected") requested: RequestBody
+    ): Response<GetPrivatePostAccessResponse>
+
     //for granting private post access
     @Multipart
     @PUT("grant_access/{id}")

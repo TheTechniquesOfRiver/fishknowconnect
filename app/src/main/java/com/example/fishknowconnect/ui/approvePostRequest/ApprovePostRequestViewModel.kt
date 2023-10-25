@@ -71,4 +71,29 @@ class ApprovePostRequestViewModel(
             }
         }
     }
+
+
+/**
+ * request for approval post
+ */
+fun sendRejectApproval(id: String, approvalRequestUser: String) {
+    viewModelScope.launch(Dispatchers.Main) {
+        mutableState.value = ApproveState.Loading
+        try {
+            val response =
+                retrofitService.sendRejectApproval(id, approvalRequestUser.toRequestBody())
+            if (response.isSuccessful) {
+                val rejectGrantResponse = response.body()
+                when (response.code()) {
+                    200 -> mutableState.value = ApproveState.RejectGrant(rejectGrantResponse)
+                }
+            } else {
+                when (response.code()) {
+                    409 -> mutableState.value = ApproveState.Failure("failed")
+                }
+            }
+        } catch (_: ProtocolException) {
+        }
+    }
+}
 }

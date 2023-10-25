@@ -87,6 +87,24 @@ class ApprovePostRequestActivity : ComponentActivity() {
                             else -> {
                             }
                         }
+                        when (val responseValue = viewModel.state.collectAsState().value) {
+                            ApproveState.Loading -> IndeterminateCircularIndicator()
+                            is ApproveState.RejectGrant -> responseValue.response?.let {
+//                                Toast.makeText(
+//                                    context, responseValue.response.message, Toast.LENGTH_SHORT
+//                                ).show()
+                                Toast.makeText(
+                                    context,
+                                    stringResource(id = R.string.text_request_rejected),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                finish()
+                            }
+
+                            is ApproveState.Error -> showError()
+                            else -> {
+                            }
+                        }
                     }
                 }
             }
@@ -146,8 +164,8 @@ fun ListItem(item: GetApprovalResponse, viewModel: ApprovePostRequestViewModel) 
         CustomWrapWidthIconButton(
             label = stringResource(id = R.string.text_reject_post)+ " $approvalRequestUser", icon = R.drawable.icon_reject
         ) {
-            //hit api to send post approval
-//            viewModel.sendPostApproval(item._id, approvalRequestUser)
+            //hit api to reject post approval
+            viewModel.sendRejectApproval(item._id, approvalRequestUser)
         }
         Spacer(modifier = Modifier.height(16.dp))
     }
