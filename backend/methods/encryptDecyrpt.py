@@ -34,7 +34,7 @@ def decrypt(data):
             print("Couldn't decrypt your ciphertext. Here's why: %s",
                     err.response['Error']['Message'])
         else:
-            return plainText  
+            return plainText
             
             
             

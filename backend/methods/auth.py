@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from .encryptDecyrpt import encrypt
 from config.database import mydb
 from werkzeug.security import generate_password_hash, check_password_hash
+import datetime
 
 
 auth_module = Blueprint('auth', __name__)
@@ -13,7 +14,6 @@ def register():
     password = request.form.get('password') 
     age = request.form.get('age')
     location = request.form.get('location')
-
     # check user name exists or not
     existing_user = mydb.users.find_one({'username': username})
     if existing_user:
@@ -38,7 +38,7 @@ def register():
     try:
 
         # Create a new user object for mongodb
-        mydb.users.insert_one({"username": username, "password": hashed_password, "age": encrypt_age,"location": encrypt_location })
+        mydb.users.insert_one({"username": username, "password": hashed_password, "age": encrypt_age,"location": encrypt_location,"timestamp":datetime.datetime.now() })
         return jsonify({'message': 'Successfully registered'}), 200
 
     except Exception as e:
