@@ -126,7 +126,9 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
             },
             label = { Text(text = stringResource(R.string.text_username)) },
         )
-        OutlinedTextField(value = viewModel.password, maxLines = 1, onValueChange = { password ->
+        OutlinedTextField(value = viewModel.password,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+            , maxLines = 1, onValueChange = { password ->
             viewModel.updatePassword(password)
         }, label = { Text(text = stringResource(R.string.text_password)) })
         OutlinedTextField(value = viewModel.age,
