@@ -9,9 +9,12 @@ def getProfile():
     username = request.args.get('username')
     if username:
         profile = mydb.users.find_one({"username": username})
-        data = {'username': profile['username'],
-                'age': decrypt(profile['age']),
-                'location':  decrypt(profile['location'])}
-        return jsonify(data), 200
+        if profile:
+            data = {'username': profile['username'],
+                    'age': decrypt(profile['age']),
+                    'location':  decrypt(profile['location'])}
+            return jsonify(data), 200
+        else :
+            return jsonify({}), 200
     else:
         return jsonify({}), 200
