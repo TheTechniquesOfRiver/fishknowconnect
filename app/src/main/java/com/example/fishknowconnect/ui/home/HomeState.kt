@@ -1,7 +1,5 @@
 package com.example.fishknowconnect.ui.home
 
-import com.example.fishknowconnect.ui.GetPostTypeResponse
-
 sealed class HomeState {
     object None: HomeState()
     object Loading : HomeState()

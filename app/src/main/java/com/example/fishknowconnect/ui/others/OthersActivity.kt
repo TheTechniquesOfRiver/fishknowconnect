@@ -89,6 +89,7 @@ class OthersActivity : ComponentActivity() {
 @Composable
 fun OthersScreen() {
     val activity = (LocalContext.current as? Activity)
+    val typeTitle = stringResource(id = R.string.textview_others)
     Column(modifier = Modifier.padding(10.dp)) {
         CustomFullWidthIconButton(
             label = stringResource(id = R.string.button_new_post), icon = R.drawable.plus
@@ -105,6 +106,7 @@ fun OthersScreen() {
             //start new post screen
             val intent = Intent(activity, PrivatePostActivity::class.java).apply {
                 putExtra("type", "Others")
+                putExtra("typeTitle", typeTitle)
             }
             activity?.startActivity(intent)
         }

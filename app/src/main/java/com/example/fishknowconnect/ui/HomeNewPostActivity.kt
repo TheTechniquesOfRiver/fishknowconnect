@@ -434,7 +434,7 @@ class HomeNewPostActivity : ComponentActivity() {
                     .onGloballyPositioned { coordinates ->
                         mTextFieldSize = coordinates.size.toSize()
                     },
-                label = { Text("Type") },
+                label = { Text(getString(R.string.text_type)) },
                 trailingIcon = {
                     Icon(icon, "contentDescription", Modifier.clickable { mExpanded = !mExpanded })
                 })

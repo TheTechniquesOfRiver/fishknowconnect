@@ -16,13 +16,14 @@
     <string name="text_age">বয়স </string>
     <string name="text_location">স্থান</string>
     <string name="text_password">পাস ওয়ার্ড</string>
-    <string name="title_home">হোম</string>
-
+    <string name="text_my_post">আমার পোস্ট</string>
+    <string name="text_years">বছর, </string>
     <string name="menu_home">হোম</string>
     <string name="menu_profile">প্রোফাইল</string>
     <string name="menu_setting">সেটিংস </string>
     //login
     <string name="button_login">লগ ইন </string>
+    <string name="text_or">অথবা</string>
     //home
     <string name="textview_fish">মাছ </string>
     <string name="textview_weather">আবহাওয়া </string>
@@ -31,28 +32,67 @@
     <string name="textview_others">অন্যান্য </string>
     <string name="textview_approve_post_request">অনুমতি দিন  </string>
     <string name="welcome">স্বাগতম নদীর কৌশল\n</string>
-    //record
-    <string name="text_record_voice">কণ্ঠ রেকর্ড করুণ </string>
-
-
     //selectlanguage
     <string name="radio_english">English</string>
     <string name="radio_bangala">Bangala</string>
     //new post
     <string name="textview_post_title">শিরোনাম</string>
     <string name="text_latest_post">সর্বশেষ পোস্ট</string>
+    <string name="text_type">টাইপ / ধরন</string>
     <string name="text_new_post">নতুন পোস্ট </string>
     <string name="title_activity_new_post">NewPostActivity</string>
     <string name="textview_text_post">কথা বলুন ..</string>
     <string name="text_something_went_wrong">কিছু ভুল হয়েছে </string>
     <string name="text_content_details">বিস্তারিত </string>
+    <string name="text_radio_private">ব্যক্তিগতভাবে শেয়ার করুন</string>
+    <string name="text_radio_public">সবার সাথে শেয়ার করুন</string>
+    <string name="text_who_can_see">কে দেখতে পারবে?</string>
     //content details
-    <string name="text_listen">শুনুন </string>
+    <string name="text_listen">শুনুন</string>
+    <string name="text_title">শিরোনাম</string>
+    <string name="text_content">বিষয়বস্তু</string>
+    <string name="text_delete">বাতিল করুন</string>
+    //recording
+    <string name="text_record_voice">কণ্ঠ রেকর্ড করুণ</string>
+    <string name="button_upload">আপ লোড</string>
+    <string name="button_new_post">নতুন পোস্ট তৈরি করুণ</string>
+    <string name="button_private_post">ব্যক্তিগত পোস্ট দেখুন</string>
+    <string name="title_activity_fish">FishActivity</string>
+    <string name="title_activity_weather">WeatherActivity</string>
+    <string name="title_activity_water">WaterActivity</string>
+    <string name="title_activity_boat">BoatActivity</string>
+    <string name="title_activity_others">OthersActivity</string>
+    //registerorlogin
+    <string name="text_login_successful">লগইন সফল হয়েছে</string>
+    <string name="text_succesful_register">সফল ভাবে রেজিস্ট্রেশন হয়েছে</string>
+    //createPost
+    <string name="text_succesful_post_create">পোস্ট সফলভাবে তৈরি করা হয়েছে</string>
+    //content description
+    <string name="contentfish">contentFish</string>
+    <string name="contentothers">contentOthers</string>
+    <string name="title_activity_list_item_detail">ListItemDetailActivity</string>
+    <string name="title_activity_record_voice">RecordVoiceActivity</string>
+    <string name="title_activity_choose_register_or_login">ChooseRegisterOrLoginActivity</string>
+    <string name="text_username_required">ব্যবহারকারীর নাম \n</string>
+    <string name="text_password_required">পাসওয়ার্ড প্রয়োজন</string>
     <string name="text_welcome">স্বাগতম</string>
-<!--    <string name="text_radio_private">sfs</string>-->
-<!--    <string name="text_radio_public">asdf</string>-->
-
-    <string name="button_upload">আপ লোড </string>
-    <string name="button_new_post">নতুন পোস্ট তৈরি করুণ </string>
-
+    <string name="title_activity_private_post">PrivatePostActivity</string>
+    <string name="title_activity_approve_post_request">ApprovePostRequestActivity</string>
+    //privatepost
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">হোম</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="text_no_post">পোস্টটি পাওয়া যায়নি </string>
+    <string name="text_posted_by">পোস্ট করেছেন </string>
+    <string name="text_date">তারিখ </string>
+    //request access
+    <string name="text_sent_request">অনুরোধ পাঠান</string>
+    <string name="text_send_request_for_access">অ্যাক্সেসের জন্য অনুরোধ পাঠান</string>
+    <string name="text_request_access">অনুরোধ এক্সেস</string>
+    //approve request
+    <string name="text_approve_access">অনুমোদন </string>
+    <string name="text_reject_post">প্রত্যাখ্যান করুন </string>
+    <string name="text_request_approved">অনুরোধ অনুমোদন করা হয়েছে </string>
+    <string name="text_request_rejected">অনুরোধ প্রত্যাখ্যান করা হয়েছে৷ </string>
 </resources>

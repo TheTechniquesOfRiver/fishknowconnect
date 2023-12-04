@@ -45,8 +45,11 @@ class PrivatePostActivity : ComponentActivity() {
                 ) {
                     Column {
                         val intentType = intent.getStringExtra("type")
+                        val typeTitle = intent.getStringExtra("typeTitle")
                         if (intentType != null) {
-                            ToolBarLayout(intentType)
+                            if (typeTitle != null) {
+                                ToolBarLayout(typeTitle)
+                            }
                             LaunchedEffect(Unit, block = {
                                 viewModel.getAllPrivatePostContent(intentType)
                             })

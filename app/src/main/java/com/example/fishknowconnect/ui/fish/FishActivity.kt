@@ -88,6 +88,7 @@ class FishActivity : ComponentActivity() {
 @Composable
 fun FishScreen() {
     val activity = (LocalContext.current as? Activity)
+    val typeTitle = stringResource(id = R.string.textview_fish)
     Column(modifier = Modifier.padding(10.dp)) {
         CustomFullWidthIconButton(
             label = stringResource(id = R.string.button_new_post), icon = R.drawable.plus
@@ -104,6 +105,7 @@ fun FishScreen() {
             //start private post screen
             val intent = Intent(activity, PrivatePostActivity::class.java).apply {
                 putExtra("type", "Fish")
+                putExtra("typeTitle", typeTitle)
             }
             activity?.startActivity(intent)
         }
