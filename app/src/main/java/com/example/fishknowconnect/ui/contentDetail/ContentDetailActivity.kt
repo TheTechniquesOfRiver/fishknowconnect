@@ -69,7 +69,6 @@ class ContentDetailActivity : ComponentActivity(), TextToSpeech.OnInitListener {
         super.onCreate(savedInstanceState)
         setContent {
             FishKnowConnectTheme {
-
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -78,7 +77,6 @@ class ContentDetailActivity : ComponentActivity(), TextToSpeech.OnInitListener {
                     // TextToSpeech(Context: this, OnInitListener: this)
                     tts = TextToSpeech(this@ContentDetailActivity, this)
                     Column(modifier = Modifier
-//                        .verticalScroll(rememberScrollState())
                         .fillMaxHeight()
                         .fillMaxSize()) {
                         ToolBarLayout(resources.getString(R.string.text_content_details))
@@ -93,7 +91,6 @@ class ContentDetailActivity : ComponentActivity(), TextToSpeech.OnInitListener {
                                 ).show()
                                 finish()
                             }
-
                             is DeleteContentState.Error -> ShowDeleteErrorMessage(responseValue.response.message)
                             else -> {
                             }
@@ -157,10 +154,8 @@ fun ListItemDetailScreen(
     val intentFileType = intent.getStringExtra("fileType")
     val intentId = intent.getStringExtra("_id")
     val intentAuthor = intent.getStringExtra("author")
-
     //title
     if (!intentTitle.isNullOrEmpty()) {
-
         Row(
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -226,7 +221,6 @@ fun ListItemDetailScreen(
                 painter = rememberAsyncImagePainter(intentFileUrl),
                 contentDescription = null
             )
-
             "video" -> ShowVideoPlayer(videoUri = Uri.parse(intentFileUrl))
         }
     }
