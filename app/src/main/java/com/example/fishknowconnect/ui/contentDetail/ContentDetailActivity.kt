@@ -217,7 +217,7 @@ fun ListItemDetailScreen(
         when (intentFileType) {
             "audio" -> ShowAudioPlayer(intentFileUrl)
             "image" -> Image(
-                modifier = Modifier.padding(16.dp, 8.dp),
+                modifier = Modifier.padding(16.dp, 8.dp).fillMaxWidth().height(300.dp),
                 painter = rememberAsyncImagePainter(intentFileUrl),
                 contentDescription = null
             )
@@ -232,7 +232,6 @@ fun ListItemDetailScreen(
     }
     if (isDeleteVisible) {
         Column(
-            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
