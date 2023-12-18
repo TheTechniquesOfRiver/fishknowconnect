@@ -31,7 +31,9 @@ import com.example.fishknowconnect.ui.TypeState
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
-
+/**
+ * gets fish module information
+ */
 class FishActivity : ComponentActivity() {
     lateinit var fishViewModelFactory: FishViewModelFactory
     lateinit var preferenceHelper: PreferenceHelper

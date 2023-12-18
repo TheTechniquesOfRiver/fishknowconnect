@@ -31,7 +31,9 @@ import com.example.fishknowconnect.ui.TypeState
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
-
+/**
+ * gets others information
+ */
 class OthersActivity : ComponentActivity() {
 
     lateinit var othersViewModelFactory: OthersViewModelFactory

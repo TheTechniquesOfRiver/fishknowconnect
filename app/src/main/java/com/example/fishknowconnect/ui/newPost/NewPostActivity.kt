@@ -71,7 +71,9 @@ import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
 import com.example.fishknowconnect.ui.recordVoice.RecordVoiceActivity
 import java.io.File
 import java.util.Objects
-
+/**
+ * creates new post
+ */
 class NewPostActivity : ComponentActivity() {
     lateinit var newPostViewModelFactory: NewPostViewModelFactory
 

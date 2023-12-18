@@ -31,7 +31,9 @@ import com.example.fishknowconnect.ui.TypeState
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
-
+/**
+ * gets weather information
+ */
 class WeatherActivity() : ComponentActivity() {
     lateinit var weatherViewModelFactory: WeatherViewModelFactory
     lateinit var preferenceHelper: PreferenceHelper

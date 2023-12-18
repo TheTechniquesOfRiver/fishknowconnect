@@ -62,7 +62,9 @@ import com.example.fishknowconnect.ui.login.LoginActivity
 import com.example.fishknowconnect.ui.register.ui.theme.FishKnowConnectTheme
 import pl.droidsonroids.gif.GifImageView
 
-
+/**
+ * gets register information
+ */
 class RegisterActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

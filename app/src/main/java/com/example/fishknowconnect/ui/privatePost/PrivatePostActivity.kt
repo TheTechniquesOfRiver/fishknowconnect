@@ -26,7 +26,9 @@ import com.example.fishknowconnect.ui.showError
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.privatePost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.showErrorMessage
-
+/**
+ * gets private post information
+ */
 class PrivatePostActivity : ComponentActivity() {
     lateinit var privatePostViewModelFactory: PrivatePostViewModelFactory
     lateinit var preferenceHelper: PreferenceHelper

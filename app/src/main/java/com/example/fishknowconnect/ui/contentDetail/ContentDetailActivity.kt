@@ -58,7 +58,9 @@ import com.example.fishknowconnect.ui.contentDetail.ui.theme.FishKnowConnectThem
 import com.example.fishknowconnect.ui.newPost.ShowAudioPlayer
 import com.example.fishknowconnect.ui.newPost.ShowVideoPlayer
 import java.util.Locale
-
+/**
+ * gets content detail information
+ */
 var tts: TextToSpeech? = null
 var isListenEnable = false
 

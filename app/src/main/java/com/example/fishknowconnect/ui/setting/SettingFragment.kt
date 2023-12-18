@@ -13,7 +13,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.fishknowconnect.R
 import com.example.fishknowconnect.databinding.FragmentSettingBinding
 import com.example.fishknowconnect.ui.MainActivity
-
+/**
+ * change language
+ */
 class SettingFragment : Fragment() {
 
     private var _binding: FragmentSettingBinding? = null

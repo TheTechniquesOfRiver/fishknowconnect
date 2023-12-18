@@ -45,7 +45,9 @@ import com.example.fishknowconnect.ui.IndeterminateCircularIndicator
 import com.example.fishknowconnect.ui.contentDetail.isListenEnable
 import com.example.fishknowconnect.ui.contentDetail.tts
 import com.example.fishknowconnect.ui.login.LoginActivity
-
+/**
+ * gets profile information
+ */
 class ProfileFragment : Fragment() {
     lateinit var profileViewModelFactory: ProfileViewModelFactory
     private var _binding: FragmentProfileBinding? = null

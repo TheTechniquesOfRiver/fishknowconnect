@@ -32,6 +32,9 @@ import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
 
+/**
+ * gets boat information
+ */
 class BoatActivity : ComponentActivity() {
     lateinit var boatViewModelFactory: BoatViewModelFactory
     lateinit var preferenceHelper: PreferenceHelper
