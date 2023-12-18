@@ -33,7 +33,9 @@ import com.example.fishknowconnect.R
 import com.example.fishknowconnect.ui.MainActivity
 import com.example.fishknowconnect.ui.login.LoginActivity
 import com.example.fishknowconnect.ui.selectLanguage.ui.theme.FishKnowConnectTheme
-
+/**
+ * language selection
+ */
 class SelectLanguage : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

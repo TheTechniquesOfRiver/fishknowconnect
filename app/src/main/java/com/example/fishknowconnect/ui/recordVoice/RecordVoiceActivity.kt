@@ -25,7 +25,9 @@ import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import java.io.IOException
-
+/**
+ * voice recorder
+ */
 private const val LOG_TAG = "AudioRecordTest"
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 

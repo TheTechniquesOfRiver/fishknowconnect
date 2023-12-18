@@ -31,7 +31,9 @@ import com.example.fishknowconnect.ui.TypeState
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
-
+/**
+ * gets weather information
+ */
 class WeatherActivity() : ComponentActivity() {
     lateinit var weatherViewModelFactory: WeatherViewModelFactory
     lateinit var preferenceHelper: PreferenceHelper
@@ -88,6 +90,7 @@ class WeatherActivity() : ComponentActivity() {
 @Composable
 fun WeatherScreen() {
     val activity = (LocalContext.current as? Activity)
+    val typeTitle = stringResource(id = R.string.textview_weather)
     Column(modifier = Modifier.padding(10.dp)) {
         CustomFullWidthIconButton(
             label = stringResource(id = R.string.button_new_post), icon = R.drawable.plus
@@ -104,6 +107,7 @@ fun WeatherScreen() {
             //start private post screen
             val intent = Intent(activity, PrivatePostActivity::class.java).apply {
                 putExtra("type", "Weather")
+                putExtra("typeTitle", typeTitle)
             }
             activity?.startActivity(intent)
         }

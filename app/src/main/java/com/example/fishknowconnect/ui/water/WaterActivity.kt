@@ -31,7 +31,9 @@ import com.example.fishknowconnect.ui.TypeState
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
-
+/**
+ * gets water information
+ */
 class WaterActivity : ComponentActivity() {
     lateinit var waterViewModelFactory: WaterViewModelFactory
     lateinit var preferenceHelper: PreferenceHelper
@@ -55,7 +57,6 @@ class WaterActivity : ComponentActivity() {
                             is TypeState.Success -> responseValue.response?.let {
                                 DisplayList(it, stringResource(id = R.string.text_latest_post))
                             }
-
                             is TypeState.Error -> showError()
                             else -> {
                             }
@@ -88,6 +89,7 @@ class WaterActivity : ComponentActivity() {
 @Composable
 fun WaterScreen() {
     val activity = (LocalContext.current as? Activity)
+    val typeTitle = stringResource(id = R.string.textview_water)
     Column(modifier = Modifier.padding(10.dp)) {
         CustomFullWidthIconButton(
             label = stringResource(id = R.string.button_new_post), icon = R.drawable.plus
@@ -104,6 +106,7 @@ fun WaterScreen() {
             //start new post screen
             val intent = Intent(activity, PrivatePostActivity::class.java).apply {
                 putExtra("type", "Water")
+                putExtra("typeTitle", typeTitle)
             }
             activity?.startActivity(intent)
         }

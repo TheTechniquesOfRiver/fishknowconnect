@@ -15,7 +15,9 @@ import com.example.fishknowconnect.R
 import com.example.fishknowconnect.databinding.ActivityMainBinding
 import com.example.fishknowconnect.ui.login.LoginActivity
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
-
+/**
+ * gets dashboard information
+ */
 class MainActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityMainBinding

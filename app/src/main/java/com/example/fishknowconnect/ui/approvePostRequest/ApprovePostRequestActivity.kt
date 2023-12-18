@@ -41,7 +41,9 @@ import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import java.util.Arrays
 
-
+/**
+ * approves post request for private posts
+ */
 class ApprovePostRequestActivity : ComponentActivity() {
     private lateinit var approvePostRequestViewModelFactory: ApprovePostRequestViewModelFactory
     lateinit var preferenceHelper: PreferenceHelper
@@ -72,9 +74,6 @@ class ApprovePostRequestActivity : ComponentActivity() {
                         when (val responseValue = viewModel.state.collectAsState().value) {
                             ApproveState.Loading -> IndeterminateCircularIndicator()
                             is ApproveState.SuccessGrant -> responseValue.response?.let {
-//                                Toast.makeText(
-//                                    context, responseValue.response.message, Toast.LENGTH_SHORT
-//                                ).show()
                                 Toast.makeText(
                                     context,
                                     stringResource(id = R.string.text_request_approved),
@@ -90,9 +89,6 @@ class ApprovePostRequestActivity : ComponentActivity() {
                         when (val responseValue = viewModel.state.collectAsState().value) {
                             ApproveState.Loading -> IndeterminateCircularIndicator()
                             is ApproveState.RejectGrant -> responseValue.response?.let {
-//                                Toast.makeText(
-//                                    context, responseValue.response.message, Toast.LENGTH_SHORT
-//                                ).show()
                                 Toast.makeText(
                                     context,
                                     stringResource(id = R.string.text_request_rejected),
@@ -100,7 +96,6 @@ class ApprovePostRequestActivity : ComponentActivity() {
                                 ).show()
                                 finish()
                             }
-
                             is ApproveState.Error -> showError()
                             else -> {
                             }
@@ -136,13 +131,9 @@ fun ListItem(item: GetApprovalResponse, viewModel: ApprovePostRequestViewModel) 
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            item.title,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            style = TextStyle(
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Medium),
-            modifier = Modifier
+            item.title, maxLines = 1, overflow = TextOverflow.Ellipsis, style = TextStyle(
+                fontSize = 22.sp, fontWeight = FontWeight.Medium
+            ), modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp, 0.dp, 16.dp, 0.dp)
         )
@@ -155,14 +146,16 @@ fun ListItem(item: GetApprovalResponse, viewModel: ApprovePostRequestViewModel) 
             .toTypedArray())
     requestedList.forEach { approvalRequestUser ->
         CustomWrapWidthIconButton(
-            label = stringResource(id = R.string.text_approve_access)+ " $approvalRequestUser", icon = R.drawable.icon_approve
+            label = stringResource(id = R.string.text_approve_access) + " $approvalRequestUser",
+            icon = R.drawable.icon_approve
         ) {
             //hit api to send post approval
             viewModel.sendPostApproval(item._id, approvalRequestUser)
         }
         Spacer(modifier = Modifier.height(16.dp))
         CustomWrapWidthIconButton(
-            label = stringResource(id = R.string.text_reject_post)+ " $approvalRequestUser", icon = R.drawable.icon_reject
+            label = stringResource(id = R.string.text_reject_post) + " $approvalRequestUser",
+            icon = R.drawable.icon_reject
         ) {
             //hit api to reject post approval
             viewModel.sendRejectApproval(item._id, approvalRequestUser)

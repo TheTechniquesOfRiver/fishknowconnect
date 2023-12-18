@@ -32,6 +32,9 @@ import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.newPost.NewPostActivity
 import com.example.fishknowconnect.ui.privatePost.PrivatePostActivity
 
+/**
+ * gets boat information
+ */
 class BoatActivity : ComponentActivity() {
     lateinit var boatViewModelFactory: BoatViewModelFactory
     lateinit var preferenceHelper: PreferenceHelper
@@ -88,6 +91,7 @@ class BoatActivity : ComponentActivity() {
 @Composable
 fun BoatScreen() {
     val activity = (LocalContext.current as? Activity)
+    val typeTitle = stringResource(id = R.string.textview_boat)
     Column(modifier = Modifier.padding(10.dp)) {
         CustomFullWidthIconButton(
             label = stringResource(id = R.string.button_new_post), icon = R.drawable.plus
@@ -104,6 +108,7 @@ fun BoatScreen() {
             //start new post screen
             val intent = Intent(activity, PrivatePostActivity::class.java).apply {
                 putExtra("type", "Boat")
+                putExtra("typeTitle", typeTitle)
             }
             activity?.startActivity(intent)
         }

@@ -27,10 +27,10 @@ import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+/**
+ * apis
+ */
 private const val BASE_URL = "http://13.236.94.194:3000/"
-
-//private const val BASE_URL = "http://127.0.0.1:3000/"
-//private const val BASE_URL = "http://10.0.2.2:3000/"
 private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 private val client = OkHttpClient.Builder().addInterceptor(logging).build()
 private val retrofit =

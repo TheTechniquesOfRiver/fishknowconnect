@@ -82,7 +82,9 @@ import com.example.fishknowconnect.ui.newPost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.recordVoice.RecordVoiceActivity
 import java.io.File
 import java.util.Objects
-
+/**
+ * create new post from home
+ */
 class HomeNewPostActivity : ComponentActivity() {
     lateinit var newPostViewModelFactory: NewPostViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -434,7 +436,7 @@ class HomeNewPostActivity : ComponentActivity() {
                     .onGloballyPositioned { coordinates ->
                         mTextFieldSize = coordinates.size.toSize()
                     },
-                label = { Text("Type") },
+                label = { Text(getString(R.string.text_type)) },
                 trailingIcon = {
                     Icon(icon, "contentDescription", Modifier.clickable { mExpanded = !mExpanded })
                 })

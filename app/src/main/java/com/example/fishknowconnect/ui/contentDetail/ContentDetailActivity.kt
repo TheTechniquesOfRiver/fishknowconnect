@@ -58,7 +58,9 @@ import com.example.fishknowconnect.ui.contentDetail.ui.theme.FishKnowConnectThem
 import com.example.fishknowconnect.ui.newPost.ShowAudioPlayer
 import com.example.fishknowconnect.ui.newPost.ShowVideoPlayer
 import java.util.Locale
-
+/**
+ * gets content detail information
+ */
 var tts: TextToSpeech? = null
 var isListenEnable = false
 
@@ -69,7 +71,6 @@ class ContentDetailActivity : ComponentActivity(), TextToSpeech.OnInitListener {
         super.onCreate(savedInstanceState)
         setContent {
             FishKnowConnectTheme {
-
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -78,7 +79,6 @@ class ContentDetailActivity : ComponentActivity(), TextToSpeech.OnInitListener {
                     // TextToSpeech(Context: this, OnInitListener: this)
                     tts = TextToSpeech(this@ContentDetailActivity, this)
                     Column(modifier = Modifier
-//                        .verticalScroll(rememberScrollState())
                         .fillMaxHeight()
                         .fillMaxSize()) {
                         ToolBarLayout(resources.getString(R.string.text_content_details))
@@ -93,7 +93,6 @@ class ContentDetailActivity : ComponentActivity(), TextToSpeech.OnInitListener {
                                 ).show()
                                 finish()
                             }
-
                             is DeleteContentState.Error -> ShowDeleteErrorMessage(responseValue.response.message)
                             else -> {
                             }
@@ -157,10 +156,8 @@ fun ListItemDetailScreen(
     val intentFileType = intent.getStringExtra("fileType")
     val intentId = intent.getStringExtra("_id")
     val intentAuthor = intent.getStringExtra("author")
-
     //title
     if (!intentTitle.isNullOrEmpty()) {
-
         Row(
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -222,11 +219,10 @@ fun ListItemDetailScreen(
         when (intentFileType) {
             "audio" -> ShowAudioPlayer(intentFileUrl)
             "image" -> Image(
-                modifier = Modifier.padding(16.dp, 8.dp),
+                modifier = Modifier.padding(16.dp, 8.dp).fillMaxWidth().height(300.dp),
                 painter = rememberAsyncImagePainter(intentFileUrl),
                 contentDescription = null
             )
-
             "video" -> ShowVideoPlayer(videoUri = Uri.parse(intentFileUrl))
         }
     }
@@ -238,7 +234,6 @@ fun ListItemDetailScreen(
     }
     if (isDeleteVisible) {
         Column(
-            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()

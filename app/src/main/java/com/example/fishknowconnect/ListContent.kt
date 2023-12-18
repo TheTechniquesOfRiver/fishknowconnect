@@ -113,26 +113,6 @@ fun ListItem(item: GetPostTypeResponse, context: Context) {
                     .padding(0.dp, 0.dp, 16.dp, 0.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
-//            when (item.fileType) {
-//                "image" -> {
-//                    Image(
-//                        modifier = Modifier
-//                            .padding(16.dp, 8.dp)
-//                            .height(100.dp),
-//                        painter = rememberAsyncImagePainter(item.file_url),
-//                        contentDescription = null
-//                    )
-//                }
-//
-//                "video" -> {
-//                    ShowVideoPlayer(videoUri = Uri.parse(item.file_url))
-//                }
-//
-//                "audio" -> {
-//                    ShowAudioPlayer(item.file_url)
-//                }
-//            }
-//            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 stringResource(id = R.string.text_posted_by) + " " + item.author,
                 fontSize = 14.sp,

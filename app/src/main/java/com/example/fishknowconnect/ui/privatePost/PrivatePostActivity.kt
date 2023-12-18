@@ -26,7 +26,9 @@ import com.example.fishknowconnect.ui.showError
 import com.example.fishknowconnect.ui.ToolBarLayout
 import com.example.fishknowconnect.ui.privatePost.ui.theme.FishKnowConnectTheme
 import com.example.fishknowconnect.ui.showErrorMessage
-
+/**
+ * gets private post information
+ */
 class PrivatePostActivity : ComponentActivity() {
     lateinit var privatePostViewModelFactory: PrivatePostViewModelFactory
     lateinit var preferenceHelper: PreferenceHelper
@@ -45,8 +47,11 @@ class PrivatePostActivity : ComponentActivity() {
                 ) {
                     Column {
                         val intentType = intent.getStringExtra("type")
+                        val typeTitle = intent.getStringExtra("typeTitle")
                         if (intentType != null) {
-                            ToolBarLayout(intentType)
+                            if (typeTitle != null) {
+                                ToolBarLayout(typeTitle)
+                            }
                             LaunchedEffect(Unit, block = {
                                 viewModel.getAllPrivatePostContent(intentType)
                             })

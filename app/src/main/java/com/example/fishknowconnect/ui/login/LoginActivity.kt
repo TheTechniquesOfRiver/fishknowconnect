@@ -14,7 +14,9 @@ import com.example.fishknowconnect.databinding.ActivityLoginBinding
 import com.example.fishknowconnect.ui.MainActivity
 import com.example.fishknowconnect.ui.register.RegisterActivity
 
-
+/**
+ * login features
+ */
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     lateinit var loginViewModel: LoginViewModel
